@@ -23,8 +23,8 @@ public class Simulator {
 
 	public Simulator() throws IOException {
 		world = new Address[10][10];
-		for (int i = 1; i <= 10; i++) {
-			for (int j = 1; j <= 10; j++)
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++)
 				world[i][j] = new Address(i, j);
 		}
 		loadUnits("units.csv");
@@ -40,11 +40,11 @@ public class Simulator {
 		while ((currentLine = br.readLine()) != null) {
 			String[] result = currentLine.split(",");
 			switch(result[0]) {
-			case "AMB":emergencyUnits.add(new Ambulance(result[1],new Address(0,0),Integer.parseInt(result[2])));break;
-			case "DCU":emergencyUnits.add(new DiseaseControlUnit(result[1],new Address(0,0),Integer.parseInt(result[2])));break;
-			case "EVC":emergencyUnits.add(new Evacuator(result[1],new Address(0,0),Integer.parseInt(result[2]),Integer.parseInt(result[3])));break;
-			case "FTK":emergencyUnits.add(new FireTruck(result[1],new Address(0,0),Integer.parseInt(result[2])));break;
-			case "GCU":emergencyUnits.add(new GasControlUnit(result[1],new Address(0,0),Integer.parseInt(result[2])));break;
+			case "AMB":emergencyUnits.add(new Ambulance(result[1],world [0][0],Integer.parseInt(result[2])));break;
+			case "DCU":emergencyUnits.add(new DiseaseControlUnit(result[1],world [0][0],Integer.parseInt(result[2])));break;
+			case "EVC":emergencyUnits.add(new Evacuator(result[1],world [0][0],Integer.parseInt(result[2]),Integer.parseInt(result[3])));break;
+			case "FTK":emergencyUnits.add(new FireTruck(result[1],world[0][0],Integer.parseInt(result[2])));break;
+			case "GCU":emergencyUnits.add(new GasControlUnit(result[1],world[0][0],Integer.parseInt(result[2])));break;
 			}
 		}
 	}
@@ -54,7 +54,7 @@ public class Simulator {
 		BufferedReader br = new BufferedReader(fileReader);
 		while ((currentLine = br.readLine()) != null) {
 			String[] result = currentLine.split(",");
-			buildings.add(new ResidentialBuilding(new Address(Integer.parseInt(result[0]),Integer.parseInt(result[1]))));
+			buildings.add(new ResidentialBuilding(world[Integer.parseInt(result[0])][Integer.parseInt(result[1])]));
 		}
 	}
 	private void loadCitizens(String filePath) throws IOException{
@@ -63,7 +63,7 @@ public class Simulator {
 		BufferedReader br = new BufferedReader(fileReader);
 		while ((currentLine = br.readLine()) != null) {
 			String[] result = currentLine.split(",");
-			citizens.add(new Citizen(new Address(Integer.parseInt(result[0]),Integer.parseInt(result[1])),result[2],result[3],Integer.parseInt(result[4])));
+			citizens.add(new Citizen(world[Integer.parseInt(result[0])][Integer.parseInt(result[1])],result[2],result[3],Integer.parseInt(result[4])));
 		}
 	}
 	private void loadDisasters(String filePath) throws IOException{
@@ -73,11 +73,19 @@ public class Simulator {
 		while ((currentLine = br.readLine()) != null) {
 			String[] result = currentLine.split(",");
 			switch(result[1]) {
-				case "INJ": plannedDisasters.add(new Injury(Integer.parseInt(result[0]),));
-				case "INF": plannedDisasters.add(new Infection(Integer.parseInt(result[0]),));
-				case "FIR": plannedDisasters.add(new Fire(Integer.parseInt(result[0]),new ResidentialBuilding(new Address(Integer.parseInt(result[2]),Integer.parseInt(result[3])))));
-				case "GLK": plannedDisasters.add(new GasLeak(Integer.parseInt(result[0]),new ResidentialBuilding(new Address(Integer.parseInt(result[2]),Integer.parseInt(result[3])))));
+				case "INJ": plannedDisasters.add(new Injury(Integer.parseInt(result[0]),helper(result[2])));
+				case "INF": plannedDisasters.add(new Infection(Integer.parseInt(result[0]),helper(result[2])));
+				case "FIR": plannedDisasters.add(new Fire(Integer.parseInt(result[0]),new ResidentialBuilding(world[Integer.parseInt(result[2])][Integer.parseInt(result[3])])));
+				case "GLK": plannedDisasters.add(new GasLeak(Integer.parseInt(result[0]),new ResidentialBuilding(world[Integer.parseInt(result[2])][Integer.parseInt(result[3])])));
 			}
 		}
+	}
+	public Citizen helper(String id) {
+		for(int i=0;i<citizens.size();i++) {
+			if(citizens.get(i).getNationalID()==id) {
+				return (citizens.get(i));
+			}
+		}
+		return null;
 	}
 }
