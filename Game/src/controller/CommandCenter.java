@@ -1,4 +1,5 @@
 package controller;
+import java.io.IOException;
 import java.util.ArrayList;
 import model.infrastructure.ResidentialBuilding;
 import model.people.Citizen;
@@ -10,7 +11,7 @@ public class CommandCenter {
 	ArrayList<ResidentialBuilding> visibleBuildings;
 	ArrayList<Citizen> visibleCitizens;
 	ArrayList<Unit> emergencyUnits;
-	public CommandCenter() {
+	public CommandCenter() throws IOException {
 		engine = new Simulator();
 		visibleBuildings = new ArrayList<>();
 		visibleCitizens = new ArrayList<>();
