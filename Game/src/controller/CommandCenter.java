@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import model.infrastructure.ResidentialBuilding;
 import model.people.Citizen;
 import model.units.Unit;
+import simulation.Simulator;
 
 public class CommandCenter {
 	Simulator engine;
