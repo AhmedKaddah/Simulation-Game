@@ -1,5 +1,5 @@
 package model.people;
 
-public class CitizenState {
-
+public enum CitizenState {
+	 DECEASED, RESCUED, IN_TROUBLE, SAFE;
 }
