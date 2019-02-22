@@ -1,8 +1,8 @@
 package model.disasters;
-import model.infrastructure.ResidentialBuilding;
+import model.people.Citizen;
 
 public class Infection extends Disaster {
-	public  Infection(int cycle, ResidentialBuilding target) {
+	public  Infection(int cycle, Citizen target) {
 		super(cycle,target);
 	}
 }

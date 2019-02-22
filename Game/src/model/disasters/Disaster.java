@@ -2,7 +2,7 @@ package model.disasters;
 import simulation.Rescuable;
 import simulation.Simulatable;
 
-public class Disaster implements Simulatable {
+public abstract class Disaster implements Simulatable {
 	private int startCycle;
 	private Rescuable target;
 	private boolean active;
