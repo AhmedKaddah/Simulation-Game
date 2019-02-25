@@ -73,10 +73,10 @@ public class Simulator {
 		while ((currentLine = br.readLine()) != null) {
 			String[] result = currentLine.split(",");
 			switch(result[1]) {
-				case "INJ": plannedDisasters.add(new Injury(Integer.parseInt(result[0]),helper(result[2])));
-				case "INF": plannedDisasters.add(new Infection(Integer.parseInt(result[0]),helper(result[2])));
-				case "FIR": plannedDisasters.add(new Fire(Integer.parseInt(result[0]),helper1(Integer.parseInt(result[2]),Integer.parseInt(result[3]))));
-				case "GLK": plannedDisasters.add(new GasLeak(Integer.parseInt(result[0]),helper1(Integer.parseInt(result[2]),Integer.parseInt(result[3]))));
+				case "INJ": plannedDisasters.add(new Injury(Integer.parseInt(result[0]),helper(result[2])));break;
+				case "INF": plannedDisasters.add(new Infection(Integer.parseInt(result[0]),helper(result[2])));break;
+				case "FIR": plannedDisasters.add(new Fire(Integer.parseInt(result[0]),helper1(Integer.parseInt(result[2]),Integer.parseInt(result[3]))));break;
+				case "GLK": plannedDisasters.add(new GasLeak(Integer.parseInt(result[0]),helper1(Integer.parseInt(result[2]),Integer.parseInt(result[3]))));break;
 			}
 		}
 	}
