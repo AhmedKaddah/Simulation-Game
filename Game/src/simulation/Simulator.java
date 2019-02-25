@@ -75,8 +75,8 @@ public class Simulator {
 			switch(result[1]) {
 				case "INJ": plannedDisasters.add(new Injury(Integer.parseInt(result[0]),helper(result[2])));
 				case "INF": plannedDisasters.add(new Infection(Integer.parseInt(result[0]),helper(result[2])));
-				case "FIR": plannedDisasters.add(new Fire(Integer.parseInt(result[0]),new ResidentialBuilding(world[Integer.parseInt(result[2])][Integer.parseInt(result[3])])));
-				case "GLK": plannedDisasters.add(new GasLeak(Integer.parseInt(result[0]),new ResidentialBuilding(world[Integer.parseInt(result[2])][Integer.parseInt(result[3])])));
+				case "FIR": plannedDisasters.add(new Fire(Integer.parseInt(result[0]),helper1(Integer.parseInt(result[2]),Integer.parseInt(result[3]))));
+				case "GLK": plannedDisasters.add(new GasLeak(Integer.parseInt(result[0]),helper1(Integer.parseInt(result[2]),Integer.parseInt(result[3]))));
 			}
 		}
 	}
@@ -84,6 +84,15 @@ public class Simulator {
 		for(int i=0;i<citizens.size();i++) {
 			if(citizens.get(i).getNationalID()==id) {
 				return (citizens.get(i));
+			}
+		}
+		return null;
+	}
+	public ResidentialBuilding helper1(int x,int y) {
+		Address temp = new Address(x,y);
+		for(int i=0;i<buildings.size();i++) {
+			if(buildings.get(i).getLocation().equals(temp)) {
+				return buildings.get(i);
 			}
 		}
 		return null;
