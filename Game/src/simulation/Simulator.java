@@ -33,10 +33,10 @@ public class Simulator {
 		executedDisasters = new ArrayList<>();
 		buildings = new ArrayList<>();
 		citizens = new ArrayList<>();
-		loadUnits("units_28731.csv");
-		loadBuildings("buildings_28728.csv");
-		loadCitizens("citizens_28729.csv");
-		loadDisasters("disasters_28730.csv");
+		loadUnits("units.csv");
+		loadBuildings("buildings.csv");
+		loadCitizens("citizens.csv");
+		loadDisasters("disasters.csv");
 	}
 
 	private void loadUnits(String filePath) throws IOException {
