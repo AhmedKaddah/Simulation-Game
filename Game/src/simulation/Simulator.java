@@ -114,21 +114,25 @@ public class Simulator {
 	}
 
 	public Citizen helper(String id) {
+		int position =0;
 		for (int i = 0; i < citizens.size(); i++) {
 			if (citizens.get(i).getNationalID() == id) {
-				return citizens.get(i);
+				position = i;
+				break;
 			}
 		}
-		return null;
+		return citizens.get(position);
 	}
 
 	public ResidentialBuilding helper1(int x, int y) {
 		Address temp = new Address(x, y);
+		int position = 0;
 		for (int i = 0; i < buildings.size(); i++) {
 			if (buildings.get(i).getLocation().equals(temp)) {
-				return buildings.get(i);
+				position=i;
+				break;
 			}
 		}
-		return null;
+		return buildings.get(position);
 	}
 }
