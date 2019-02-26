@@ -11,11 +11,11 @@ private String nationalID;
 private String name;
 private int age;
 private int hp;
-private int bloodloss;
+private int bloodLoss;
 private int toxicity;
 public Citizen(Address location, String nationalID, String name, int age) {
 	this.hp = 100;
-	this.bloodloss = 0;
+	this.bloodLoss = 0;
 	this.toxicity = 0;
 	this.location = location;
 	this.nationalID = nationalID;
@@ -41,11 +41,11 @@ public int getHp() {
 public void setHp(int hp) {
 	this.hp = hp;
 }
-public int getBloodloss() {
-	return bloodloss;
+public void setBloodLoss(int bloodLoss) {
+	this.bloodLoss=bloodLoss;
 }
-public void setBloodloss(int bloodloss) {
-	this.bloodloss = bloodloss;
+public int getBloodLoss() {
+	return bloodLoss;
 }
 public int getToxicity() {
 	return toxicity;

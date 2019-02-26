@@ -1,4 +1,5 @@
 package simulation;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -33,22 +34,34 @@ public class Simulator {
 		loadDisasters("disaters.csv");
 	}
 
-	private void loadUnits(String filePath) throws IOException{
+	private void loadUnits(String filePath) throws IOException {
 		String currentLine = "";
 		FileReader fileReader = new FileReader(filePath);
 		BufferedReader br = new BufferedReader(fileReader);
 		while ((currentLine = br.readLine()) != null) {
 			String[] result = currentLine.split(",");
-			switch(result[0]) {
-			case "AMB":emergencyUnits.add(new Ambulance(result[1],world [0][0],Integer.parseInt(result[2])));break;
-			case "DCU":emergencyUnits.add(new DiseaseControlUnit(result[1],world [0][0],Integer.parseInt(result[2])));break;
-			case "EVC":emergencyUnits.add(new Evacuator(result[1],world [0][0],Integer.parseInt(result[2]),Integer.parseInt(result[3])));break;
-			case "FTK":emergencyUnits.add(new FireTruck(result[1],world[0][0],Integer.parseInt(result[2])));break;
-			case "GCU":emergencyUnits.add(new GasControlUnit(result[1],world[0][0],Integer.parseInt(result[2])));break;
+			switch (result[0]) {
+			case "AMB":
+				emergencyUnits.add(new Ambulance(result[1], world[0][0], Integer.parseInt(result[2])));
+				break;
+			case "DCU":
+				emergencyUnits.add(new DiseaseControlUnit(result[1], world[0][0], Integer.parseInt(result[2])));
+				break;
+			case "EVC":
+				emergencyUnits.add(new Evacuator(result[1], world[0][0], Integer.parseInt(result[2]),
+						Integer.parseInt(result[3])));
+				break;
+			case "FTK":
+				emergencyUnits.add(new FireTruck(result[1], world[0][0], Integer.parseInt(result[2])));
+				break;
+			case "GCU":
+				emergencyUnits.add(new GasControlUnit(result[1], world[0][0], Integer.parseInt(result[2])));
+				break;
 			}
 		}
 	}
-	private void loadBuildings(String filePath) throws IOException{
+
+	private void loadBuildings(String filePath) throws IOException {
 		String currentLine = "";
 		FileReader fileReader = new FileReader(filePath);
 		BufferedReader br = new BufferedReader(fileReader);
@@ -57,41 +70,57 @@ public class Simulator {
 			buildings.add(new ResidentialBuilding(world[Integer.parseInt(result[0])][Integer.parseInt(result[1])]));
 		}
 	}
-	private void loadCitizens(String filePath) throws IOException{
+
+	private void loadCitizens(String filePath) throws IOException {
 		String currentLine = "";
 		FileReader fileReader = new FileReader(filePath);
 		BufferedReader br = new BufferedReader(fileReader);
 		while ((currentLine = br.readLine()) != null) {
 			String[] result = currentLine.split(",");
-			citizens.add(new Citizen(world[Integer.parseInt(result[0])][Integer.parseInt(result[1])],result[2],result[3],Integer.parseInt(result[4])));
+			citizens.add(new Citizen(world[Integer.parseInt(result[0])][Integer.parseInt(result[1])], result[2],
+					result[3], Integer.parseInt(result[4])));
 		}
 	}
-	private void loadDisasters(String filePath) throws IOException{
+
+	private void loadDisasters(String filePath) throws IOException {
 		String currentLine = "";
 		FileReader fileReader = new FileReader(filePath);
 		BufferedReader br = new BufferedReader(fileReader);
 		while ((currentLine = br.readLine()) != null) {
 			String[] result = currentLine.split(",");
-			switch(result[1]) {
-				case "INJ": plannedDisasters.add(new Injury(Integer.parseInt(result[0]),helper(result[2])));break;
-				case "INF": plannedDisasters.add(new Infection(Integer.parseInt(result[0]),helper(result[2])));break;
-				case "FIR": plannedDisasters.add(new Fire(Integer.parseInt(result[0]),helper1(Integer.parseInt(result[2]),Integer.parseInt(result[3]))));break;
-				case "GLK": plannedDisasters.add(new GasLeak(Integer.parseInt(result[0]),helper1(Integer.parseInt(result[2]),Integer.parseInt(result[3]))));break;
+			switch (result[1]) {
+			case "INJ":
+				plannedDisasters.add(new Injury(Integer.parseInt(result[0]), helper(result[2])));
+				break;
+			case "INF":
+				plannedDisasters.add(new Infection(Integer.parseInt(result[0]), helper(result[2])));
+				break;
+			case "FIR":
+				plannedDisasters.add(new Fire(Integer.parseInt(result[0]),
+						helper1(Integer.parseInt(result[2]), Integer.parseInt(result[3]))));
+				break;
+			case "GLK":
+				plannedDisasters.add(new GasLeak(Integer.parseInt(result[0]),
+						helper1(Integer.parseInt(result[2]), Integer.parseInt(result[3]))));
+				break;
 			}
+
 		}
 	}
+
 	public Citizen helper(String id) {
-		for(int i=0;i<citizens.size();i++) {
-			if(citizens.get(i).getNationalID()==id) {
+		for (int i = 0; i < citizens.size(); i++) {
+			if (citizens.get(i).getNationalID() == id) {
 				return (citizens.get(i));
 			}
 		}
 		return null;
 	}
-	public ResidentialBuilding helper1(int x,int y) {
-		Address temp = new Address(x,y);
-		for(int i=0;i<buildings.size();i++) {
-			if(buildings.get(i).getLocation().equals(temp)) {
+
+	public ResidentialBuilding helper1(int x, int y) {
+		Address temp = new Address(x, y);
+		for (int i = 0; i < buildings.size(); i++) {
+			if (buildings.get(i).getLocation().equals(temp)) {
 				return buildings.get(i);
 			}
 		}

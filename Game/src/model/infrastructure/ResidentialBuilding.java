@@ -20,6 +20,7 @@ public ResidentialBuilding(Address location) {
 	this.fireDamage=0;
 	this.gasLevel=0;
 	this.foundationDamage=0;
+	occupants = new ArrayList<>();
 }
 
 public int getStructuralIntegrity() {

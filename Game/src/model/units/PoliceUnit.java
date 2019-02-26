@@ -3,12 +3,13 @@ import java.util.ArrayList;
 import model.people.Citizen;
 import simulation.Address;
 public abstract class PoliceUnit extends Unit {
-	ArrayList<Citizen> passengers;
-	int maxCapacity;
-	int distanceToBase;
+	private ArrayList<Citizen> passengers;
+	private int maxCapacity;
+	private int distanceToBase;
 	public PoliceUnit(String id, Address location, int stepsPerCycle, int maxCapacity){
 		super(id,location,stepsPerCycle);
 		this.maxCapacity=maxCapacity;
+		passengers = new ArrayList<>();
 	}
 	public int getMaxCapacity() {
 		return maxCapacity;

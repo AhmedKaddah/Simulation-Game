@@ -7,10 +7,10 @@ import model.units.Unit;
 import simulation.Simulator;
 
 public class CommandCenter {
-	Simulator engine;
-	ArrayList<ResidentialBuilding> visibleBuildings;
-	ArrayList<Citizen> visibleCitizens;
-	ArrayList<Unit> emergencyUnits;
+	private Simulator engine;
+	private ArrayList<ResidentialBuilding> visibleBuildings;
+	private ArrayList<Citizen> visibleCitizens;
+	private ArrayList<Unit> emergencyUnits;
 	public CommandCenter() throws IOException {
 		engine = new Simulator();
 		visibleBuildings = new ArrayList<>();
