@@ -28,10 +28,15 @@ public class Simulator {
 			for (int j = 0; j < 10; j++)
 				world[i][j] = new Address(i, j);
 		}
-		loadUnits("units.csv");
-		loadBuildings("buildings.csv");
-		loadCitizens("citizens.csv");
-		loadDisasters("disaters.csv");
+		emergencyUnits = new ArrayList<>();
+		plannedDisasters = new ArrayList<>();
+		executedDisasters = new ArrayList<>();
+		buildings = new ArrayList<>();
+		citizens = new ArrayList<>();
+		loadUnits("units_28731.csv");
+		loadBuildings("buildings_28728.csv");
+		loadCitizens("citizens_28729.csv");
+		loadDisasters("disasters_28730.csv");
 	}
 
 	private void loadUnits(String filePath) throws IOException {
@@ -111,7 +116,7 @@ public class Simulator {
 	public Citizen helper(String id) {
 		for (int i = 0; i < citizens.size(); i++) {
 			if (citizens.get(i).getNationalID() == id) {
-				return (citizens.get(i));
+				return citizens.get(i);
 			}
 		}
 		return null;
