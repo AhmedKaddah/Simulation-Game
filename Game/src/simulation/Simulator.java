@@ -122,7 +122,6 @@ public class Simulator {
 			}
 		}
 		return citizens.get(position);
-		//hi
 	}
 
 	public ResidentialBuilding helper1(int x, int y) {
