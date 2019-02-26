@@ -82,8 +82,10 @@ public class Simulator {
 		BufferedReader br = new BufferedReader(fileReader);
 		while ((currentLine = br.readLine()) != null) {
 			String[] result = currentLine.split(",");
-			citizens.add(new Citizen(world[Integer.parseInt(result[0])][Integer.parseInt(result[1])], result[2],
-					result[3], Integer.parseInt(result[4])));
+			Citizen x =new Citizen(world[Integer.parseInt(result[0])][Integer.parseInt(result[1])], result[2],
+					result[3], Integer.parseInt(result[4]));
+				citizens.add(x);
+				helper1(Integer.parseInt(result[0]),Integer.parseInt(result[1])).getOccupants().add(x);
 		}
 	}
 
@@ -116,7 +118,7 @@ public class Simulator {
 	public Citizen helper(String id) {
 		int position =0;
 		for (int i = 0; i < citizens.size(); i++) {
-			if (citizens.get(i).getNationalID() == id) {
+			if (citizens.get(i).getNationalID().equals(id)) {
 				position = i;
 				break;
 			}
@@ -125,10 +127,9 @@ public class Simulator {
 	}
 
 	public ResidentialBuilding helper1(int x, int y) {
-		Address temp = new Address(x, y);
 		int position = 0;
 		for (int i = 0; i < buildings.size(); i++) {
-			if (buildings.get(i).getLocation().equals(temp)) {
+			if (buildings.get(i).getLocation().equals(world[x][y])) {
 				position=i;
 				break;
 			}
