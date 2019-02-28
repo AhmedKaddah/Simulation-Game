@@ -85,6 +85,7 @@ public class Simulator {
 			Citizen x =new Citizen(world[Integer.parseInt(result[0])][Integer.parseInt(result[1])], result[2],
 					result[3], Integer.parseInt(result[4]));
 				citizens.add(x);
+				if (helper1(Integer.parseInt(result[0]),Integer.parseInt(result[1])) !=null)
 				helper1(Integer.parseInt(result[0]),Integer.parseInt(result[1])).getOccupants().add(x);
 		}
 	}
@@ -127,13 +128,11 @@ public class Simulator {
 	}
 
 	public ResidentialBuilding helper1(int x, int y) {
-		int position = 0;
 		for (int i = 0; i < buildings.size(); i++) {
 			if (buildings.get(i).getLocation().equals(world[x][y])) {
-				position=i;
-				break;
+				return buildings.get(i);
 			}
 		}
-		return buildings.get(position);
+		return null;
 	}
 }
