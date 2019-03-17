@@ -1,8 +1,13 @@
 package model.units;
+
 import simulation.Address;
 
 public class Evacuator extends PoliceUnit {
-	public Evacuator(String id, Address location, int stepsPerCycle, int maxCapacity) {
-		super(id,location,stepsPerCycle,maxCapacity);
+
+	public Evacuator(String unitID, Address location, int stepsPerCycle, int maxCapacity) {
+
+		super(unitID, location, stepsPerCycle, maxCapacity);
+
 	}
+
 }

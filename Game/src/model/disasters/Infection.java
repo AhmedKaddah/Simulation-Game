@@ -1,8 +1,13 @@
 package model.disasters;
+
 import model.people.Citizen;
 
 public class Infection extends Disaster {
-	public  Infection(int cycle, Citizen target) {
-		super(cycle,target);
+
+	public Infection(int startCycle, Citizen target) {
+
+		super(startCycle, target);
+
 	}
+
 }
