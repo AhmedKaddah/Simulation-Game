@@ -9,6 +9,7 @@ import model.disasters.Fire;
 import model.disasters.GasLeak;
 import model.disasters.Infection;
 import model.disasters.Injury;
+import model.events.WorldListener;
 import model.infrastructure.ResidentialBuilding;
 import model.people.Citizen;
 import model.units.Ambulance;
@@ -18,7 +19,7 @@ import model.units.FireTruck;
 import model.units.GasControlUnit;
 import model.units.Unit;
 
-public class Simulator {
+public class Simulator implements WorldListener {
 
 	private int currentCycle;
 	private ArrayList<ResidentialBuilding> buildings;

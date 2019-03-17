@@ -2,12 +2,13 @@ package controller;
 
 import java.util.ArrayList;
 
+import model.events.SOSListener;
 import model.infrastructure.ResidentialBuilding;
 import model.people.Citizen;
 import model.units.Unit;
 import simulation.Simulator;
 
-public class CommandCenter {
+public class CommandCenter implements SOSListener {
 
 	private Simulator engine;
 	private ArrayList<ResidentialBuilding> visibleBuildings;
