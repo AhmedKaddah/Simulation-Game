@@ -7,7 +7,17 @@ public class Injury extends Disaster {
 	public Injury(int startCycle, Citizen target) {
 
 		super(startCycle, target);
-
 	}
+	public void strike() {
+		int x = ((Citizen)(getTarget())).getBloodLoss();
+		x+=30;
+		((Citizen)(getTarget())).setBloodLoss(x);
+	}
+	public void cycleStep() {
+		int x = ((Citizen)(getTarget())).getBloodLoss();
+		x+=10;
+		((Citizen)(getTarget())).setBloodLoss(x);
+	}
+
 
 }
