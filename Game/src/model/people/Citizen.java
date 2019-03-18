@@ -29,6 +29,7 @@ public class Citizen implements Rescuable, Simulatable {
 		this.location = location;
 		this.state = CitizenState.SAFE;
 		this.hp = 100;
+		worldListener.assignAddress(this,getLocation().getX(),getLocation().getY());
 
 	}
 
@@ -53,15 +54,38 @@ public class Citizen implements Rescuable, Simulatable {
 	}
 
 	public void setHp(int hp) {
-		this.hp = hp;
+		if(hp>100) {
+			this.hp=100;
+		}
+		else {
+			if(hp<=0) {
+				this.hp=0;
+				setState(CitizenState.DECEASED);
+			}
+			else {
+				this.hp=hp;
+			}
+		}
 	}
-
+		
 	public int getBloodLoss() {
 		return bloodLoss;
 	}
 
 	public void setBloodLoss(int bloodLoss) {
-		this.bloodLoss = bloodLoss;
+		if(bloodLoss>=100) {
+			this.bloodLoss=100;
+			this.hp=0;
+			setState(CitizenState.DECEASED);
+		}
+		else {
+			if(bloodLoss<0) {
+				this.bloodLoss=0;
+			}
+			else {
+				this.bloodLoss=bloodLoss;
+			}
+		}
 	}
 
 	public int getToxicity() {
@@ -69,7 +93,19 @@ public class Citizen implements Rescuable, Simulatable {
 	}
 
 	public void setToxicity(int toxicity) {
-		this.toxicity = toxicity;
+		if(toxicity>=100) {
+			this.toxicity=100;
+			this.hp=0;
+			setState(CitizenState.DECEASED);
+		}
+		else {
+			if(toxicity<0) {
+				this.toxicity=0;
+			}
+			else {
+				this.toxicity=toxicity;
+			}
+		}
 	}
 
 	public Address getLocation() {
@@ -87,9 +123,8 @@ public class Citizen implements Rescuable, Simulatable {
 	public String getNationalID() {
 		return nationalID;
 	}
-
-	public SOSListener getEmergencyService() {
-		return emergencyService;
+	public void setEmergencyService(SOSListener emergencyService) {
+		this.emergencyService = emergencyService;
 	}
 
 	public WorldListener getWorldListener() {
@@ -123,5 +158,9 @@ public class Citizen implements Rescuable, Simulatable {
 			}
 		}
 	}
-	
+	public void struckBy(Disaster d) {
+		setState(CitizenState.IN_TROUBLE);
+		this.disaster=d;
+		emergencyService.receiveSOSCall(this);
+	}
 }

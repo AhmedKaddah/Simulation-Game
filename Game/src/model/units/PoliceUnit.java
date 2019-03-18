@@ -3,6 +3,7 @@ package model.units;
 import java.util.ArrayList;
 
 import simulation.Address;
+import simulation.Rescuable;
 import model.people.Citizen;
 
 public abstract class PoliceUnit extends Unit {
@@ -30,5 +31,15 @@ public abstract class PoliceUnit extends Unit {
 	public int getMaxCapacity() {
 		return maxCapacity;
 	}
-
+	public ArrayList<Citizen> getPassengers() {
+		return passengers;
+	}
+	public void respond(Rescuable r) {
+		if(distance(r)==0) {
+			setState(UnitState.TREATING);
+		}
+		else {
+			setState(UnitState.RESPONDING);
+		}
+	}
 }

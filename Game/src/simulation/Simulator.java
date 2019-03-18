@@ -209,4 +209,12 @@ public class Simulator implements WorldListener {
 
 		return null;
 	}
+	public void assignAddress(Simulatable sim, int x , int y) {
+		if(sim instanceof Unit){
+			((Unit)(sim)).setLocation(world[x][y]);
+		}
+		else {
+			((Citizen)(sim)).setLocation(world[x][y]);
+		}
+	}
 }

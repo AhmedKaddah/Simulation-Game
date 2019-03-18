@@ -6,6 +6,7 @@ import model.events.SOSListener;
 import model.infrastructure.ResidentialBuilding;
 import model.people.Citizen;
 import model.units.Unit;
+import simulation.Rescuable;
 import simulation.Simulator;
 
 public class CommandCenter implements SOSListener {
@@ -22,5 +23,13 @@ public class CommandCenter implements SOSListener {
 		visibleCitizens = new ArrayList<Citizen>();
 		emergencyUnits = new ArrayList<Unit>();
 
+	}
+	public void receiveSOSCall(Rescuable r) {
+		if(r instanceof Citizen) {
+			visibleCitizens.add((Citizen) r);
+		}
+		else {
+			visibleBuildings.add((ResidentialBuilding) r);
+		}
 	}
 }

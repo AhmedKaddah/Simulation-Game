@@ -9,5 +9,4 @@ public class DiseaseControlUnit extends MedicalUnit {
 		super(unitID, location, stepsPerCycle);
 
 	}
-
 }
