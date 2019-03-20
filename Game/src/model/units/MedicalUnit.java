@@ -32,4 +32,10 @@ public abstract class MedicalUnit extends Unit {
 				setState(UnitState.RESPONDING);
 		}
 	}
+	public void heal() {
+		if(((Citizen) this.getTarget()).getHp()==100)
+			jobsDone();
+		else
+			((Citizen) this.getTarget()).setHp(((Citizen) this.getTarget()).getHp()+healingAmount);
+	}
 }

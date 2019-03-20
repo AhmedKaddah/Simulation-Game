@@ -113,6 +113,7 @@ public class ResidentialBuilding implements Rescuable, Simulatable {
 		emergencyService.receiveSOSCall(this);
 	}
 	public void cycleStep() {
+
 		Random r = new Random();
 		if(foundationDamage>0) 
 			setStructuralIntegrity(getStructuralIntegrity()-(r.nextInt(6)+5));

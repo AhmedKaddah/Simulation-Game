@@ -81,6 +81,7 @@ public abstract class Unit implements Simulatable, SOSResponder {
 		if (this instanceof Evacuator) {
 			if (getState() == UnitState.RESPONDING) {
 				if (distanceToTarget == 0) {
+					getWorldListener().assignAddress(this, getTarget().getLocation().getX(), getTarget().getLocation().getY());
 					setState(UnitState.TREATING);
 					this.treat();
 				} else {
@@ -96,11 +97,9 @@ public abstract class Unit implements Simulatable, SOSResponder {
 			} else {
 				if (getState() == UnitState.TREATING) {
 					if (((Evacuator) this).getDistanceToBase() == 0) {
-						if (((ResidentialBuilding) this.getTarget()).getOccupants().size() == 0) {
-							setState(UnitState.IDLE);
-						} else {
-							setState(UnitState.RESPONDING);
-						}
+						getWorldListener().assignAddress(this, 0, 0);
+						this.treat();
+						
 					} else {
 						if (((Evacuator) this).getDistanceToBase() - stepsPerCycle > 0) {
 							((Evacuator) this)
@@ -114,6 +113,7 @@ public abstract class Unit implements Simulatable, SOSResponder {
 				} else {
 					if (getState() == UnitState.RESPONDING) {
 						if (distanceToTarget == 0) {
+							getWorldListener().assignAddress(this, getTarget().getLocation().getX(), getTarget().getLocation().getY());
 							setState(UnitState.TREATING);
 							this.treat();
 						} else {
@@ -135,4 +135,7 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	}
 
 	public abstract void treat();
+	public void jobsDone() {
+		setState(UnitState.IDLE);
+	}
 }
