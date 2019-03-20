@@ -9,6 +9,8 @@ public class Injury extends Disaster {
 		super(startCycle, target);
 	}
 	public void strike() {
+		this.setActive(true);
+		getTarget().struckBy(this);
 		int x = ((Citizen)(getTarget())).getBloodLoss();
 		x+=30;
 		((Citizen)(getTarget())).setBloodLoss(x);

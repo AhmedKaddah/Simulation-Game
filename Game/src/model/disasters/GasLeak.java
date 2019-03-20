@@ -9,6 +9,8 @@ public class GasLeak extends Disaster {
 		super(startCycle, target);
 	}
 	public void strike() {
+		this.setActive(true);
+		getTarget().struckBy(this);
 		int x = ((ResidentialBuilding)(getTarget())).getGasLevel();
 		x+=10;
 		((ResidentialBuilding)(getTarget())).setGasLevel(x);

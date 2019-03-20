@@ -20,6 +20,7 @@ public abstract class MedicalUnit extends Unit {
 		return treatmentAmount;
 	}
 	public void respond(Rescuable r) {
+		super.respond(r);
 		setDistanceToTarget(distance(r));
 		if(getState()==UnitState.IDLE) {
 			if(distance(r)==0) {

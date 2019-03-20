@@ -9,6 +9,8 @@ public class Collapse extends Disaster {
 		super(startCycle, target);
 	}
 	public void strike() {
+		this.setActive(true);
+		getTarget().struckBy(this);
 		int x = ((ResidentialBuilding)(getTarget())).getFoundationDamage();
 		x+=10;
 		((ResidentialBuilding)(getTarget())).setFoundationDamage(x);

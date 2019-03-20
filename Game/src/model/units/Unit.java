@@ -23,6 +23,7 @@ public abstract class Unit implements Simulatable,SOSResponder {
 		this.location = location;
 		this.stepsPerCycle = stepsPerCycle;
 		this.state = UnitState.IDLE;
+		worldListener.assignAddress(this,getLocation().getX(),getLocation().getY());
 
 	}
 
@@ -74,5 +75,7 @@ public abstract class Unit implements Simulatable,SOSResponder {
 	}
 	public abstract void strike();
 	public abstract void cycleStep();
-	public abstract void respond(Rescuable r);
+	public void respond(Rescuable r) {
+		this.target=r;
+	}
 }

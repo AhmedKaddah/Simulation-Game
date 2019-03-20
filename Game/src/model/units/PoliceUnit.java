@@ -35,11 +35,23 @@ public abstract class PoliceUnit extends Unit {
 		return passengers;
 	}
 	public void respond(Rescuable r) {
-		if(distance(r)==0) {
-			setState(UnitState.TREATING);
+		super.respond(r);
+		if(getState()==UnitState.IDLE) {
+			if(distance(r)==0) {
+				setState(UnitState.TREATING);
+			}
+			else {
+				setState(UnitState.RESPONDING);
+			}
 		}
 		else {
-			setState(UnitState.RESPONDING);
+			getTarget().struckBy(getTarget().getDisaster());
+			if(distance(r)==0) {
+				setState(UnitState.TREATING);
+			}
+			else {
+				setState(UnitState.RESPONDING);
+			}
 		}
 	}
 }
