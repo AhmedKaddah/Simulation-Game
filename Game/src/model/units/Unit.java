@@ -2,7 +2,6 @@ package model.units;
 
 import model.events.SOSResponder;
 import model.events.WorldListener;
-import model.infrastructure.ResidentialBuilding;
 import simulation.Address;
 import simulation.Rescuable;
 import simulation.Simulatable;
