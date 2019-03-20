@@ -9,15 +9,18 @@ import model.disasters.Fire;
 import model.disasters.GasLeak;
 import model.disasters.Infection;
 import model.disasters.Injury;
+import model.events.SOSListener;
 import model.events.WorldListener;
 import model.infrastructure.ResidentialBuilding;
 import model.people.Citizen;
+import model.people.CitizenState;
 import model.units.Ambulance;
 import model.units.DiseaseControlUnit;
 import model.units.Evacuator;
 import model.units.FireTruck;
 import model.units.GasControlUnit;
 import model.units.Unit;
+import model.units.UnitState;
 
 public class Simulator implements WorldListener {
 
@@ -28,14 +31,16 @@ public class Simulator implements WorldListener {
 	private ArrayList<Disaster> plannedDisasters;
 	private ArrayList<Disaster> executedDisasters;
 	private Address[][] world;
+	private SOSListener emergencyService;
 
-	public Simulator() throws Exception {
+	public Simulator(SOSListener emergencyService) throws Exception {
 
 		buildings = new ArrayList<ResidentialBuilding>();
 		citizens = new ArrayList<Citizen>();
 		emergencyUnits = new ArrayList<Unit>();
 		plannedDisasters = new ArrayList<Disaster>();
 		executedDisasters = new ArrayList<Disaster>();
+		this.emergencyService=emergencyService;
 
 		world = new Address[10][10];
 		for (int i = 0; i < 10; i++) {
@@ -60,6 +65,13 @@ public class Simulator implements WorldListener {
 
 			}
 		}
+	}
+	
+	public ArrayList<Unit> getEmergencyUnits() {
+		return emergencyUnits;
+	}
+	public void setEmergencyService(SOSListener emergencyService) {
+		this.emergencyService = emergencyService;
 	}
 
 	private void loadUnits(String path) throws Exception {
@@ -217,4 +229,59 @@ public class Simulator implements WorldListener {
 			((Citizen)(sim)).setLocation(world[x][y]);
 		}
 	}
+public boolean checkGameOver() {
+	boolean flag = false;
+	for(int i=0;i<citizens.size();i++) {
+		if(citizens.get(i).getState()!=CitizenState.DECEASED)
+			flag=true;
+	}
+	if(flag==false)
+		return true;
+	
+	else {
+	
+		if(plannedDisasters.size()!=0) {
+			return false;
+		}
+		
+		for(int i=0;i<executedDisasters.size();i++) {
+			if(executedDisasters.get(i).getTarget() instanceof Citizen && executedDisasters.get(i).isActive()) {
+				if(((Citizen)executedDisasters.get(i).getTarget()).getState()!=CitizenState.DECEASED){
+					return false;
+				}
+			else {
+				if(((ResidentialBuilding)executedDisasters.get(i).getTarget()).getStructuralIntegrity()>0
+						&& executedDisasters.get(i).isActive()) {
+					return false;
+				}
+			}
+					
+						
+			}
+				
+		}
+		
+		boolean flag2 = false;
+		for(int i=0;i<emergencyUnits.size();i++) {
+			if(emergencyUnits.get(i).getState()!=UnitState.IDLE)
+				flag2=true;
+		}
+		if(flag2==true) {
+			return false;
+		}
+	}
+		return true;
+	}
+	public int calculateCasualties() {
+		int counter = 0;
+		for(int i=0;i<citizens.size();i++) {
+			if(citizens.get(i).getState()==CitizenState.DECEASED)
+				counter++;
+		}
+		return counter;
+	}
+	
+
+	
+
 }
