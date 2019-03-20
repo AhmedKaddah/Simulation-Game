@@ -1,7 +1,6 @@
 package model.units;
 
 import simulation.Address;
-import simulation.Rescuable;
 
 public class Ambulance extends MedicalUnit {
 

@@ -9,5 +9,4 @@ public class GasControlUnit extends FireUnit {
 		super(unitID, location, stepsPerCycle);
 
 	}
-
 }

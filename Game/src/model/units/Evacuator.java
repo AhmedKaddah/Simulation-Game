@@ -1,9 +1,6 @@
 package model.units;
 
-import model.people.Citizen;
-import model.people.CitizenState;
 import simulation.Address;
-import simulation.Rescuable;
 
 public class Evacuator extends PoliceUnit {
 
@@ -11,6 +8,5 @@ public class Evacuator extends PoliceUnit {
 
 		super(unitID, location, stepsPerCycle, maxCapacity);
 	}
-	
 }
 

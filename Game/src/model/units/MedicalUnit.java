@@ -23,23 +23,13 @@ public abstract class MedicalUnit extends Unit {
 		super.respond(r);
 		setDistanceToTarget(distance(r));
 		if(getState()==UnitState.IDLE) {
-			if(distance(r)==0) {
-				setState(UnitState.TREATING);
-			}
-			else {
 				setState(UnitState.RESPONDING);
-			}
 		}
 		else {
 			if(((Citizen)(getTarget())).getState()!=CitizenState.RESCUED) {
 				getTarget().struckBy(getTarget().getDisaster());
 			}
-			if(distance(r)==0) {
-				setState(UnitState.TREATING);
-			}
-			else {
 				setState(UnitState.RESPONDING);
-			}
 		}
 	}
 }
