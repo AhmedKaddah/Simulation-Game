@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import model.disasters.Collapse;
 import model.disasters.Disaster;
 import model.disasters.Fire;
 import model.disasters.GasLeak;
@@ -24,7 +25,7 @@ import model.units.UnitState;
 
 public class Simulator implements WorldListener {
 
-	private int currentCycle;
+	private int currentCycle ;
 	private ArrayList<ResidentialBuilding> buildings;
 	private ArrayList<Citizen> citizens;
 	private ArrayList<Unit> emergencyUnits;
@@ -41,7 +42,7 @@ public class Simulator implements WorldListener {
 		plannedDisasters = new ArrayList<Disaster>();
 		executedDisasters = new ArrayList<Disaster>();
 		this.emergencyService=emergencyService;
-
+		currentCycle=0;
 		world = new Address[10][10];
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
@@ -64,6 +65,14 @@ public class Simulator implements WorldListener {
 					building.getOccupants().add(citizen);
 
 			}
+		}
+		
+		for(int i=0;i<citizens.size();i++) {
+			citizens.get(i).setWorldListener(this);
+		}
+		
+		for(int i=0;i<emergencyUnits.size();i++) {
+			emergencyUnits.get(i).setWorldListener(this);
 		}
 	}
 	
@@ -280,8 +289,68 @@ public boolean checkGameOver() {
 		}
 		return counter;
 	}
-	
 
-	
+	public void nextCycle() {
+		currentCycle++;
+		for (int i = 0; i < plannedDisasters.size(); i++) {
+			if (plannedDisasters.get(i).getStartCycle() == currentCycle) {
+				Disaster temp = plannedDisasters.remove(i);
+				i--;
+				executedDisasters.add(temp);
+				if (temp.getTarget() instanceof ResidentialBuilding) {
+					if (((ResidentialBuilding) temp.getTarget()).getDisaster() == null)
+						temp.strike();
+					else {
+						if (temp instanceof Fire) {
+							if (((ResidentialBuilding) temp.getTarget()).getDisaster() instanceof GasLeak) {
+								if (((ResidentialBuilding) temp.getTarget()).getGasLevel() == 0)
+									((ResidentialBuilding) temp.getTarget()).struckBy(temp);
+								if (((ResidentialBuilding) temp.getTarget()).getGasLevel() > 0 && ((ResidentialBuilding) temp.getTarget()).getGasLevel() < 70) {
+									(new Collapse(currentCycle, (ResidentialBuilding) temp.getTarget())).strike();
+									((ResidentialBuilding) temp.getTarget()).setFireDamage(0);
+								}
+								if (((ResidentialBuilding) temp.getTarget()).getGasLevel() >= 70) {
+									((ResidentialBuilding) temp.getTarget()).setStructuralIntegrity(0);
+								}
+							}
+						} 
+						else {
+							if (temp instanceof GasLeak) {
+								if (((ResidentialBuilding) temp.getTarget()).getDisaster() instanceof Fire) {
+									(new Collapse(currentCycle, (ResidentialBuilding) temp.getTarget())).strike();
+									((ResidentialBuilding) temp.getTarget()).setFireDamage(0);
+								}
+							}
+						}
+					}
+				} 
+				else {
+					temp.strike();
+				}
+			}
+		}
+		for (int i = 0; i < buildings.size(); i++) {
+			if (buildings.get(i).getFireDamage() == 100) {
+				(new Collapse(currentCycle, buildings.get(i))).strike();
+				buildings.get(i).setFireDamage(0);
+			}
+		}
 
+		for (int i = 0; i < emergencyUnits.size(); i++) {
+			emergencyUnits.get(i).cycleStep();
+		}
+
+		for (int i = 0; i < executedDisasters.size(); i++) {
+			if (executedDisasters.get(i).isActive() && executedDisasters.get(i).getStartCycle() != currentCycle) {
+				executedDisasters.get(i).cycleStep();
+			}
+		}
+
+		for (int i = 0; i < buildings.size(); i++) {
+			buildings.get(i).cycleStep();
+		}
+		for (int i = 0; i < citizens.size(); i++) {
+			citizens.get(i).cycleStep();
+		}
+	}
 }

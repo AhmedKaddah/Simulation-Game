@@ -22,7 +22,12 @@ public class CommandCenter implements SOSListener {
 		visibleBuildings = new ArrayList<ResidentialBuilding>();
 		visibleCitizens = new ArrayList<Citizen>();
 		emergencyUnits = new ArrayList<Unit>();
-
+		
+		for(int i=0;i<visibleCitizens.size();i++)
+			visibleCitizens.get(i).setEmergencyService(this);
+		
+		for(int i=0;i<visibleBuildings.size();i++)
+				visibleBuildings.get(i).setEmergencyService(this);
 	}
 	public void receiveSOSCall(Rescuable r) {
 		if(r instanceof Citizen) {
