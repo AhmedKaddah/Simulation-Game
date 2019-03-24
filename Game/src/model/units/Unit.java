@@ -16,12 +16,13 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	private int stepsPerCycle;
 	private WorldListener worldListener;
 
-	public Unit(String unitID, Address location, int stepsPerCycle) {
+	public Unit(String unitID, Address location,int stepsPerCycle,WorldListener worldListener) {
 
 		this.unitID = unitID;
 		this.location = location;
 		this.stepsPerCycle = stepsPerCycle;
 		this.state = UnitState.IDLE;
+		this.worldListener=worldListener;
 		worldListener.assignAddress(this, getLocation().getX(), getLocation().getY());
 
 	}

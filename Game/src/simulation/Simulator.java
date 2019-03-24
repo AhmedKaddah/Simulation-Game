@@ -66,14 +66,6 @@ public class Simulator implements WorldListener {
 
 			}
 		}
-		
-		for(int i=0;i<citizens.size();i++) {
-			citizens.get(i).setWorldListener(this);
-		}
-		
-		for(int i=0;i<emergencyUnits.size();i++) {
-			emergencyUnits.get(i).setWorldListener(this);
-		}
 	}
 	
 	public ArrayList<Unit> getEmergencyUnits() {
@@ -97,23 +89,23 @@ public class Simulator implements WorldListener {
 			switch (info[0]) {
 
 			case "AMB":
-				emergencyUnits.add(new Ambulance(id, world[0][0], steps));
+				emergencyUnits.add(new Ambulance(id, world[0][0], steps,this));
 				break;
 
 			case "DCU":
-				emergencyUnits.add(new DiseaseControlUnit(id, world[0][0], steps));
+				emergencyUnits.add(new DiseaseControlUnit(id, world[0][0], steps,this));
 				break;
 
 			case "EVC":
-				emergencyUnits.add(new Evacuator(id, world[0][0], steps, Integer.parseInt(info[3])));
+				emergencyUnits.add(new Evacuator(id, world[0][0], steps, this,Integer.parseInt(info[3])));
 				break;
 
 			case "FTK":
-				emergencyUnits.add(new FireTruck(id, world[0][0], steps));
+				emergencyUnits.add(new FireTruck(id, world[0][0], steps,this));
 				break;
 
 			case "GCU":
-				emergencyUnits.add(new GasControlUnit(id, world[0][0], steps));
+				emergencyUnits.add(new GasControlUnit(id, world[0][0], steps,this));
 				break;
 
 			}
@@ -157,7 +149,7 @@ public class Simulator implements WorldListener {
 			String name = info[3];
 			int age = Integer.parseInt(info[4]);
 
-			citizens.add(new Citizen(world[x][y], id, name, age));
+			citizens.add(new Citizen(world[x][y], id, name, age,this));
 
 			line = br.readLine();
 

@@ -1,14 +1,15 @@
 package model.units;
 
+import model.events.WorldListener;
 import model.infrastructure.ResidentialBuilding;
 import model.people.CitizenState;
 import simulation.Address;
 
 public class Evacuator extends PoliceUnit {
 
-	public Evacuator(String unitID, Address location, int stepsPerCycle, int maxCapacity) {
+	public Evacuator(String unitID, Address location, int stepsPerCycle, WorldListener worldListener,int maxCapacity) {
 
-		super(unitID, location, stepsPerCycle, maxCapacity);
+		super(unitID, location, stepsPerCycle, worldListener,maxCapacity);
 	}
 
 

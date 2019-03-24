@@ -21,7 +21,7 @@ public class Citizen implements Rescuable, Simulatable {
 	private SOSListener emergencyService;
 	private WorldListener worldListener;
 
-	public Citizen(Address location, String nationalID, String name, int age) {
+	public Citizen(Address location, String nationalID, String name, int age, WorldListener worldListener ) {
 
 		this.name = name;
 		this.nationalID = nationalID;
@@ -29,6 +29,7 @@ public class Citizen implements Rescuable, Simulatable {
 		this.location = location;
 		this.state = CitizenState.SAFE;
 		this.hp = 100;
+		this.worldListener=worldListener;
 		worldListener.assignAddress(this,getLocation().getX(),getLocation().getY());
 
 	}
