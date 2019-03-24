@@ -77,54 +77,56 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	}
 
 	public void cycleStep() {
-		if (this instanceof Evacuator) {
-			if (getState() == UnitState.RESPONDING) {
-				if (distanceToTarget == 0) {
-					getWorldListener().assignAddress(this, getTarget().getLocation().getX(), getTarget().getLocation().getY());
-					setState(UnitState.TREATING);
-					this.treat();
-				} else {
-					if (distanceToTarget - stepsPerCycle > 0) {
-						setDistanceToTarget(distanceToTarget - stepsPerCycle);
-						((Evacuator) this).setDistanceToBase(((Evacuator) this).getDistanceToBase() + stepsPerCycle);
-					}
-					if (distanceToTarget - stepsPerCycle <= 0) {
-						setDistanceToTarget(0);
-						((Evacuator) this).setDistanceToBase(((Evacuator) this).getDistanceToBase() + distanceToTarget);
-					}
+		if(this instanceof Evacuator) {
+			if(getState() == UnitState.IDLE && ((Evacuator) this).getDistanceToBase() != 0 ) {
+				if(((Evacuator) this).getDistanceToBase() - stepsPerCycle > 0) {
+					((Evacuator) this).setDistanceToBase(((Evacuator) this).getDistanceToBase() - stepsPerCycle);
 				}
-			} else {
-				if (getState() == UnitState.TREATING) {
-					if (((Evacuator) this).getDistanceToBase() == 0) {
-						getWorldListener().assignAddress(this, 0, 0);
+				else {
+					getWorldListener().assignAddress(this,0,0);
+					((Evacuator) this).setDistanceToBase(0);
+				}
+			}
+			if(getState() == UnitState.RESPONDING || getState() == UnitState.TREATING) {
+				if(distanceToTarget == 0 && ((Evacuator) this).getDistanceToBase()!=0) {
+					if(((Evacuator) this).getDistanceToBase() - stepsPerCycle > 0) {
+						((Evacuator) this).setDistanceToBase(((Evacuator) this).getDistanceToBase() - stepsPerCycle);
+					}
+					else {
+						getWorldListener().assignAddress(this,0,0);
+						((Evacuator) this).setDistanceToBase(0);
+						setDistanceToTarget(getTarget().getLocation().getX() + getTarget().getLocation().getY());
 						this.treat();
-						
-					} else {
-						if (((Evacuator) this).getDistanceToBase() - stepsPerCycle > 0) {
-							((Evacuator) this)
-									.setDistanceToBase(((Evacuator) this).getDistanceToBase() - stepsPerCycle);
-							setDistanceToTarget(distanceToTarget + stepsPerCycle);
-						} else {
-							((Evacuator) this).setDistanceToBase(0);
-							setDistanceToTarget(distanceToTarget + ((Evacuator) this).getDistanceToBase());
-						}
-					}
-				} else {
-					if (getState() == UnitState.RESPONDING) {
-						if (distanceToTarget == 0) {
-							getWorldListener().assignAddress(this, getTarget().getLocation().getX(), getTarget().getLocation().getY());
-							setState(UnitState.TREATING);
-							this.treat();
-						} else {
-							if (distanceToTarget - stepsPerCycle > 0) {
-								setDistanceToTarget(distanceToTarget - stepsPerCycle);
-							}
-							if (distanceToTarget - stepsPerCycle <= 0) {
-								setDistanceToTarget(0);
-							}
-						}
 					}
 				}
+				if(distanceToTarget != 0 && ((Evacuator) this).getDistanceToBase()==0) {
+					if(distanceToTarget - stepsPerCycle > 0) {
+						((Evacuator) this).setDistanceToTarget(distanceToTarget - stepsPerCycle);
+					}
+					else {
+						getWorldListener().assignAddress(this, getTarget().getLocation().getX(), getTarget().getLocation().getY());
+						((Evacuator) this).setDistanceToTarget(0);
+						((Evacuator)this).setDistanceToBase(getTarget().getLocation().getX() + getTarget().getLocation().getY());
+						this.setState(UnitState.TREATING);
+						this.treat();
+					}
+				}
+			}
+		}
+		else {
+			if(getState() == UnitState.RESPONDING) {
+				   if (distanceToTarget == 0) {
+                       getWorldListener().assignAddress(this, getTarget().getLocation().getX(), getTarget().getLocation().getY());
+                       setState(UnitState.TREATING);
+                       this.treat();
+                   } else {
+                       if (distanceToTarget - stepsPerCycle > 0) {
+                           setDistanceToTarget(distanceToTarget - stepsPerCycle);
+                       }
+                       if (distanceToTarget - stepsPerCycle <= 0) {
+                           setDistanceToTarget(0);
+                       }
+                   }
 			}
 		}
 	}

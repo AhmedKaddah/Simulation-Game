@@ -13,8 +13,8 @@ public class Evacuator extends PoliceUnit {
 
 
 	public void treat() {
-		if (((ResidentialBuilding) this.getTarget()).getStructuralIntegrity() <= 0)
-			jobsDone();
+		if (((ResidentialBuilding) this.getTarget()).getStructuralIntegrity() <= 0 || ((ResidentialBuilding) this.getTarget()).getDisaster().isActive()==false )
+				jobsDone();
 		else {
 			if (this.getDistanceToBase() != 0) {
 				for (int i = 0; i < getMaxCapacity(); i++) {
@@ -22,8 +22,6 @@ public class Evacuator extends PoliceUnit {
 						getPassengers().add(((ResidentialBuilding) this.getTarget()).getOccupants().remove(0));
 					}
 				}
-				this.setState(UnitState.TREATING);
-
 			} 
 			else {
 				for (int i = 0; i < getMaxCapacity(); i++) {
@@ -36,9 +34,7 @@ public class Evacuator extends PoliceUnit {
 				if (((ResidentialBuilding) this.getTarget()).getOccupants().size() == 0) {
 					setState(UnitState.IDLE);
 					jobsDone();
-				} else {
-					setState(UnitState.RESPONDING);
-				}
+				} 
 			}
 
 		}
