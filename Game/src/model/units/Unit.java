@@ -136,5 +136,6 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	public abstract void treat();
 	public void jobsDone() {
 		setState(UnitState.IDLE);
+		target = null;
 	}
 }

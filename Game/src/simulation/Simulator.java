@@ -301,6 +301,7 @@ public boolean checkGameOver() {
 					if (((ResidentialBuilding) temp.getTarget()).getDisaster() == null)
 						temp.strike();
 					else {
+						((ResidentialBuilding) temp.getTarget()).getDisaster().setActive(false);
 						if (temp instanceof Fire) {
 							if (((ResidentialBuilding) temp.getTarget()).getDisaster() instanceof GasLeak) {
 								if (((ResidentialBuilding) temp.getTarget()).getGasLevel() == 0)
@@ -325,6 +326,7 @@ public boolean checkGameOver() {
 					}
 				} 
 				else {
+					((Citizen) temp.getTarget()).getDisaster().setActive(false);
 					temp.strike();
 				}
 			}
