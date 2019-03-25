@@ -319,6 +319,10 @@ public boolean checkGameOver() {
 							}
 								}
 							}
+							else {
+								temp.strike();
+								executedDisasters.add(temp);
+							}
 						}
 							if (temp instanceof GasLeak) {
 								if (((ResidentialBuilding) temp.getTarget()).getDisaster() instanceof Fire) {
@@ -326,6 +330,10 @@ public boolean checkGameOver() {
 									c.strike();
 									executedDisasters.add(c);
 									((ResidentialBuilding) temp.getTarget()).setFireDamage(0);
+								}
+								else {
+									temp.strike();
+									executedDisasters.add(temp);
 								}
 							}
 					}
