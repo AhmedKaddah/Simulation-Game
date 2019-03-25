@@ -12,14 +12,18 @@ public class GasControlUnit extends FireUnit {
 
 	}
 	public void treat() {
+		((ResidentialBuilding) this.getTarget()).getDisaster().setActive(false);
 		if(((ResidentialBuilding) this.getTarget()).getStructuralIntegrity()<=0)
 			jobsDone();
 		else {
-		if(((ResidentialBuilding) this.getTarget()).getGasLevel()>0)
-			((ResidentialBuilding) this.getTarget()).setGasLevel(((ResidentialBuilding) this.getTarget()).getGasLevel()-10);
-		else
+		if((((ResidentialBuilding) this.getTarget()).getGasLevel()-10)<=0) {
+			((ResidentialBuilding) this.getTarget()).setGasLevel(0);
+			this.setState(UnitState.IDLE);
 			jobsDone();
-		((ResidentialBuilding) this.getTarget()).getDisaster().setActive(false);
+		}
+		else
+			((ResidentialBuilding) this.getTarget()).setGasLevel(((ResidentialBuilding) this.getTarget()).getGasLevel()-10);
+		
 		}
 	}
 }

@@ -15,17 +15,28 @@ public class Ambulance extends MedicalUnit {
 
 	public void treat() {
 		this.getTarget().getDisaster().setActive(false);
-		if(((Citizen) this.getTarget()).getHp()<=0)
-			jobsDone();
+		if(((Citizen) this.getTarget()).getHp()<=0) {
+			jobsDone();}
 		else {
-		if((((Citizen) this.getTarget()).getBloodLoss()-getTreatmentAmount()) <=0) {
-			((Citizen) this.getTarget()).setBloodLoss(0);
-			((Citizen) this.getTarget()).setState(CitizenState.RESCUED);
-			this.setState(UnitState.IDLE);
+			if(((Citizen) this.getTarget()).getBloodLoss()==0)
+		 {	
 			this.heal();
-		}
-		else 
-			((Citizen) this.getTarget()).setBloodLoss(((Citizen) this.getTarget()).getBloodLoss()-getTreatmentAmount());
-		}
+			
+			}
+		else {
+			if((((Citizen) this.getTarget()).getBloodLoss()-getTreatmentAmount()) >0) {
+				
+				((Citizen) this.getTarget()).setBloodLoss(((Citizen) this.getTarget()).getBloodLoss()-getTreatmentAmount());
+			}
+			else {
+					if((((Citizen) this.getTarget()).getBloodLoss()-getTreatmentAmount()) <=0){
+						((Citizen) this.getTarget()).setBloodLoss(0);
+						((Citizen)this.getTarget()).setState(CitizenState.RESCUED);
+					
+				}
+			}
+		
 	}
 }
+}
+	}

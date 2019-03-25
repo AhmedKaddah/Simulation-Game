@@ -155,6 +155,7 @@ public class Citizen implements Rescuable, Simulatable {
 			setHp(getHp()-15);
 	}
 	public void struckBy(Disaster d) {
+		d.setActive(true);
 		setState(CitizenState.IN_TROUBLE);
 		this.disaster=d;
 		emergencyService.receiveSOSCall(this);

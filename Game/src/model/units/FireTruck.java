@@ -13,14 +13,17 @@ public class FireTruck extends FireUnit {
 	}
 
 	public void treat() {
+		((ResidentialBuilding) this.getTarget()).getDisaster().setActive(false);
 		if(((ResidentialBuilding) this.getTarget()).getStructuralIntegrity()<=0)
 			jobsDone();
 		else {
-		if(((ResidentialBuilding) this.getTarget()).getFireDamage()>0)
-			((ResidentialBuilding) this.getTarget()).setFireDamage(((ResidentialBuilding) this.getTarget()).getFireDamage()-10);
+		if((((ResidentialBuilding) this.getTarget()).getFireDamage() - 10) <= 0) {
+			((ResidentialBuilding) this.getTarget()).setFireDamage(0);
+			this.setState(UnitState.IDLE);
+			jobsDone();}
 		else
-			jobsDone();
-		((ResidentialBuilding) this.getTarget()).getDisaster().setActive(false);
+			((ResidentialBuilding) this.getTarget()).setFireDamage(((ResidentialBuilding) this.getTarget()).getFireDamage()-10);
+		
 		}
 	}
 

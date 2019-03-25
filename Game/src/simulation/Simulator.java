@@ -286,33 +286,46 @@ public boolean checkGameOver() {
 
 	public void nextCycle() {
 		currentCycle++;
-		for (int i = 0; i < plannedDisasters.size(); i++) {
+		for (int i = 0; i <plannedDisasters.size(); i++) {
 			if (plannedDisasters.get(i).getStartCycle() == currentCycle) {
 				Disaster temp = plannedDisasters.remove(i);
 				i--;
-				executedDisasters.add(temp);
 				if (temp.getTarget() instanceof ResidentialBuilding) {
-					if (((ResidentialBuilding) temp.getTarget()).getDisaster() == null)
+					if (((ResidentialBuilding) temp.getTarget()).getDisaster() == null) {
 						temp.strike();
+						executedDisasters.add(temp);
+					}
+						
 					else {
-						((ResidentialBuilding) temp.getTarget()).getDisaster().setActive(false);
+						((ResidentialBuilding)temp.getTarget()).getDisaster().setActive(false);
 						if (temp instanceof Fire) {
 							if (((ResidentialBuilding) temp.getTarget()).getDisaster() instanceof GasLeak) {
-								if (((ResidentialBuilding) temp.getTarget()).getGasLevel() == 0)
-									((ResidentialBuilding) temp.getTarget()).struckBy(temp);
+								if (((ResidentialBuilding) temp.getTarget()).getGasLevel() == 0) {
+									temp.strike();
+									executedDisasters.add(temp);
+								}
+								else {
+									
 								if (((ResidentialBuilding) temp.getTarget()).getGasLevel() > 0 && ((ResidentialBuilding) temp.getTarget()).getGasLevel() < 70) {
-									(new Collapse(currentCycle, (ResidentialBuilding) temp.getTarget())).strike();
+									Collapse c= (new Collapse(currentCycle, (ResidentialBuilding) temp.getTarget()));
+									c.strike();
+									executedDisasters.add(c);
 									((ResidentialBuilding) temp.getTarget()).setFireDamage(0);
 								}
+								else {
 								if (((ResidentialBuilding) temp.getTarget()).getGasLevel() >= 70) {
 									((ResidentialBuilding) temp.getTarget()).setStructuralIntegrity(0);
+								}
+							}
 								}
 							}
 						} 
 						else {
 							if (temp instanceof GasLeak) {
 								if (((ResidentialBuilding) temp.getTarget()).getDisaster() instanceof Fire) {
-									(new Collapse(currentCycle, (ResidentialBuilding) temp.getTarget())).strike();
+									Collapse c= (new Collapse(currentCycle, (ResidentialBuilding) temp.getTarget()));
+									c.strike();
+									executedDisasters.add(c);
 									((ResidentialBuilding) temp.getTarget()).setFireDamage(0);
 								}
 							}
@@ -323,12 +336,16 @@ public boolean checkGameOver() {
 					if(((Citizen)temp.getTarget()).getDisaster() != null)
 						((Citizen)temp.getTarget()).getDisaster().setActive(false);
 					temp.strike();
+					executedDisasters.add(temp);
+					
 				}
 			}
 		}
 		for (int i = 0; i < buildings.size(); i++) {
 			if (buildings.get(i).getFireDamage() == 100) {
-				(new Collapse(currentCycle, buildings.get(i))).strike();
+				Collapse c= new Collapse(currentCycle, buildings.get(i));
+				c.strike();
+				executedDisasters.add(c);
 				buildings.get(i).setFireDamage(0);
 			}
 		}

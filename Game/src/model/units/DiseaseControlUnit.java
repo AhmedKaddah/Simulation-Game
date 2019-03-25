@@ -16,17 +16,28 @@ public class DiseaseControlUnit extends MedicalUnit {
 
 	public void treat() {
 		this.getTarget().getDisaster().setActive(false);
-		if(((Citizen) this.getTarget()).getHp()<=0)
-			jobsDone();
+		if(((Citizen) this.getTarget()).getHp()<=0) {
+			jobsDone();}
 		else {
-		if((((Citizen) this.getTarget()).getToxicity()-getTreatmentAmount())<=0) {
-			((Citizen) this.getTarget()).setState(CitizenState.RESCUED);
-			((Citizen) this.getTarget()).setToxicity(0);
-			this.setState(UnitState.IDLE);
+			if(((Citizen) this.getTarget()).getToxicity()==0)
+		 {	
 			this.heal();
-		}
-		else 
-			((Citizen) this.getTarget()).setToxicity(((Citizen) this.getTarget()).getToxicity()-getTreatmentAmount());
-		}
+			
+			}
+		else {
+			if((((Citizen) this.getTarget()).getToxicity()-getTreatmentAmount()) >0) {
+				
+				((Citizen) this.getTarget()).setToxicity(((Citizen) this.getTarget()).getToxicity()-getTreatmentAmount());
+			}
+			else {
+					if((((Citizen) this.getTarget()).getToxicity()-getTreatmentAmount()) <=0){
+						((Citizen) this.getTarget()).setToxicity(0);
+						((Citizen)this.getTarget()).setState(CitizenState.RESCUED);
+					
+				}
+			}
+		
 	}
+}
+}
 }

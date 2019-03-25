@@ -4,7 +4,6 @@ import model.events.WorldListener;
 import model.people.Citizen;
 import model.people.CitizenState;
 import simulation.Address;
-import simulation.Rescuable;
 
 public abstract class MedicalUnit extends Unit {
 
@@ -20,21 +19,10 @@ public abstract class MedicalUnit extends Unit {
 	public int getTreatmentAmount() {
 		return treatmentAmount;
 	}
-	public void respond(Rescuable r) {
-		super.respond(r);
-		setDistanceToTarget(distance(r));
-		if(getState()==UnitState.IDLE) {
-				setState(UnitState.RESPONDING);
-		}
-		else {
-			if(((Citizen)(getTarget())).getState()==CitizenState.IN_TROUBLE) {
-				getTarget().struckBy(getTarget().getDisaster());
-			}
-				setState(UnitState.RESPONDING);
-		}
-	}
+
 	public void heal() {
-		if(((Citizen) this.getTarget()).getHp()==100) {
+		if((((Citizen) this.getTarget()).getHp()+healingAmount)>=100) {
+			((Citizen) this.getTarget()).setHp(100);
 			((Citizen) this.getTarget()).setState(CitizenState.SAFE);
 			jobsDone();
 			

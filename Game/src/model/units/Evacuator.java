@@ -2,6 +2,7 @@ package model.units;
 
 import model.events.WorldListener;
 import model.infrastructure.ResidentialBuilding;
+import model.people.Citizen;
 import model.people.CitizenState;
 import simulation.Address;
 
@@ -17,7 +18,7 @@ public class Evacuator extends PoliceUnit {
 		if (((ResidentialBuilding) this.getTarget()).getStructuralIntegrity() <= 0 || ((ResidentialBuilding) this.getTarget()).getDisaster().isActive()==false )
 				jobsDone();
 		else {
-			if (this.getDistanceToBase() != 0) {
+			if (!Totarget) {
 				for (int i = 0; i < getMaxCapacity(); i++) {
 					if (((ResidentialBuilding) this.getTarget()).getOccupants().size() > 0) {
 						getPassengers().add(((ResidentialBuilding) this.getTarget()).getOccupants().remove(0));
@@ -25,15 +26,17 @@ public class Evacuator extends PoliceUnit {
 				}
 			} 
 			else {
-				for (int i = 0; i < getMaxCapacity(); i++) {
-
-					getPassengers().get(0).getWorldListener().assignAddress(getPassengers().get(0), 0, 0);
-					getPassengers().remove(0).setState(CitizenState.RESCUED);
+				int c=getPassengers().size();
+				for (int i = 0; i < c; i++) {
+					Citizen x = getPassengers().get(0);
+					x.setState(CitizenState.RESCUED);
+					x.getWorldListener().assignAddress(x, 0, 0);
+					getPassengers().remove(0);
+					
 
 				}
 
 				if (((ResidentialBuilding) this.getTarget()).getOccupants().size() == 0) {
-					setState(UnitState.IDLE);
 					jobsDone();
 				} 
 			}

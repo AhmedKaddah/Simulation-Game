@@ -17,6 +17,9 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	private int distanceToTarget;
 	private int stepsPerCycle;
 	private WorldListener worldListener;
+	private boolean Arrived= false;
+	public boolean Totarget=true;
+	
 
 	public Unit(String unitID, Address location,int stepsPerCycle,WorldListener worldListener) {
 
@@ -84,34 +87,52 @@ public abstract class Unit implements Simulatable, SOSResponder {
 					((Evacuator) this).setDistanceToBase(((Evacuator) this).getDistanceToBase() - stepsPerCycle);
 				}
 				else {
-					getWorldListener().assignAddress(this,0,0);
 					((Evacuator) this).setDistanceToBase(0);
+					getWorldListener().assignAddress(this,0,0);
+					
 				}
 			}
 			if(getState() == UnitState.RESPONDING || getState() == UnitState.TREATING) {
-				if(distanceToTarget == 0 && ((Evacuator) this).getDistanceToBase()!=0) {
-					if(((Evacuator) this).getDistanceToBase() - stepsPerCycle > 0) {
-						((Evacuator) this).setDistanceToBase(((Evacuator) this).getDistanceToBase() - stepsPerCycle);
+				if(Arrived && !Totarget)
+					this.setState(UnitState.TREATING);
+				
+				if(!Arrived) {
+					if(Totarget) {
+						if(distanceToTarget-stepsPerCycle >0) {
+							setDistanceToTarget(distanceToTarget- stepsPerCycle);
+						}
+						else {
+							setDistanceToTarget(0);
+							((Evacuator)this).setDistanceToBase(getTarget().getLocation().getX() + getTarget().getLocation().getY());
+							getWorldListener().assignAddress(this, getTarget().getLocation().getX(), getTarget().getLocation().getY());
+							Arrived=true;
+							Totarget=false;
+							
+						}
+							
 					}
 					else {
-						getWorldListener().assignAddress(this,0,0);
-						((Evacuator) this).setDistanceToBase(0);
-						setDistanceToTarget(getTarget().getLocation().getX() + getTarget().getLocation().getY());
-						this.treat();
+						if(((Evacuator) this).getDistanceToBase()-stepsPerCycle >0) {
+							((Evacuator) this).setDistanceToBase(((Evacuator) this).getDistanceToBase() - stepsPerCycle);
+						}
+						else {
+							
+							((Evacuator) this).setDistanceToBase(0);
+							setDistanceToTarget(getTarget().getLocation().getX() + getTarget().getLocation().getY());
+							getWorldListener().assignAddress(this, 0, 0);
+							Arrived=true;
+							Totarget=true;
+						}
+							
 					}
 				}
-				if(distanceToTarget != 0 && ((Evacuator) this).getDistanceToBase()==0) {
-					if(distanceToTarget - stepsPerCycle > 0) {
-						((Evacuator) this).setDistanceToTarget(distanceToTarget - stepsPerCycle);
-					}
-					else {
-						getWorldListener().assignAddress(this, getTarget().getLocation().getX(), getTarget().getLocation().getY());
-						((Evacuator) this).setDistanceToTarget(0);
-						((Evacuator)this).setDistanceToBase(getTarget().getLocation().getX() + getTarget().getLocation().getY());
-						this.setState(UnitState.TREATING);
-						this.treat();
-					}
+				else {
+
+					this.treat();
+					Arrived=false;
+					
 				}
+				
 			}
 		}
 		else {
@@ -136,8 +157,23 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	}
 
 	public void respond(Rescuable r) {
-		this.target = r;	
+		
+		if(this.getState()!=UnitState.IDLE) {
+			if((this instanceof MedicalUnit && ((Citizen)this.target).getState()==CitizenState.IN_TROUBLE)) {
+				this.target.getDisaster().strike();	
 				
+				
+			}
+			else {
+				if(this instanceof PoliceUnit || this instanceof FireUnit) {
+					this.target.getDisaster().strike();	
+				}
+			}
+		}
+		this.setDistanceToTarget(distance(r));
+		this.target = r;	
+		this.setState(UnitState.RESPONDING);
+		
 	
 	}
 
@@ -146,4 +182,6 @@ public abstract class Unit implements Simulatable, SOSResponder {
 		setState(UnitState.IDLE);
 		target = null;
 	}
+	
+	
 }
