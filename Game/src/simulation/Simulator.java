@@ -319,22 +319,21 @@ public boolean checkGameOver() {
 							}
 								}
 							}
-						} 
-						else {
+						}
 							if (temp instanceof GasLeak) {
 								if (((ResidentialBuilding) temp.getTarget()).getDisaster() instanceof Fire) {
-									Collapse c= (new Collapse(currentCycle, (ResidentialBuilding) temp.getTarget()));
+									Collapse c = new Collapse(currentCycle, (ResidentialBuilding) temp.getTarget());
 									c.strike();
 									executedDisasters.add(c);
 									((ResidentialBuilding) temp.getTarget()).setFireDamage(0);
 								}
 							}
-						}
 					}
 				} 
 				else {
-					if(((Citizen)temp.getTarget()).getDisaster() != null)
+					if(((Citizen)temp.getTarget()).getDisaster() != null) {
 						((Citizen)temp.getTarget()).getDisaster().setActive(false);
+					}
 					temp.strike();
 					executedDisasters.add(temp);
 					

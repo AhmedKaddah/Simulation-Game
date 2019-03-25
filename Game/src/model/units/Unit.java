@@ -145,8 +145,10 @@ public abstract class Unit implements Simulatable, SOSResponder {
                        if (distanceToTarget - stepsPerCycle > 0) {
                            setDistanceToTarget(distanceToTarget - stepsPerCycle);
                        }
+                       else {
                        if (distanceToTarget - stepsPerCycle <= 0) {
                            setDistanceToTarget(0);
+                       }
                        }
                    }
 			}
@@ -159,14 +161,15 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	public void respond(Rescuable r) {
 		
 		if(this.getState()!=UnitState.IDLE) {
-			if((this instanceof MedicalUnit && ((Citizen)this.target).getState()==CitizenState.IN_TROUBLE)) {
-				this.target.getDisaster().strike();	
+			if((this instanceof MedicalUnit && ((Citizen)this.target).getState()!=CitizenState.RESCUED)) {
+				
+				this.target.getDisaster().setActive(true);
 				
 				
 			}
 			else {
 				if(this instanceof PoliceUnit || this instanceof FireUnit) {
-					this.target.getDisaster().strike();	
+					this.target.getDisaster().setActive(true);	
 				}
 			}
 		}

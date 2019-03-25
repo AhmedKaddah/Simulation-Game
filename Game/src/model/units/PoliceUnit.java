@@ -3,7 +3,6 @@ package model.units;
 import java.util.ArrayList;
 
 import simulation.Address;
-import simulation.Rescuable;
 import model.events.WorldListener;
 import model.people.Citizen;
 
