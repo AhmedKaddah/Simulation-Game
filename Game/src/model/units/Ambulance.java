@@ -18,8 +18,10 @@ public class Ambulance extends MedicalUnit {
 		if(((Citizen) this.getTarget()).getHp()<=0)
 			jobsDone();
 		else {
-		if(((Citizen) this.getTarget()).getBloodLoss()==0) {
+		if((((Citizen) this.getTarget()).getBloodLoss()-getTreatmentAmount()) <=0) {
+			((Citizen) this.getTarget()).setBloodLoss(0);
 			((Citizen) this.getTarget()).setState(CitizenState.RESCUED);
+			this.setState(UnitState.IDLE);
 			this.heal();
 		}
 		else 

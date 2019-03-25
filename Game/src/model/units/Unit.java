@@ -136,7 +136,9 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	}
 
 	public void respond(Rescuable r) {
-		this.target = r;
+		this.target = r;	
+				
+	
 	}
 
 	public abstract void treat();

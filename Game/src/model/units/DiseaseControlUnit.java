@@ -19,8 +19,10 @@ public class DiseaseControlUnit extends MedicalUnit {
 		if(((Citizen) this.getTarget()).getHp()<=0)
 			jobsDone();
 		else {
-		if(((Citizen) this.getTarget()).getToxicity()==0) {
+		if((((Citizen) this.getTarget()).getToxicity()-getTreatmentAmount())<=0) {
 			((Citizen) this.getTarget()).setState(CitizenState.RESCUED);
+			((Citizen) this.getTarget()).setToxicity(0);
+			this.setState(UnitState.IDLE);
 			this.heal();
 		}
 		else 
