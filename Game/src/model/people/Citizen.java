@@ -30,7 +30,7 @@ public class Citizen implements Rescuable, Simulatable {
 		this.state = CitizenState.SAFE;
 		this.hp = 100;
 		this.worldListener=worldListener;
-		worldListener.assignAddress(this,getLocation().getX(),getLocation().getY());
+
 
 	}
 
@@ -139,25 +139,20 @@ public class Citizen implements Rescuable, Simulatable {
 		if(getBloodLoss()>0 && getBloodLoss()<30) {
 			setHp(getHp()-5);
 		}
-		else {
 			if(getBloodLoss()>=30 && getBloodLoss()<70){
 				setHp(getHp()-10);
 			}
-			else {
+		if(getBloodLoss()>=70)
 				setHp(getHp()-15);
-			}
-		}
+		
 		if(getToxicity()>0 && getToxicity()<30) {
 			setHp(getHp()-5);
 		}
-		else {
-			if(getToxicity()>=30 && getToxicity()<70){
-				setHp(getHp()-10);
-			}
-			else {
-				setHp(getHp()-15);
-			}
+		if(getToxicity()>=30 && getToxicity()<70){
+			setHp(getHp()-10);
 		}
+		if(getToxicity()>=70)
+			setHp(getHp()-15);
 	}
 	public void struckBy(Disaster d) {
 		setState(CitizenState.IN_TROUBLE);

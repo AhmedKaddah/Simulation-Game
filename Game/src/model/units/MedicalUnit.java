@@ -27,7 +27,7 @@ public abstract class MedicalUnit extends Unit {
 				setState(UnitState.RESPONDING);
 		}
 		else {
-			if(((Citizen)(getTarget())).getState()!=CitizenState.RESCUED) {
+			if(((Citizen)(getTarget())).getState()==CitizenState.IN_TROUBLE) {
 				getTarget().struckBy(getTarget().getDisaster());
 			}
 				setState(UnitState.RESPONDING);

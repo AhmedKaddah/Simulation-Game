@@ -126,8 +126,9 @@ public class Simulator implements WorldListener {
 			String[] info = line.split(",");
 			int x = Integer.parseInt(info[0]);
 			int y = Integer.parseInt(info[1]);
-
-			buildings.add(new ResidentialBuilding(world[x][y]));
+			ResidentialBuilding b = new ResidentialBuilding(world[x][y]);
+			buildings.add(b);
+			b.setEmergencyService(emergencyService);
 
 			line = br.readLine();
 
@@ -148,8 +149,9 @@ public class Simulator implements WorldListener {
 			String id = info[2];
 			String name = info[3];
 			int age = Integer.parseInt(info[4]);
-
-			citizens.add(new Citizen(world[x][y], id, name, age,this));
+			Citizen c = new Citizen(world[x][y], id, name, age,this);
+			citizens.add(c);
+			c.setEmergencyService(emergencyService);
 
 			line = br.readLine();
 
@@ -318,7 +320,8 @@ public boolean checkGameOver() {
 					}
 				} 
 				else {
-					((Citizen) temp.getTarget()).getDisaster().setActive(false);
+					if(((Citizen)temp.getTarget()).getDisaster() != null)
+						((Citizen)temp.getTarget()).getDisaster().setActive(false);
 					temp.strike();
 				}
 			}

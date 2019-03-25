@@ -17,7 +17,7 @@ public class FireTruck extends FireUnit {
 			jobsDone();
 		else {
 		if(((ResidentialBuilding) this.getTarget()).getFireDamage()>0)
-		((ResidentialBuilding) this.getTarget()).setFireDamage(((ResidentialBuilding) this.getTarget()).getFireDamage()-10);
+			((ResidentialBuilding) this.getTarget()).setFireDamage(((ResidentialBuilding) this.getTarget()).getFireDamage()-10);
 		else
 			jobsDone();
 		((ResidentialBuilding) this.getTarget()).getDisaster().setActive(false);

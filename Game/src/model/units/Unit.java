@@ -2,6 +2,8 @@ package model.units;
 
 import model.events.SOSResponder;
 import model.events.WorldListener;
+import model.people.Citizen;
+import model.people.CitizenState;
 import simulation.Address;
 import simulation.Rescuable;
 import simulation.Simulatable;
@@ -23,8 +25,6 @@ public abstract class Unit implements Simulatable, SOSResponder {
 		this.stepsPerCycle = stepsPerCycle;
 		this.state = UnitState.IDLE;
 		this.worldListener=worldListener;
-		worldListener.assignAddress(this, getLocation().getX(), getLocation().getY());
-
 	}
 
 	public UnitState getState() {
@@ -115,7 +115,7 @@ public abstract class Unit implements Simulatable, SOSResponder {
 			}
 		}
 		else {
-			if(getState() == UnitState.RESPONDING) {
+			if(getState() == UnitState.RESPONDING || getState() == UnitState.TREATING) {
 				   if (distanceToTarget == 0) {
                        getWorldListener().assignAddress(this, getTarget().getLocation().getX(), getTarget().getLocation().getY());
                        setState(UnitState.TREATING);
@@ -128,6 +128,9 @@ public abstract class Unit implements Simulatable, SOSResponder {
                            setDistanceToTarget(0);
                        }
                    }
+			}
+			if(this.target instanceof Citizen && ((Citizen)(this.target)).getState()==CitizenState.RESCUED ) {
+				((MedicalUnit)this).heal();
 			}
 		}
 	}
