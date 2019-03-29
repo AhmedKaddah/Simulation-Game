@@ -17,7 +17,9 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	private int distanceToTarget;
 	private int stepsPerCycle;
 	private WorldListener worldListener;
+	// true if at target and false if at base
 	private boolean Arrived= false;
+	//true if going to target and false if going to base
 	public boolean Totarget=true;
 	
 
@@ -151,9 +153,6 @@ public abstract class Unit implements Simulatable, SOSResponder {
                        }
                        }
                    }
-			}
-			if(this.target instanceof Citizen && ((Citizen)(this.target)).getState()==CitizenState.RESCUED ) {
-				((MedicalUnit)this).heal();
 			}
 		}
 	}

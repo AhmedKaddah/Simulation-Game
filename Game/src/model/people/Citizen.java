@@ -76,8 +76,7 @@ public class Citizen implements Rescuable, Simulatable {
 	public void setBloodLoss(int bloodLoss) {
 		if(bloodLoss>=100) {
 			this.bloodLoss=100;
-			this.hp=0;
-			setState(CitizenState.DECEASED);
+			setHp(0);
 		}
 		else {
 			if(bloodLoss<0) {
@@ -96,8 +95,7 @@ public class Citizen implements Rescuable, Simulatable {
 	public void setToxicity(int toxicity) {
 		if(toxicity>=100) {
 			this.toxicity=100;
-			this.hp=0;
-			setState(CitizenState.DECEASED);
+			setHp(0);
 		}
 		else {
 			if(toxicity<0) {
