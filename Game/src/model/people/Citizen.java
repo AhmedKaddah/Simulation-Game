@@ -22,7 +22,6 @@ public class Citizen implements Rescuable, Simulatable {
 	private WorldListener worldListener;
 
 	public Citizen(Address location, String nationalID, String name, int age, WorldListener worldListener ) {
-
 		this.name = name;
 		this.nationalID = nationalID;
 		this.age = age;
@@ -30,8 +29,6 @@ public class Citizen implements Rescuable, Simulatable {
 		this.state = CitizenState.SAFE;
 		this.hp = 100;
 		this.worldListener=worldListener;
-
-
 	}
 
 	public CitizenState getState() {
@@ -122,6 +119,7 @@ public class Citizen implements Rescuable, Simulatable {
 	public String getNationalID() {
 		return nationalID;
 	}
+	
 	public void setEmergencyService(SOSListener emergencyService) {
 		this.emergencyService = emergencyService;
 	}
@@ -133,6 +131,7 @@ public class Citizen implements Rescuable, Simulatable {
 	public void setWorldListener(WorldListener worldListener) {
 		this.worldListener = worldListener;
 	}
+	
 	public void cycleStep() {
 		if(getBloodLoss()>0 && getBloodLoss()<30) {
 			setHp(getHp()-5);
@@ -152,10 +151,12 @@ public class Citizen implements Rescuable, Simulatable {
 		if(getToxicity()>=70)
 			setHp(getHp()-15);
 	}
+	
 	public void struckBy(Disaster d) {
 		d.setActive(true);
 		setState(CitizenState.IN_TROUBLE);
 		this.disaster=d;
 		emergencyService.receiveSOSCall(this);
 	}
+	
 }

@@ -22,7 +22,6 @@ public class ResidentialBuilding implements Rescuable, Simulatable {
 	private SOSListener emergencyService;
 
 	public ResidentialBuilding(Address location) {
-
 		this.location = location;
 		this.structuralIntegrity = 100;
 		occupants = new ArrayList<Citizen>();
@@ -113,8 +112,8 @@ public class ResidentialBuilding implements Rescuable, Simulatable {
 		this.disaster=d;
 		emergencyService.receiveSOSCall(this);
 	}
+	
 	public void cycleStep() {
-
 		Random r = new Random();
 		if(foundationDamage>0) 
 			setStructuralIntegrity(getStructuralIntegrity()-(r.nextInt(6)+5));
@@ -130,4 +129,5 @@ public class ResidentialBuilding implements Rescuable, Simulatable {
 			}
 		}
 	}
+	
 }

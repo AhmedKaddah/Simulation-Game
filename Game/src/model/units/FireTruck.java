@@ -7,9 +7,7 @@ import simulation.Address;
 public class FireTruck extends FireUnit {
 
 	public FireTruck(String unitID, Address location, int stepsPerCycle,WorldListener worldListener) {
-
 		super(unitID, location, stepsPerCycle,worldListener);
-
 	}
 
 	public void treat() {
@@ -20,7 +18,8 @@ public class FireTruck extends FireUnit {
 		if((((ResidentialBuilding) this.getTarget()).getFireDamage() - 10) <= 0) {
 			((ResidentialBuilding) this.getTarget()).setFireDamage(0);
 			this.setState(UnitState.IDLE);
-			jobsDone();}
+			jobsDone();
+		}
 		else
 			((ResidentialBuilding) this.getTarget()).setFireDamage(((ResidentialBuilding) this.getTarget()).getFireDamage()-10);
 		

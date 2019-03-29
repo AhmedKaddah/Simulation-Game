@@ -9,10 +9,8 @@ import simulation.Address;
 public class Evacuator extends PoliceUnit {
 
 	public Evacuator(String unitID, Address location, int stepsPerCycle, WorldListener worldListener,int maxCapacity) {
-
 		super(unitID, location, stepsPerCycle, worldListener,maxCapacity);
 	}
-
 
 	public void treat() {
 		if (((ResidentialBuilding) this.getTarget()).getStructuralIntegrity() <= 0 || ((ResidentialBuilding) this.getTarget()).getDisaster().isActive()==false )
@@ -32,17 +30,12 @@ public class Evacuator extends PoliceUnit {
 					x.setState(CitizenState.RESCUED);
 					x.getWorldListener().assignAddress(x, 0, 0);
 					getPassengers().remove(0);
-					
-
 				}
-
 				if (((ResidentialBuilding) this.getTarget()).getOccupants().size() == 0) {
 					jobsDone();
 				} 
 			}
-
 		}
-
 	}
 	
 }

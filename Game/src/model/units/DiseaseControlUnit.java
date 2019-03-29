@@ -8,36 +8,30 @@ import simulation.Address;
 public class DiseaseControlUnit extends MedicalUnit {
 
 	public DiseaseControlUnit(String unitID, Address location, int stepsPerCycle,WorldListener worldListener) {
-
 		super(unitID, location, stepsPerCycle,worldListener);
-
 	}
-
 
 	public void treat() {
 		this.getTarget().getDisaster().setActive(false);
-		if(((Citizen) this.getTarget()).getHp()<=0) {
-			jobsDone();}
+		if (((Citizen) this.getTarget()).getHp() <= 0) {
+			jobsDone();
+		} 
 		else {
-			if(((Citizen) this.getTarget()).getToxicity()==0)
-		 {	
-			this.heal();
-			
-			}
-		else {
-			if((((Citizen) this.getTarget()).getToxicity()-getTreatmentAmount()) >0) {
-				
-				((Citizen) this.getTarget()).setToxicity(((Citizen) this.getTarget()).getToxicity()-getTreatmentAmount());
-			}
+			if (((Citizen) this.getTarget()).getToxicity() == 0) {
+				this.heal();
+			} 
 			else {
-					if((((Citizen) this.getTarget()).getToxicity()-getTreatmentAmount()) <=0){
+				if ((((Citizen) this.getTarget()).getToxicity() - getTreatmentAmount()) > 0) {
+					((Citizen) this.getTarget()).setToxicity(((Citizen) this.getTarget()).getToxicity() - getTreatmentAmount());
+				} 
+				else {
+					if ((((Citizen) this.getTarget()).getToxicity() - getTreatmentAmount()) <= 0) {
 						((Citizen) this.getTarget()).setToxicity(0);
-						((Citizen)this.getTarget()).setState(CitizenState.RESCUED);
-					
+						((Citizen) this.getTarget()).setState(CitizenState.RESCUED);
+					}
 				}
 			}
-		
+		}
 	}
-}
-}
+	
 }

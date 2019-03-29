@@ -13,11 +13,9 @@ public abstract class PoliceUnit extends Unit {
 	private int distanceToBase;
 
 	public PoliceUnit(String unitID, Address location, int stepsPerCycle,WorldListener worldListener,int maxCapacity) {
-
 		super(unitID, location, stepsPerCycle,worldListener);
 		passengers = new ArrayList<Citizen>();
 		this.maxCapacity = maxCapacity;
-
 	}
 
 	public int getDistanceToBase() {
@@ -31,6 +29,7 @@ public abstract class PoliceUnit extends Unit {
 	public int getMaxCapacity() {
 		return maxCapacity;
 	}
+	
 	public ArrayList<Citizen> getPassengers() {
 		return passengers;
 	}

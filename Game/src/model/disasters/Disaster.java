@@ -10,10 +10,8 @@ public abstract class Disaster implements Simulatable {
 	private boolean active;
 
 	public Disaster(int startCycle, Rescuable target) {
-
 		this.startCycle = startCycle;
 		this.target = target;
-
 	}
 
 	public boolean isActive() {
@@ -31,8 +29,12 @@ public abstract class Disaster implements Simulatable {
 	public Rescuable getTarget() {
 		return target;
 	}
+	
 	public void strike() {
 		this.setActive(true);
 	}
+	
 	public abstract void cycleStep();
+	
 }
+

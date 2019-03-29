@@ -20,11 +20,9 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	// true if at target or at base
 	private boolean Arrived = false;
 	//true if going to target and false if going to base
-	private boolean Totarget =true;
-	
+	private boolean Totarget =true;	
 
 	public Unit(String unitID, Address location,int stepsPerCycle,WorldListener worldListener) {
-
 		this.unitID = unitID;
 		this.location = location;
 		this.stepsPerCycle = stepsPerCycle;
@@ -71,6 +69,7 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	public void setWorldListener(WorldListener worldListener) {
 		this.worldListener = worldListener;
 	}
+	
 	public boolean isArrived() {
 		return Arrived;
 	}
@@ -98,76 +97,70 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	}
 
 	public void cycleStep() {
-		if(this instanceof Evacuator) {
-			if(getState() == UnitState.IDLE && ((Evacuator) this).getDistanceToBase() != 0 ) {
-				if(((Evacuator) this).getDistanceToBase() - stepsPerCycle > 0) {
+		if (this instanceof Evacuator) {
+			if (getState() == UnitState.IDLE && ((Evacuator) this).getDistanceToBase() != 0) {
+				if (((Evacuator) this).getDistanceToBase() - stepsPerCycle > 0) {
 					((Evacuator) this).setDistanceToBase(((Evacuator) this).getDistanceToBase() - stepsPerCycle);
-				}
+				} 
 				else {
 					((Evacuator) this).setDistanceToBase(0);
-					getWorldListener().assignAddress(this,0,0);
-					
+					getWorldListener().assignAddress(this, 0, 0);
 				}
 			}
-			if(getState() == UnitState.RESPONDING || getState() == UnitState.TREATING) {
-				if(Arrived && !Totarget)
+			if (getState() == UnitState.RESPONDING || getState() == UnitState.TREATING) {
+				if (Arrived && !Totarget)
 					this.setState(UnitState.TREATING);
-				
-				if(!Arrived) {
-					if(Totarget) {
-						if(distanceToTarget-stepsPerCycle >0) {
-							setDistanceToTarget(distanceToTarget- stepsPerCycle);
-						}
+				if (!Arrived) {
+					if (Totarget) {
+						if (distanceToTarget - stepsPerCycle > 0) {
+							setDistanceToTarget(distanceToTarget - stepsPerCycle);
+						} 
 						else {
 							setDistanceToTarget(0);
-							((Evacuator)this).setDistanceToBase(getTarget().getLocation().getX() + getTarget().getLocation().getY());
-							getWorldListener().assignAddress(this, getTarget().getLocation().getX(), getTarget().getLocation().getY());
-							Arrived=true;
-							Totarget=false;
-							
+							((Evacuator) this).setDistanceToBase(
+									getTarget().getLocation().getX() + getTarget().getLocation().getY());
+							getWorldListener().assignAddress(this, getTarget().getLocation().getX(),getTarget().getLocation().getY());
+							Arrived = true;
+							Totarget = false;
 						}
-							
-					}
+					} 
 					else {
-						if(((Evacuator) this).getDistanceToBase()-stepsPerCycle >0) {
+						if (((Evacuator) this).getDistanceToBase() - stepsPerCycle > 0) {
 							((Evacuator) this).setDistanceToBase(((Evacuator) this).getDistanceToBase() - stepsPerCycle);
-						}
+						} 
 						else {
-							
 							((Evacuator) this).setDistanceToBase(0);
 							setDistanceToTarget(getTarget().getLocation().getX() + getTarget().getLocation().getY());
 							getWorldListener().assignAddress(this, 0, 0);
-							Arrived=true;
-							Totarget=true;
+							Arrived = true;
+							Totarget = true;
 						}
-							
 					}
-				}
+				} 
 				else {
 
 					this.treat();
-					Arrived=false;
-					
+					Arrived = false;
 				}
-				
 			}
-		}
+		} 
 		else {
-			if(getState() == UnitState.RESPONDING || getState() == UnitState.TREATING) {
-				   if (distanceToTarget == 0) {
-                       getWorldListener().assignAddress(this, getTarget().getLocation().getX(), getTarget().getLocation().getY());
-                       setState(UnitState.TREATING);
-                       this.treat();
-                   } else {
-                       if (distanceToTarget - stepsPerCycle > 0) {
-                           setDistanceToTarget(distanceToTarget - stepsPerCycle);
-                       }
-                       else {
-                       if (distanceToTarget - stepsPerCycle <= 0) {
-                           setDistanceToTarget(0);
-                       }
-                       }
-                   }
+			if (getState() == UnitState.RESPONDING || getState() == UnitState.TREATING) {
+				if (distanceToTarget == 0) {
+					getWorldListener().assignAddress(this, getTarget().getLocation().getX(),getTarget().getLocation().getY());
+					setState(UnitState.TREATING);
+					this.treat();
+				} 
+				else {
+					if (distanceToTarget - stepsPerCycle > 0) {
+						setDistanceToTarget(distanceToTarget - stepsPerCycle);
+					} 
+					else {
+						if (distanceToTarget - stepsPerCycle <= 0) {
+							setDistanceToTarget(0);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -176,10 +169,7 @@ public abstract class Unit implements Simulatable, SOSResponder {
 		
 		if(this.getState()!=UnitState.IDLE) {
 			if((this instanceof MedicalUnit && ((Citizen)this.target).getState()!=CitizenState.RESCUED)) {
-				
 				this.target.getDisaster().setActive(true);
-				
-				
 			}
 			else {
 				if(this instanceof PoliceUnit || this instanceof FireUnit) {
@@ -199,13 +189,13 @@ public abstract class Unit implements Simulatable, SOSResponder {
 				Totarget=true;
 			}
 		}
-		
-	
 	}
 
 	public abstract void treat();
+	
 	public void jobsDone() {
 		setState(UnitState.IDLE);
 		target = null;
 	}
+	
 }

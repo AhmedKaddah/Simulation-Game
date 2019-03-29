@@ -7,10 +7,9 @@ import simulation.Address;
 public class GasControlUnit extends FireUnit {
 
 	public GasControlUnit(String unitID, Address location, int stepsPerCycle,WorldListener worldListener) {
-
 		super(unitID, location, stepsPerCycle,worldListener);
-
 	}
+	
 	public void treat() {
 		((ResidentialBuilding) this.getTarget()).getDisaster().setActive(false);
 		if(((ResidentialBuilding) this.getTarget()).getStructuralIntegrity()<=0)
@@ -23,7 +22,7 @@ public class GasControlUnit extends FireUnit {
 		}
 		else
 			((ResidentialBuilding) this.getTarget()).setGasLevel(((ResidentialBuilding) this.getTarget()).getGasLevel()-10);
-		
 		}
 	}
+	
 }

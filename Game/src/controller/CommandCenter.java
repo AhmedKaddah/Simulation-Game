@@ -17,13 +17,12 @@ public class CommandCenter implements SOSListener {
 	private ArrayList<Unit> emergencyUnits;
 
 	public CommandCenter() throws Exception {
-
 		engine = new Simulator(this);
 		visibleBuildings = new ArrayList<ResidentialBuilding>();
 		visibleCitizens = new ArrayList<Citizen>();
 		emergencyUnits = new ArrayList<Unit>();
-		
 	}
+	
 	public void receiveSOSCall(Rescuable r) {
 		if(r instanceof Citizen) {
 			visibleCitizens.add((Citizen) r);
@@ -32,4 +31,5 @@ public class CommandCenter implements SOSListener {
 			visibleBuildings.add((ResidentialBuilding) r);
 		}
 	}
+	
 }

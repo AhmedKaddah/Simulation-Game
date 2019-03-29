@@ -5,9 +5,9 @@ import model.infrastructure.ResidentialBuilding;
 public class GasLeak extends Disaster {
 
 	public GasLeak(int startCycle, ResidentialBuilding target) {
-
 		super(startCycle, target);
 	}
+	
 	public void strike() {
 		super.strike();
 		getTarget().struckBy(this);
@@ -15,9 +15,11 @@ public class GasLeak extends Disaster {
 		x+=10;
 		((ResidentialBuilding)(getTarget())).setGasLevel(x);
 	}
+	
 	public void cycleStep() {
 		int x = ((ResidentialBuilding)(getTarget())).getGasLevel();
 		x+=15;
 		((ResidentialBuilding)(getTarget())).setGasLevel(x);
 	}
+	
 }

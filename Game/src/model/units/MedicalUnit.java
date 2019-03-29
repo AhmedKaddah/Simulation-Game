@@ -11,11 +11,11 @@ public abstract class MedicalUnit extends Unit {
 	private int treatmentAmount;
 
 	public MedicalUnit(String unitID, Address location, int stepsPerCycle,WorldListener worldListener) {
-
 		super(unitID, location, stepsPerCycle,worldListener);
 		healingAmount = 10;
 		treatmentAmount = 10;
 	}
+	
 	public int getTreatmentAmount() {
 		return treatmentAmount;
 	}
@@ -25,9 +25,9 @@ public abstract class MedicalUnit extends Unit {
 			((Citizen) this.getTarget()).setHp(100);
 			((Citizen) this.getTarget()).setState(CitizenState.SAFE);
 			jobsDone();
-			
 		}
 		else
 			((Citizen) this.getTarget()).setHp(((Citizen) this.getTarget()).getHp()+healingAmount);
 	}
+	
 }
