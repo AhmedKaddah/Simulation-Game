@@ -17,7 +17,7 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	private int distanceToTarget;
 	private int stepsPerCycle;
 	private WorldListener worldListener;
-	// true if at target and false if at base
+	// true if at target or at base
 	private boolean Arrived= false;
 	//true if going to target and false if going to base
 	private boolean Totarget=true;
