@@ -9,7 +9,7 @@ public class Infection extends Disaster {
 		super(startCycle, target);
 	}
 	public void strike() {
-		this.setActive(true);
+		super.strike();
 		getTarget().struckBy(this);
 		int x = ((Citizen)(getTarget())).getToxicity();
 		x+=25;

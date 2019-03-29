@@ -23,7 +23,6 @@ public class CommandCenter implements SOSListener {
 		visibleCitizens = new ArrayList<Citizen>();
 		emergencyUnits = new ArrayList<Unit>();
 		
-		
 	}
 	public void receiveSOSCall(Rescuable r) {
 		if(r instanceof Citizen) {

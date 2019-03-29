@@ -177,6 +177,7 @@ public abstract class Unit implements Simulatable, SOSResponder {
 		this.target = r;	
 		this.setState(UnitState.RESPONDING);
 		if(this instanceof Evacuator) {
+			Arrived = false;
 			if(((Evacuator)this).getPassengers().size()==((Evacuator)this).getMaxCapacity()) {
 				Totarget=false;
 			}
