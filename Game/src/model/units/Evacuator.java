@@ -18,7 +18,7 @@ public class Evacuator extends PoliceUnit {
 		if (((ResidentialBuilding) this.getTarget()).getStructuralIntegrity() <= 0 || ((ResidentialBuilding) this.getTarget()).getDisaster().isActive()==false )
 				jobsDone();
 		else {
-			if (!Totarget) {
+			if (!isTotarget()) {
 				for (int i = 0; i < getMaxCapacity(); i++) {
 					if (((ResidentialBuilding) this.getTarget()).getOccupants().size() > 0) {
 						getPassengers().add(((ResidentialBuilding) this.getTarget()).getOccupants().remove(0));

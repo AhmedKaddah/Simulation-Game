@@ -20,7 +20,7 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	// true if at target and false if at base
 	private boolean Arrived= false;
 	//true if going to target and false if going to base
-	public boolean Totarget=true;
+	private boolean Totarget=true;
 	
 
 	public Unit(String unitID, Address location,int stepsPerCycle,WorldListener worldListener) {
@@ -70,6 +70,21 @@ public abstract class Unit implements Simulatable, SOSResponder {
 
 	public void setWorldListener(WorldListener worldListener) {
 		this.worldListener = worldListener;
+	}
+	public boolean isArrived() {
+		return Arrived;
+	}
+
+	public void setArrived(boolean arrived) {
+		Arrived = arrived;
+	}
+
+	public boolean isTotarget() {
+		return Totarget;
+	}
+
+	public void setTotarget(boolean totarget) {
+		Totarget = totarget;
 	}
 
 	public int distance(Rescuable r) {
@@ -193,6 +208,4 @@ public abstract class Unit implements Simulatable, SOSResponder {
 		setState(UnitState.IDLE);
 		target = null;
 	}
-	
-	
 }
