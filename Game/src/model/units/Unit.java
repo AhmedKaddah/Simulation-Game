@@ -18,9 +18,9 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	private int stepsPerCycle;
 	private WorldListener worldListener;
 	// true if at target or at base
-	private boolean Arrived= false;
+	private boolean Arrived = false;
 	//true if going to target and false if going to base
-	private boolean Totarget=true;
+	private boolean Totarget =true;
 	
 
 	public Unit(String unitID, Address location,int stepsPerCycle,WorldListener worldListener) {
@@ -87,7 +87,7 @@ public abstract class Unit implements Simulatable, SOSResponder {
 		Totarget = totarget;
 	}
 
-	public int distance(Rescuable r) {
+	public int ManhattanDistance(Rescuable r) {
 		int x = this.getLocation().getX() - r.getLocation().getX();
 		int y = this.getLocation().getY() - r.getLocation().getY();
 		if (x < 0)
@@ -187,7 +187,7 @@ public abstract class Unit implements Simulatable, SOSResponder {
 				}
 			}
 		}
-		this.setDistanceToTarget(distance(r));
+		this.setDistanceToTarget(ManhattanDistance(r));
 		this.target = r;	
 		this.setState(UnitState.RESPONDING);
 		if(this instanceof Evacuator) {

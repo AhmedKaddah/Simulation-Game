@@ -137,7 +137,7 @@ public class Citizen implements Rescuable, Simulatable {
 		if(getBloodLoss()>0 && getBloodLoss()<30) {
 			setHp(getHp()-5);
 		}
-			if(getBloodLoss()>=30 && getBloodLoss()<70){
+		if(getBloodLoss()>=30 && getBloodLoss()<70){
 				setHp(getHp()-10);
 			}
 		if(getBloodLoss()>=70)
