@@ -13,30 +13,47 @@ public class Evacuator extends PoliceUnit {
 	}
 
 	public void treat() {
-		if (((ResidentialBuilding) this.getTarget()).getStructuralIntegrity() <= 0 || ((ResidentialBuilding) this.getTarget()).getDisaster().isActive()==false )
+		if (!isTotarget()) {
+			boolean flag = false;
+			for(int i=0;i<((ResidentialBuilding) this.getTarget()).getOccupants().size();i++) {
+				if(((ResidentialBuilding) this.getTarget()).getOccupants().get(i).getState() != CitizenState.DECEASED) {
+					flag = true;
+				}
+			}
+			if (((ResidentialBuilding) this.getTarget()).getStructuralIntegrity() <= 0
+					|| ((ResidentialBuilding) this.getTarget()).getDisaster().isActive() == false || flag == false)
 				jobsDone();
-		else {
-			if (!isTotarget()) {
-				for (int i = 0; i < getMaxCapacity(); i++) {
-					if (((ResidentialBuilding) this.getTarget()).getOccupants().size() > 0) {
+			else {
+				for (int i = 0; i < ((ResidentialBuilding) this.getTarget()).getOccupants().size(); i++) {
+					if (getPassengers().size() < getMaxCapacity() && ((ResidentialBuilding) this.getTarget()).getOccupants().get(i).getState()!=CitizenState.DECEASED) {
 						getPassengers().add(((ResidentialBuilding) this.getTarget()).getOccupants().remove(0));
+						i--;
 					}
 				}
-			} 
-			else {
-				int c=getPassengers().size();
-				for (int i = 0; i < c; i++) {
-					Citizen x = getPassengers().get(0);
+			}
+		} 
+		else {
+			int c = getPassengers().size();
+			for (int i = 0; i < c; i++) {
+				Citizen x = getPassengers().get(0);
+				if (x.getState() != CitizenState.DECEASED)
 					x.setState(CitizenState.RESCUED);
-					x.getWorldListener().assignAddress(x, 0, 0);
-					getPassengers().remove(0);
+				x.getWorldListener().assignAddress(x, 0, 0);
+				getPassengers().remove(0);
+			}
+			boolean flag = false;
+			for(int i=0;i<((ResidentialBuilding) this.getTarget()).getOccupants().size();i++) {
+				if(((ResidentialBuilding) this.getTarget()).getOccupants().get(i).getState() != CitizenState.DECEASED) {
+					flag = true;
 				}
-				if (((ResidentialBuilding) this.getTarget()).getOccupants().size() == 0) {
-					jobsDone();
-				} 
+			}
+			if (((ResidentialBuilding) this.getTarget()).getOccupants().size() == 0
+					|| ((ResidentialBuilding) this.getTarget()).getStructuralIntegrity() <= 0
+					|| ((ResidentialBuilding) this.getTarget()).getDisaster().isActive() == false || flag == false ) {
+				jobsDone();
 			}
 		}
 	}
-	
+
 }
 
