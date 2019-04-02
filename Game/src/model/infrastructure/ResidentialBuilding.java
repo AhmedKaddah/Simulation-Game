@@ -125,7 +125,8 @@ public class ResidentialBuilding implements Rescuable, Simulatable {
 				setStructuralIntegrity(getStructuralIntegrity()-5);
 			}
 			else {
-				setStructuralIntegrity(getStructuralIntegrity()-7);
+				if(fireDamage>=70)
+					setStructuralIntegrity(getStructuralIntegrity()-7);
 			}
 		}
 	}

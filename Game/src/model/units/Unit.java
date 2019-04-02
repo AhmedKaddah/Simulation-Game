@@ -134,6 +134,8 @@ public abstract class Unit implements Simulatable, SOSResponder {
 							getWorldListener().assignAddress(this, 0, 0);
 							Arrived = true;
 							Totarget = true;
+							this.treat();
+							Arrived = false;
 						}
 					}
 				} 
