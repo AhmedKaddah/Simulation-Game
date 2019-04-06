@@ -6,23 +6,24 @@ import simulation.Address;
 
 public class GasControlUnit extends FireUnit {
 
-	public GasControlUnit(String unitID, Address location, int stepsPerCycle,WorldListener worldListener) {
-		super(unitID, location, stepsPerCycle,worldListener);
+	public GasControlUnit(String unitID, Address location, int stepsPerCycle,
+			WorldListener worldListener) {
+		super(unitID, location, stepsPerCycle, worldListener);
 	}
-	
+
 	public void treat() {
-		((ResidentialBuilding) this.getTarget()).getDisaster().setActive(false);
-		if(((ResidentialBuilding) this.getTarget()).getStructuralIntegrity()<=0)
+		getTarget().getDisaster().setActive(false);
+
+		ResidentialBuilding target = (ResidentialBuilding) getTarget();
+		if (target.getStructuralIntegrity() == 0) {
 			jobsDone();
-		else {
-		if((((ResidentialBuilding) this.getTarget()).getGasLevel()-10)<=0) {
-			((ResidentialBuilding) this.getTarget()).setGasLevel(0);
-			this.setState(UnitState.IDLE);
+			return;
+		} else if (target.getGasLevel() > 0) 
+			target.setGasLevel(target.getGasLevel() - 10);
+
+		if (target.getGasLevel() == 0)
 			jobsDone();
-		}
-		else
-			((ResidentialBuilding) this.getTarget()).setGasLevel(((ResidentialBuilding) this.getTarget()).getGasLevel()-10);
-		}
+
 	}
-	
+
 }

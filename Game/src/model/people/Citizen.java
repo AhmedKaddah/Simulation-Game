@@ -7,8 +7,7 @@ import model.disasters.Disaster;
 import model.events.SOSListener;
 import model.events.WorldListener;
 
-public class Citizen implements Rescuable, Simulatable {
-
+public class Citizen implements Rescuable,Simulatable{
 	private CitizenState state;
 	private Disaster disaster;
 	private String name;
@@ -20,143 +19,115 @@ public class Citizen implements Rescuable, Simulatable {
 	private Address location;
 	private SOSListener emergencyService;
 	private WorldListener worldListener;
-
-	public Citizen(Address location, String nationalID, String name, int age, WorldListener worldListener ) {
+	public Citizen(Address location,String nationalID, String name, int age
+			,WorldListener worldListener) {
 		this.name = name;
 		this.nationalID = nationalID;
 		this.age = age;
 		this.location = location;
-		this.state = CitizenState.SAFE;
-		this.hp = 100;
-		this.worldListener=worldListener;
+		this.state=CitizenState.SAFE;
+		this.hp=100;
+		this.worldListener = worldListener;
+	}
+	
+	public WorldListener getWorldListener() {
+		return worldListener;
+	}
+
+	public void setWorldListener(WorldListener listener) {
+		this.worldListener = listener;
 	}
 
 	public CitizenState getState() {
 		return state;
 	}
-
 	public void setState(CitizenState state) {
 		this.state = state;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public int getAge() {
 		return age;
 	}
-
 	public int getHp() {
 		return hp;
 	}
-
 	public void setHp(int hp) {
-		if(hp>100) {
+		this.hp = hp;
+		if(this.hp>=100)
 			this.hp=100;
-		}
-		else {
-			if(hp<=0) {
-				this.hp=0;
-				setState(CitizenState.DECEASED);
-			}
-			else {
-				this.hp=hp;
-			}
+		else if(this.hp<=0){
+			this.hp = 0;
+			state=CitizenState.DECEASED;
 		}
 	}
-		
 	public int getBloodLoss() {
 		return bloodLoss;
 	}
-
 	public void setBloodLoss(int bloodLoss) {
-		if(bloodLoss>=100) {
+		this.bloodLoss = bloodLoss;
+		if(bloodLoss<=0)
+			this.bloodLoss=0;
+		else if(bloodLoss>=100)
+		{
 			this.bloodLoss=100;
 			setHp(0);
 		}
-		else {
-			if(bloodLoss<0) {
-				this.bloodLoss=0;
-			}
-			else {
-				this.bloodLoss=bloodLoss;
-			}
-		}
 	}
-
 	public int getToxicity() {
 		return toxicity;
 	}
-
 	public void setToxicity(int toxicity) {
-		if(toxicity>=100) {
+		this.toxicity = toxicity;
+		if(toxicity>=100)
+		{
 			this.toxicity=100;
 			setHp(0);
 		}
-		else {
-			if(toxicity<0) {
-				this.toxicity=0;
-			}
-			else {
-				this.toxicity=toxicity;
-			}
-		}
+		else if(this.toxicity<=0)
+			this.toxicity=0;
 	}
-
 	public Address getLocation() {
 		return location;
 	}
-
 	public void setLocation(Address location) {
 		this.location = location;
 	}
-
 	public Disaster getDisaster() {
 		return disaster;
 	}
-
 	public String getNationalID() {
 		return nationalID;
 	}
 	
-	public void setEmergencyService(SOSListener emergencyService) {
-		this.emergencyService = emergencyService;
+	public void setEmergencyService(SOSListener emergency) {
+		this.emergencyService = emergency;
 	}
-
-	public WorldListener getWorldListener() {
-		return worldListener;
-	}
-
-	public void setWorldListener(WorldListener worldListener) {
-		this.worldListener = worldListener;
-	}
-	
+	@Override
 	public void cycleStep() {
-		if(getBloodLoss()>0 && getBloodLoss()<30) {
-			setHp(getHp()-5);
-		}
-		if(getBloodLoss()>=30 && getBloodLoss()<70){
-				setHp(getHp()-10);
-			}
-		if(getBloodLoss()>=70)
-				setHp(getHp()-15);
+		if(bloodLoss>0 && bloodLoss<30)
+			setHp(hp-5);
+		else if(bloodLoss>=30 && bloodLoss<70)
+			setHp(hp-10);
+		else if(bloodLoss >=70)
+			setHp(hp-15);
+		if (toxicity >0 && toxicity < 30)
+			setHp(hp-5);
+		else if(toxicity>=30 &&toxicity<70)
+			setHp(hp-10);
+		else if(toxicity>=70)
+			setHp(hp-15);
+	}
+	@Override
+	public void struckBy(Disaster d) {
+		if(disaster!=null)
+			disaster.setActive(false);
+		disaster=d;
+		state= CitizenState.IN_TROUBLE;
+		emergencyService.receiveSOSCall(this);
 		
-		if(getToxicity()>0 && getToxicity()<30) {
-			setHp(getHp()-5);
-		}
-		if(getToxicity()>=30 && getToxicity()<70){
-			setHp(getHp()-10);
-		}
-		if(getToxicity()>=70)
-			setHp(getHp()-15);
 	}
 	
-	public void struckBy(Disaster d) {
-		d.setActive(true);
-		setState(CitizenState.IN_TROUBLE);
-		this.disaster=d;
-		emergencyService.receiveSOSCall(this);
-	}
 	
 }

@@ -1,15 +1,13 @@
 package model.units;
 
+import model.disasters.Disaster;
 import model.events.SOSResponder;
 import model.events.WorldListener;
-import model.people.Citizen;
-import model.people.CitizenState;
 import simulation.Address;
 import simulation.Rescuable;
 import simulation.Simulatable;
 
 public abstract class Unit implements Simulatable, SOSResponder {
-
 	private String unitID;
 	private UnitState state;
 	private Address location;
@@ -17,17 +15,22 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	private int distanceToTarget;
 	private int stepsPerCycle;
 	private WorldListener worldListener;
-	// true if at target or at base
-	private boolean Arrived = false;
-	//true if going to target and false if going to base
-	private boolean Totarget =true;	
 
-	public Unit(String unitID, Address location,int stepsPerCycle,WorldListener worldListener) {
+	public Unit(String unitID, Address location, int stepsPerCycle,
+			WorldListener worldListener) {
 		this.unitID = unitID;
 		this.location = location;
 		this.stepsPerCycle = stepsPerCycle;
 		this.state = UnitState.IDLE;
-		this.worldListener=worldListener;
+		this.worldListener = worldListener;
+	}
+
+	public void setWorldListener(WorldListener listener) {
+		this.worldListener = listener;
+	}
+
+	public WorldListener getWorldListener() {
+		return worldListener;
 	}
 
 	public UnitState getState() {
@@ -62,142 +65,50 @@ public abstract class Unit implements Simulatable, SOSResponder {
 		this.distanceToTarget = distanceToTarget;
 	}
 
-	public WorldListener getWorldListener() {
-		return worldListener;
-	}
-
-	public void setWorldListener(WorldListener worldListener) {
-		this.worldListener = worldListener;
-	}
-	
-	public boolean isArrived() {
-		return Arrived;
-	}
-
-	public void setArrived(boolean arrived) {
-		Arrived = arrived;
-	}
-
-	public boolean isTotarget() {
-		return Totarget;
-	}
-
-	public void setTotarget(boolean totarget) {
-		Totarget = totarget;
-	}
-
-	public int ManhattanDistance(Rescuable r) {
-		int x = this.getLocation().getX() - r.getLocation().getX();
-		int y = this.getLocation().getY() - r.getLocation().getY();
-		if (x < 0)
-			x = x * -1;
-		if (y < 0)
-			y = y * -1;
-		return (x + y);
-	}
-
-	public void cycleStep() {
-		if (this instanceof Evacuator) {
-			if (getState() == UnitState.IDLE && ((Evacuator) this).getDistanceToBase() != 0) {
-				if (((Evacuator) this).getDistanceToBase() - stepsPerCycle > 0) {
-					((Evacuator) this).setDistanceToBase(((Evacuator) this).getDistanceToBase() - stepsPerCycle);
-				} 
-				else {
-					((Evacuator) this).setDistanceToBase(0);
-					getWorldListener().assignAddress(this, 0, 0);
-				}
-			}
-			if (getState() == UnitState.RESPONDING || getState() == UnitState.TREATING) {
-				if (Arrived && !Totarget)
-					this.setState(UnitState.TREATING);
-				if (!Arrived) {
-					if (Totarget) {
-						if (distanceToTarget - stepsPerCycle > 0) {
-							setDistanceToTarget(distanceToTarget - stepsPerCycle);
-						} 
-						else {
-							setDistanceToTarget(0);
-							((Evacuator) this).setDistanceToBase(
-									getTarget().getLocation().getX() + getTarget().getLocation().getY());
-							getWorldListener().assignAddress(this, getTarget().getLocation().getX(),getTarget().getLocation().getY());
-							Arrived = true;
-							Totarget = false;
-						}
-					} 
-					else {
-						if (((Evacuator) this).getDistanceToBase() - stepsPerCycle > 0) {
-							((Evacuator) this).setDistanceToBase(((Evacuator) this).getDistanceToBase() - stepsPerCycle);
-						} 
-						else {
-							((Evacuator) this).setDistanceToBase(0);
-							setDistanceToTarget(getTarget().getLocation().getX() + getTarget().getLocation().getY());
-							getWorldListener().assignAddress(this, 0, 0);
-							Arrived = true;
-							Totarget = true;
-							this.treat();
-							Arrived = false;
-						}
-					}
-				} 
-				else {
-
-					this.treat();
-					Arrived = false;
-				}
-			}
-		} 
-		else {
-			if (getState() == UnitState.RESPONDING || getState() == UnitState.TREATING) {
-				if (distanceToTarget == 0) {
-					getWorldListener().assignAddress(this, getTarget().getLocation().getX(),getTarget().getLocation().getY());
-					setState(UnitState.TREATING);
-					this.treat();
-				} 
-				else {
-					if (distanceToTarget - stepsPerCycle > 0) {
-						setDistanceToTarget(distanceToTarget - stepsPerCycle);
-					} 
-					else {
-						if (distanceToTarget - stepsPerCycle <= 0) {
-							setDistanceToTarget(0);
-						}
-					}
-				}
-			}
-		}
-	}
-
+	@Override
 	public void respond(Rescuable r) {
-		
-		if(this.getState()!=UnitState.IDLE) {
-			if((this instanceof MedicalUnit && ((Citizen)this.target).getState()!=CitizenState.RESCUED)) {
-				this.target.getDisaster().setActive(true);
-			}
-			else {
-				if(this instanceof PoliceUnit || this instanceof FireUnit) {
-					this.target.getDisaster().setActive(true);	
-				}
-			}
-		}
-		this.setDistanceToTarget(ManhattanDistance(r));
-		this.target = r;	
-		this.setState(UnitState.RESPONDING);
-		if(this instanceof Evacuator) {
-			Arrived = false;
-			if(((Evacuator)this).getPassengers().size()==((Evacuator)this).getMaxCapacity()) {
-				Totarget=false;
-			}
-			else {
-				Totarget=true;
-			}
-		}
+
+		if (target != null && state == UnitState.TREATING)
+			reactivateDisaster();
+		finishRespond(r);
+
+	}
+
+	public void reactivateDisaster() {
+		Disaster curr = target.getDisaster();
+		curr.setActive(true);
+	}
+
+	public void finishRespond(Rescuable r) {
+		target = r;
+		state = UnitState.RESPONDING;
+		Address t = r.getLocation();
+		distanceToTarget = Math.abs(t.getX() - location.getX())
+				+ Math.abs(t.getY() - location.getY());
+
 	}
 
 	public abstract void treat();
-	
-	public void jobsDone() {
-		setState(UnitState.IDLE);
-		target = null;
+
+	public void cycleStep() {
+		if (state == UnitState.IDLE)
+			return;
+		if (distanceToTarget > 0) {
+			distanceToTarget = distanceToTarget - stepsPerCycle;
+			if (distanceToTarget <= 0) {
+				distanceToTarget = 0;
+				Address t = target.getLocation();
+				worldListener.assignAddress(this, t.getX(), t.getY());
+			}
+		} else {
+			state = UnitState.TREATING;
+			treat();
+		}
 	}
-	
+
+	public void jobsDone() {
+		target = null;
+		state = UnitState.IDLE;
+
+	}
 }

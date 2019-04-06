@@ -4,34 +4,38 @@ import model.events.WorldListener;
 import model.people.Citizen;
 import model.people.CitizenState;
 import simulation.Address;
+import simulation.Rescuable;
 
 public class DiseaseControlUnit extends MedicalUnit {
 
-	public DiseaseControlUnit(String unitID, Address location, int stepsPerCycle,WorldListener worldListener) {
-		super(unitID, location, stepsPerCycle,worldListener);
+	public DiseaseControlUnit(String unitID, Address location,
+			int stepsPerCycle, WorldListener worldListener) {
+		super(unitID, location, stepsPerCycle, worldListener);
 	}
 
+	@Override
 	public void treat() {
-		this.getTarget().getDisaster().setActive(false);
-		if (((Citizen) this.getTarget()).getHp() <= 0) {
+		getTarget().getDisaster().setActive(false);
+		Citizen target = (Citizen) getTarget();
+		if (target.getHp() == 0) {
 			jobsDone();
-		} 
-		else {
-			if (((Citizen) this.getTarget()).getToxicity() == 0) {
-				this.heal();
-			} 
-			else {
-				if ((((Citizen) this.getTarget()).getToxicity() - getTreatmentAmount()) > 0) {
-					((Citizen) this.getTarget()).setToxicity(((Citizen) this.getTarget()).getToxicity() - getTreatmentAmount());
-				} 
-				else {
-					if ((((Citizen) this.getTarget()).getToxicity() - getTreatmentAmount()) <= 0) {
-						((Citizen) this.getTarget()).setToxicity(0);
-						((Citizen) this.getTarget()).setState(CitizenState.RESCUED);
-					}
-				}
-			}
+			return;
+		} else if (target.getToxicity() > 0) {
+			target.setToxicity(target.getToxicity() - getTreatmentAmount());
+			if (target.getToxicity() == 0)
+				target.setState(CitizenState.RESCUED);
 		}
+
+		else if (target.getToxicity() == 0)
+			heal();
+
 	}
-	
+
+	public void respond(Rescuable r) {
+		if (getTarget() != null && ((Citizen) getTarget()).getToxicity() > 0
+				&& getState() == UnitState.TREATING)
+			reactivateDisaster();
+		finishRespond(r);
+	}
+
 }

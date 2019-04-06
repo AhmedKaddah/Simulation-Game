@@ -2,24 +2,26 @@ package model.disasters;
 
 import model.infrastructure.ResidentialBuilding;
 
+
 public class GasLeak extends Disaster {
 
 	public GasLeak(int startCycle, ResidentialBuilding target) {
 		super(startCycle, target);
 	}
 	
-	public void strike() {
+	@Override
+	public void strike() 
+	{
+		
+		ResidentialBuilding target= (ResidentialBuilding)getTarget();
+		target.setGasLevel(target.getGasLevel()+10);
 		super.strike();
-		getTarget().struckBy(this);
-		int x = ((ResidentialBuilding)(getTarget())).getGasLevel();
-		x+=10;
-		((ResidentialBuilding)(getTarget())).setGasLevel(x);
 	}
-	
+	@Override
 	public void cycleStep() {
-		int x = ((ResidentialBuilding)(getTarget())).getGasLevel();
-		x+=15;
-		((ResidentialBuilding)(getTarget())).setGasLevel(x);
+		ResidentialBuilding target= (ResidentialBuilding)getTarget();
+		target.setGasLevel(target.getGasLevel()+15);
+		
 	}
-	
+
 }

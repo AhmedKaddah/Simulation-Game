@@ -277,7 +277,7 @@ public class M2PublicTests {
 
 		Rescuable[] target = { testCitizen1, testCitizen2, testBuilding2,
 				testBuilding1 };
-		int index = new Random().nextInt(3 - 0 + 1);
+		int index = new Random().nextInt(2 - 0 + 1);
 		Disaster d = new Disaster(3, target[index]) {
 			@Override
 			public void strike() {
@@ -707,14 +707,14 @@ public class M2PublicTests {
 
 	// TEST
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testConstructorUnit() throws Exception {
 		Class[] inputs = { String.class, Address.class, int.class,
 				WorldListener.class };
 		testConstructorExists(Class.forName(unitPath), inputs);
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testConstructorPoliceUnit() throws Exception {
 		Class[] inputs = { String.class, Address.class, int.class,
 				WorldListener.class, int.class };
@@ -728,21 +728,21 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testConstructorFireUnit() throws Exception {
 		Class[] inputs = { String.class, Address.class, int.class,
 				WorldListener.class };
 		testConstructorExists(Class.forName(fireUnitPath), inputs);
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testConstructorMedicalUnit() throws Exception {
 		Class[] inputs = { String.class, Address.class, int.class,
 				WorldListener.class };
 		testConstructorExists(Class.forName(medicalUnitPath), inputs);
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testConstructorAmbulanceUnit() throws Exception {
 		Class[] inputs = { String.class, Address.class, int.class,
 				WorldListener.class };
@@ -784,7 +784,7 @@ public class M2PublicTests {
 				Class.forName(rescuablePath));
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testInstanceVariableUnitListener() throws Exception {
 		testInstanceVariableIsPresent(Class.forName(unitPath), "worldListener",
 				true);
@@ -830,7 +830,7 @@ public class M2PublicTests {
 				"setWorldListener", Class.forName(worldListenerPath), false);
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testInstanceVariableUnitDistanceToTarget() throws Exception {
 		testInstanceVariableIsPresent(Class.forName(unitPath),
 				"distanceToTarget", true);
@@ -838,14 +838,14 @@ public class M2PublicTests {
 				"distanceToTarget");
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testInstanceVariableUnitDistanceToTargetGetterAndSetter()
 			throws Exception {
 		testSetterMethodExistsInClass(Class.forName(unitPath),
 				"setDistanceToTarget", int.class, true);
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testInstanceVariableUnitDistanceToTargetSetterLogic()
 			throws Exception {
 		int d = 2;
@@ -861,7 +861,7 @@ public class M2PublicTests {
 				checkValueLogic(u, "distanceToTarget", d));
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testInstanceVariableUnitWorldListenerSetterLogic()
 			throws Exception {
 		WorldListener wl = new Simulator(sos);
@@ -877,7 +877,7 @@ public class M2PublicTests {
 				checkValueLogic(u, "worldListener", wl));
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testInstanceVariableUnitWorldListenerGetterLogic()
 			throws Exception {
 		WorldListener wl = new Simulator(sos);
@@ -893,7 +893,7 @@ public class M2PublicTests {
 				checkValueLogic(u, "worldListener", u.getWorldListener()));
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testUnitJobsDoneLogic() throws Exception {
 		WorldListener wl = new Simulator(sos);
 		Unit u = new Unit("unit1", new Address(3, 4), 3, null) {
@@ -911,7 +911,7 @@ public class M2PublicTests {
 				UnitState.IDLE, u.getState());
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testUnitRespondFromRespondingLogic() throws Exception {
 		Unit u = new Unit("unit1", new Address(3, 4), 3, null) {
 			@Override
@@ -936,7 +936,7 @@ public class M2PublicTests {
 				UnitState.RESPONDING, u.getState());
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testUnitRespondFromTreatingLogic() throws Exception {
 		Simulator s = new Simulator(sos);
 
@@ -966,7 +966,7 @@ public class M2PublicTests {
 				UnitState.RESPONDING, u.getState());
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCitizenDisasterAfterUnitRespondFromTreatingLogic()
 			throws Exception {
 
@@ -1003,7 +1003,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testAmbulanceTreatLogic() throws Exception {
 		Simulator s = new Simulator(sos);
 		Ambulance u = new Ambulance("ambulance1", new Address(3, 4), 3, null);
@@ -1039,7 +1039,7 @@ public class M2PublicTests {
 				checkValueLogic(c1, "state", CitizenState.RESCUED));
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testMedicalUnitHealLogic() throws Exception {
 		Simulator s = new Simulator(sos);
 		MyMedicalUnit u = new MyMedicalUnit("medicalUnit1", new Address(3, 4),
@@ -1096,7 +1096,7 @@ public class M2PublicTests {
 		treatCalled = false;
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testUnitCycleStepRespondingLogic() throws Exception {
 		Simulator s = new Simulator(sos);
 		Address ad = new Address(3, 3);
@@ -1123,12 +1123,12 @@ public class M2PublicTests {
 				checkValueLogic(u1, "distanceToTarget", 3));
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testUnitCycleStepRespondingAndArrivedLogic() throws Exception {
 		Simulator s = new Simulator(sos);
 
-		Address ad = new Address(3, 9);
-
+		//Address ad = new Address(3, 9);
+		Address ad= getAddressFromWorld(s, 3, 9);
 		Unit u1 = new Unit("unit1", ad, 3, null) {
 			public void treat() {
 
@@ -1169,7 +1169,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testFireTruckTreatLogic() throws Exception {
 		Simulator s = new Simulator(sos);
 		FireTruck u = new FireTruck("firetruck1", new Address(3, 4), 3, null);
@@ -2781,7 +2781,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCompoundDisaster0() throws Exception {
 		init();
 		Simulator s = new Simulator(sos);
@@ -2839,7 +2839,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCompoundDisaster1() throws Exception {
 		init();
 		Simulator s = new Simulator(sos);
@@ -2880,7 +2880,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCompoundDisaster2() throws Exception {
 		init();
 		Simulator s = new Simulator(sos);
@@ -2934,7 +2934,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testAssignAddress() throws Exception {
 		init();
 		Simulator s = new Simulator(sos);
@@ -2950,7 +2950,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCalculateCasualtiesLogic() throws Exception {
 		init();
 		Simulator s = new Simulator(sos);
@@ -2972,7 +2972,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testNextStepIsCalledInSimulator() throws Exception {
 		init();
 		Simulator s = new Simulator(sos);
@@ -3007,7 +3007,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testGameOverCase1() throws Exception {
 		init();
 		Simulator s = new Simulator(sos);
@@ -3036,7 +3036,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testGameOverCase2() throws Exception {
 		init();
 		Simulator s = new Simulator(sos);
@@ -3063,7 +3063,7 @@ public class M2PublicTests {
 				s.checkGameOver());
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testGameOverCase3() throws Exception {
 		init();
 		Simulator s = new Simulator(sos);
@@ -3110,7 +3110,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCurrentCycleLogic() throws Exception {
 		init();
 		Simulator s = new Simulator(sos);
@@ -3128,7 +3128,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testSimulatorInitializeUnitListener() throws Exception {
 		Simulator s = new Simulator(sos);
 		final Field unitsField = Simulator.class
@@ -3143,7 +3143,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testSimulatorInitializeBuildingListener() throws Exception {
 		Simulator s = new Simulator(sos);
 		final Field buildingsField = Simulator.class
@@ -3164,13 +3164,13 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testConstructorSimulator() throws Exception {
 		Class[] inputs = { SOSListener.class };
 		testConstructorExists(Simulator.class, inputs);
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testInstanceVariableEmergencyUnitsGetterAndSetter()
 			throws Exception {
 		testGetterMethodExistsInClass(Simulator.class, "getEmergencyUnits",
@@ -3179,7 +3179,7 @@ public class M2PublicTests {
 				ArrayList.class, false);
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testInstanceVariableEmergencyServiceGetterAndSetter()
 			throws Exception {
 		testGetterMethodExistsInClass(Simulator.class, "getEmergencyService",
@@ -3188,14 +3188,14 @@ public class M2PublicTests {
 				SOSListener.class, true);
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testInstanceVariableSimulatorEmergencyService()
 			throws Exception {
 		testInstanceVariableIsPresent(Simulator.class, "emergencyService", true);
 		testInstanceVariableIsPrivate(Simulator.class, "emergencyService");
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void NonActiveDisasterCallStrike() throws Exception {
 		Simulator s = new Simulator(sos);
 		hascalledGasDisaster = false;
@@ -3272,7 +3272,7 @@ public class M2PublicTests {
 				hascalledFireDisaster);
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCitizenInstanceVariableEmergencyService() throws Exception {
 
 		testInstanceVariableIsPresent(Citizen.class, "emergencyService", true);
@@ -3280,7 +3280,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCitizenInstanceVariableEmergencyServiceGetterAndSetter()
 			throws Exception {
 
@@ -3292,7 +3292,7 @@ public class M2PublicTests {
 				new CommandCenter(), SOSListener.class);
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCitizenStruckBySetsDisasterCorrectly() throws Exception {
 
 		Citizen ct = someRandomCitizen();
@@ -3350,7 +3350,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCitizenStruckByNotifiesListener() throws Exception {
 
 		CommandCenter cc = new CommandCenter() {
@@ -3398,7 +3398,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCitizenBloodLossSetterBounds() throws Exception {
 
 		Citizen ct = someRandomCitizen();
@@ -3433,7 +3433,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCitizenBloodLossSetterKillsWhenOneHundred() {
 
 		Citizen ct = someRandomCitizen();
@@ -3462,7 +3462,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCitizenBloodLossSetterDoesNotDamageHP() {
 
 		Citizen ct = someRandomCitizen();
@@ -3477,7 +3477,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCitizenHPSetterBounds() throws Exception {
 
 		Citizen ct = someRandomCitizen();
@@ -3512,7 +3512,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCitizenHPSetterUpdatesStateOnDeath() throws Exception {
 
 		Citizen ct = someRandomCitizen();
@@ -3535,7 +3535,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCitizenCycleStepWhenHealthy() {
 
 		Citizen ct = someRandomCitizen();
@@ -3550,7 +3550,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCitizenCycleStepWithToxicityUnderThirty() {
 
 		for (int i = 0; i < 50; i++) {
@@ -3571,7 +3571,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCitizenCycleStepWithToxicityBetweenThirtyAndSeventy() {
 
 		for (int i = 0; i < 50; i++) {
@@ -3592,7 +3592,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testCitizenCycleStepWithToxicityBetweenSeventyAndHundred() {
 
 		for (int i = 0; i < 50; i++) {
@@ -3613,7 +3613,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testInstanceVariableEmergencyServiceResidentialBuilding()
 			throws Exception {
 		testInstanceVariableIsPresent(Class.forName(buildingPath),
@@ -3622,7 +3622,7 @@ public class M2PublicTests {
 				"emergencyService");
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testInstanceVariableResidentialBuildingEmergencyServiceGetterAndSetter()
 			throws Exception {
 		testGetterMethodExistsInClass(Class.forName(buildingPath),
@@ -3631,7 +3631,7 @@ public class M2PublicTests {
 				"setEmergencyService", Class.forName(sosListenerPath), true);
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testResidentialBuildingCycleStep()
 			throws ClassNotFoundException {
 		try {
@@ -3641,7 +3641,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testResidentialBuildingStruckBy() throws ClassNotFoundException {
 		try {
 			ResidentialBuilding.class.getDeclaredMethod("struckBy",
@@ -3651,7 +3651,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testResidentialBuildingEmergencyServiceSetterLogic()
 			throws Exception {
 		CommandCenter c = new CommandCenter();
@@ -3661,7 +3661,7 @@ public class M2PublicTests {
 		testSetterLogic(b, "emergencyService", c, SOSListener.class);
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testResidentialBuildingFoundationDamageSetterUpperBound()
 			throws IllegalArgumentException, IllegalAccessException {
 		Address d = someRandomAddress();
@@ -3680,7 +3680,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testResidentialBuildingFoundationDamageSetterChangesIntegrity()
 			throws IllegalArgumentException, IllegalAccessException {
 		Address d = someRandomAddress();
@@ -3703,7 +3703,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testResidentialBuildingFireDamageSetterUpperBound()
 			throws IllegalArgumentException, IllegalAccessException {
 		Address d = someRandomAddress();
@@ -3726,7 +3726,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testResidentialBuildingFireDamageSetterLowerBound()
 			throws IllegalArgumentException, IllegalAccessException {
 		Address d = someRandomAddress();
@@ -3749,7 +3749,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testResidentialBuildingStructuralIntegritySetterLowerBound()
 			throws IllegalArgumentException, IllegalAccessException {
 		Address d = someRandomAddress();
@@ -3772,7 +3772,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testResidentialBuildingStructuralIntegrityLessOrEqualZeroKillsAllOccupants()
 			throws IllegalArgumentException, IllegalAccessException {
 		Address d = someRandomAddress();
@@ -3811,7 +3811,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testResidentialBuildingFoundationDamageDoesnotAffectOccupants()
 			throws IllegalArgumentException, IllegalAccessException {
 		Address d = someRandomAddress();
@@ -3850,7 +3850,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testResidentialBuildingFireDamageDoesnotAffectOccupants()
 			throws IllegalArgumentException, IllegalAccessException {
 		Address d = someRandomAddress();
@@ -3889,7 +3889,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testResidentialBuildingStruckBySetsDisasterCorrectly()
 			throws Exception {
 		Address d = someRandomAddress();
@@ -3930,7 +3930,7 @@ public class M2PublicTests {
 
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testResidentialBuildingStruckByNotifiesListener()
 			throws Exception {
 		CommandCenter c = new CommandCenter() {
@@ -3962,7 +3962,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testResidentialBuildingCycleStep1()
 			throws IllegalArgumentException, IllegalAccessException {
 		Address d = someRandomAddress();
@@ -4067,7 +4067,7 @@ public class M2PublicTests {
 		}
 	}
 
-	@Test(timeout = 3000)
+	@Test(timeout = 1000)
 	public void testResidentialBuildingCycleStep6()
 			throws IllegalArgumentException, IllegalAccessException {
 		Address d = someRandomAddress();

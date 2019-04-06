@@ -2,24 +2,24 @@ package model.disasters;
 
 import model.people.Citizen;
 
+
 public class Infection extends Disaster {
 
 	public Infection(int startCycle, Citizen target) {
 		super(startCycle, target);
 	}
-	
-	public void strike() {
-		super.strike();
-		getTarget().struckBy(this);
-		int x = ((Citizen)(getTarget())).getToxicity();
-		x+=25;
-		((Citizen)(getTarget())).setToxicity(x);
-	}
-	
+@Override
+public void strike() 
+{
+	Citizen target = (Citizen)getTarget();
+	target.setToxicity(target.getToxicity()+25);
+	super.strike();
+}
+	@Override
 	public void cycleStep() {
-		int x = ((Citizen)(getTarget())).getToxicity();
-		x+=15;
-		((Citizen)(getTarget())).setToxicity(x);;
+		Citizen target = (Citizen)getTarget();
+		target.setToxicity(target.getToxicity()+15);
+		
 	}
-	
+
 }
