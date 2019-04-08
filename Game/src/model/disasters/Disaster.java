@@ -1,5 +1,7 @@
 package model.disasters;
 
+import exceptions.BuildingAlreadyCollapsedException;
+import exceptions.CitizenAlreadyDeadException;
 import simulation.Rescuable;
 import simulation.Simulatable;
 
@@ -23,10 +25,9 @@ public abstract class Disaster implements Simulatable{
 	public Rescuable getTarget() {
 		return target;
 	}
-	public void strike() 
-	{
-		
+
+	public void strike() throws CitizenAlreadyDeadException, BuildingAlreadyCollapsedException {
 		target.struckBy(this);
-		active=true;
+		active = true;
 	}
 }

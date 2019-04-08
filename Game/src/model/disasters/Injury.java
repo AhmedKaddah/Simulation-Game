@@ -1,6 +1,9 @@
 package model.disasters;
 
+import exceptions.BuildingAlreadyCollapsedException;
+import exceptions.CitizenAlreadyDeadException;
 import model.people.Citizen;
+import model.people.CitizenState;
 
 
 public class Injury extends Disaster {
@@ -9,11 +12,14 @@ public class Injury extends Disaster {
 		super(startCycle, target);
 	}
 	@Override
-	public void strike() 
-	{
-		Citizen target = (Citizen)getTarget();
-		target.setBloodLoss(target.getBloodLoss()+30);
-		super.strike();
+	public void strike() throws CitizenAlreadyDeadException, BuildingAlreadyCollapsedException {
+		if (((Citizen) getTarget()).getState() == CitizenState.DECEASED ) {
+			throw new CitizenAlreadyDeadException(this);
+		} else {
+			Citizen target = (Citizen) getTarget();
+			target.setBloodLoss(target.getBloodLoss() + 30);
+			super.strike();
+		}
 	}
 	@Override
 	public void cycleStep() {

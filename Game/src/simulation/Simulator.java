@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import exceptions.BuildingAlreadyCollapsedException;
+import exceptions.CitizenAlreadyDeadException;
 import model.disasters.Collapse;
 import model.disasters.Disaster;
 import model.disasters.Fire;
@@ -216,8 +218,17 @@ public class Simulator implements WorldListener {
 				else if (d instanceof GasLeak)
 					handleGas(d);
 				else {
-					d.strike();
-					executedDisasters.add(d);
+					try {
+						d.strike();
+						executedDisasters.add(d);
+					}
+					catch (CitizenAlreadyDeadException e){
+						
+					}
+					catch(BuildingAlreadyCollapsedException e) {
+						
+					}
+					
 				}
 			}
 		}
@@ -228,8 +239,16 @@ public class Simulator implements WorldListener {
 				b.getDisaster().setActive(false);
 				b.setFireDamage(0);
 				Collapse c = new Collapse(currentCycle, b);
-				c.strike();
-				executedDisasters.add(c);
+				try {
+					c.strike();
+					executedDisasters.add(c);
+				}
+				catch (CitizenAlreadyDeadException e){
+					
+				}
+				catch(BuildingAlreadyCollapsedException e) {
+					
+				}
 			}
 		}
 
@@ -259,24 +278,56 @@ public class Simulator implements WorldListener {
 		if (b.getFireDamage() != 0) {
 			b.setFireDamage(0);
 			Collapse c = new Collapse(currentCycle, b);
-			c.strike();
-			executedDisasters.add(c);
+			try {
+				c.strike();
+				executedDisasters.add(c);
+			}
+			catch (CitizenAlreadyDeadException e){
+				
+			}
+			catch(BuildingAlreadyCollapsedException e) {
+				
+			}
 		} else {
-			d.strike();
-			executedDisasters.add(d);
+			try {
+				d.strike();
+				executedDisasters.add(d);
+			}
+			catch (CitizenAlreadyDeadException e){
+				
+			}
+			catch(BuildingAlreadyCollapsedException e) {
+				
+			}
 		}
 	}
 
 	private void handleFire(Disaster d) {
 		ResidentialBuilding b = (ResidentialBuilding) d.getTarget();
 		if (b.getGasLevel() == 0) {
-			d.strike();
-			executedDisasters.add(d);
+			try {
+				d.strike();
+				executedDisasters.add(d);
+			}
+			catch (CitizenAlreadyDeadException e){
+				
+			}
+			catch(BuildingAlreadyCollapsedException e) {
+				
+			}
 		} else if (b.getGasLevel() < 70) {
 			b.setFireDamage(0);
 			Collapse c = new Collapse(currentCycle, b);
-			c.strike();
-			executedDisasters.add(c);
+			try {
+				c.strike();
+				executedDisasters.add(c);
+			}
+			catch (CitizenAlreadyDeadException e){
+				
+			}
+			catch(BuildingAlreadyCollapsedException e) {
+				
+			}
 		} else
 			b.setStructuralIntegrity(0);
 

@@ -1,5 +1,7 @@
 package model.disasters;
 
+import exceptions.BuildingAlreadyCollapsedException;
+import exceptions.CitizenAlreadyDeadException;
 import model.infrastructure.ResidentialBuilding;
 
 
@@ -10,11 +12,14 @@ public class Fire extends Disaster {
 		
 	}
 	@Override
-	public void strike()
-	{
-		ResidentialBuilding target= (ResidentialBuilding)getTarget();
-		target.setFireDamage(target.getFireDamage()+10);
-		super.strike();
+	public void strike() throws CitizenAlreadyDeadException, BuildingAlreadyCollapsedException {
+		if (((ResidentialBuilding) getTarget()).getStructuralIntegrity() == 0) {
+			throw new BuildingAlreadyCollapsedException(this);
+		} else {
+			ResidentialBuilding target = (ResidentialBuilding) getTarget();
+			target.setFireDamage(target.getFireDamage() + 10);
+			super.strike();
+		}
 	}
 
 	@Override

@@ -1,8 +1,12 @@
 package model.units;
 
+import exceptions.CannotTreatException;
+import exceptions.IncompatibleTargetException;
 import model.disasters.Disaster;
 import model.events.SOSResponder;
 import model.events.WorldListener;
+import model.infrastructure.ResidentialBuilding;
+import model.people.Citizen;
 import simulation.Address;
 import simulation.Rescuable;
 import simulation.Simulatable;
@@ -23,6 +27,12 @@ public abstract class Unit implements Simulatable, SOSResponder {
 		this.stepsPerCycle = stepsPerCycle;
 		this.state = UnitState.IDLE;
 		this.worldListener = worldListener;
+		
+	}
+	
+
+	public int getStepsPerCycle() {
+		return stepsPerCycle;
 	}
 
 	public void setWorldListener(WorldListener listener) {
@@ -57,21 +67,27 @@ public abstract class Unit implements Simulatable, SOSResponder {
 		return target;
 	}
 
-	public int getStepsPerCycle() {
-		return stepsPerCycle;
-	}
+	
 
 	public void setDistanceToTarget(int distanceToTarget) {
 		this.distanceToTarget = distanceToTarget;
 	}
 
 	@Override
-	public void respond(Rescuable r) {
-
-		if (target != null && state == UnitState.TREATING)
-			reactivateDisaster();
-		finishRespond(r);
-
+	public void respond(Rescuable r) throws IncompatibleTargetException, CannotTreatException {
+		if (canTreat(r) == false)
+			throw new CannotTreatException(this, r, "This target is already safe!");
+		else {
+			if (this instanceof FireTruck || this instanceof Evacuator || this instanceof GasControlUnit) {
+				if (r instanceof Citizen) {
+					throw new IncompatibleTargetException(this, r, "This unit can only be sent to buildings!");
+				} else {
+					if (target != null && state == UnitState.TREATING)
+						reactivateDisaster();
+					finishRespond(r);
+				}
+			}
+		}
 	}
 
 	public void reactivateDisaster() {
@@ -109,6 +125,23 @@ public abstract class Unit implements Simulatable, SOSResponder {
 	public void jobsDone() {
 		target = null;
 		state = UnitState.IDLE;
-
 	}
+
+	public boolean canTreat(Rescuable r) {
+		if(r instanceof Citizen) {
+			if(((Citizen) r).getBloodLoss()==0 && ((Citizen) r).getToxicity()==0) {
+				return false;
+			}
+			return true;
+		}
+		else {
+			if(((ResidentialBuilding) r).getFireDamage()==0 && ((ResidentialBuilding) r).getFoundationDamage()==0 && ((ResidentialBuilding) r).getGasLevel()==0) {
+				return false;
+			}
+			return true;
+		}
+	}
+
+	
+
 }
