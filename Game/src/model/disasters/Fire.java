@@ -28,5 +28,8 @@ public class Fire extends Disaster {
 		target.setFireDamage(target.getFireDamage()+10);
 		
 	}
+	public String toString() {
+		return "Fire";
+	}
 
 }

@@ -27,5 +27,8 @@ public class Injury extends Disaster {
 		target.setBloodLoss(target.getBloodLoss()+10);
 		
 	}
+	public String toString() {
+		return "Injury";
+	}
 
 }

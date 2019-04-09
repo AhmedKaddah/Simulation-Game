@@ -27,5 +27,8 @@ public class GasLeak extends Disaster {
 		target.setGasLevel(target.getGasLevel()+15);
 		
 	}
+	public String toString() {
+		return "GasLeak";
+	}
 
 }

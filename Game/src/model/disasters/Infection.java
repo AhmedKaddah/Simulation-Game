@@ -28,5 +28,8 @@ public class Infection extends Disaster {
 		target.setToxicity(target.getToxicity() + 15);
 
 	}
+	public String toString() {
+		return "Infection";
+	}
 
 }

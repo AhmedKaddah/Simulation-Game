@@ -26,5 +26,8 @@ public class Collapse extends Disaster {
 		ResidentialBuilding target= (ResidentialBuilding)getTarget();
 		target.setFoundationDamage(target.getFoundationDamage()+10);
 	}
+	public String toString() {
+		return "Collapse";
+	}
 
 }

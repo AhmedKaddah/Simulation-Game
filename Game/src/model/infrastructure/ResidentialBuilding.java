@@ -113,4 +113,7 @@ public class ResidentialBuilding implements Rescuable, Simulatable
 		disaster=d;
 		emergencyService.receiveSOSCall(this);
 	}
+	public String toString() {
+		return"Residential Building at: "+location.getX()+", "+location.getY();
+	}
 }

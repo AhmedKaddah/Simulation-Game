@@ -19,6 +19,7 @@ public class Citizen implements Rescuable,Simulatable{
 	private Address location;
 	private SOSListener emergencyService;
 	private WorldListener worldListener;
+	private boolean justDied = true;
 	public Citizen(Address location,String nationalID, String name, int age
 			,WorldListener worldListener) {
 		this.name = name;
@@ -127,6 +128,17 @@ public class Citizen implements Rescuable,Simulatable{
 		state= CitizenState.IN_TROUBLE;
 		emergencyService.receiveSOSCall(this);
 		
+	}
+	public String toString() {
+		return name;
+	}
+
+	public boolean isJustDied() {
+		return justDied;
+	}
+
+	public void setJustDied(boolean justDied) {
+		this.justDied = justDied;
 	}
 	
 	
