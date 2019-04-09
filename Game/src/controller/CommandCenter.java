@@ -16,6 +16,7 @@ import model.events.SOSListener;
 import model.infrastructure.ResidentialBuilding;
 import model.people.Citizen;
 import model.units.Unit;
+import simulation.Address;
 import simulation.Rescuable;
 import simulation.Simulator;
 import view.GUI;
@@ -41,7 +42,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 		g = new GUI();
 		g.addNextCycleButton(nextCycle);
 		nextCycle.addActionListener(this);
-		mapButtons = new ArrayList<>();
+		mapButtons = new ArrayList<JButton>();
 		for(int i=0;i<10;i++) {
 			for(int j=0;j<10;j++) {
 				JButton temp = new JButton(i+", "+j);
@@ -95,10 +96,35 @@ public class CommandCenter implements SOSListener,ActionListener {
 			
 			
 		}
+		if(mapButtons.contains(b)) {
+			int g= mapButtons.indexOf(b) / 10;
+			int h= mapButtons.indexOf(b) % 10;
+		}
 	}
+//	public void updateInfo(int x, int y) {
+//		String result= "                                                   Cell Info"+ "\n" +"\n"+ "Building:" +"\n";
+//		Address temp = engine.getWorld()[x][y];
+//		for(int i=0;i<visibleBuildings.size();i++) {
+//			if(visibleBuildings.get(i).getLocation());
+//		}}
+//	public void updateButtons(int a, int b) {
+//		for(int i=0;i<visibleBuildings.size();i++)
+//			if(visibleBuildings.get(i).getLocation().getX()==a && visibleBuildings.get(i).getLocation().getX()==b)
+//				g.getInfoPanel().add(new JButton(visibleBuildings.toString()));
+//		
+//		for(int i=0;i<visibleCitizens.size();i++)
+//			if(visibleCitizens.get(i).getLocation().getX()==a && visibleCitizens.get(i).getLocation().getX()==b)
+//				g.getInfoPanel().add(new JButton(visibleCitizens.toString()));
+//	
+//	}
+		
+				
+	
 	
 	public static void main(String[] args) throws Exception {
 		CommandCenter com = new CommandCenter();
 	}
+
+	
 
 }

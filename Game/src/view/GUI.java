@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.tools.DocumentationTool.Location;
 
 import model.people.CitizenState;
+import simulation.Address;
 import simulation.Simulator;
 
 public class GUI extends JFrame{
@@ -25,7 +26,7 @@ public class GUI extends JFrame{
 	private JPanel TreatingUnits;
 	private JPanel  AvailbleUnits;
 	private JPanel map;
-	private JTextArea InfoPanel;
+	private JPanel InfoPanel;
 	private JTextArea log;
 	private JTextArea display;
 	private JPanel next;
@@ -82,23 +83,26 @@ public class GUI extends JFrame{
 		
 		
 
-		InfoPanel = new JTextArea();  
+		InfoPanel = new JPanel(new FlowLayout());  
 		InfoPanel.setPreferredSize(new Dimension(350, 300));
 		log = new JTextArea();
 		log.setPreferredSize(new Dimension(350, 170));
 		display = new JTextArea();
 		display.setPreferredSize(new Dimension(350, 130));
 		log.setEditable(false);
-		InfoPanel.setEditable(false);
 		display.setEditable(false);
 		left.add(InfoPanel,BorderLayout.NORTH);
 		left.add(log,BorderLayout.SOUTH);
 		left.add(display,BorderLayout.CENTER);
-		InfoPanel.setText("Info.");
+		JLabel r= new JLabel("Cell Info");
+		InfoPanel.setBackground(Color.white);
+		r.setFont(new Font(Font.SERIF, Font.BOLD, 12));
+		InfoPanel.add(r);
 		display.setText("                                                   DISPLAY");
 		log.setText("                                                    LOG");
 		log.setFont(new Font(Font.SERIF, Font.BOLD, 12));
 		display.setFont(new Font(Font.SERIF, Font.BOLD, 12));
+		
 		
 		
 		this.add(main);
@@ -136,12 +140,14 @@ public class GUI extends JFrame{
 		log.setText(result);
 	}
 	
-	public void updateInfo(Simulator s,Location l) {
-		
-	}
+	
 
 	public JPanel getMap() {
 		return map;
+	}
+
+	public JPanel getInfoPanel() {
+		return InfoPanel;
 	}
 	
 }

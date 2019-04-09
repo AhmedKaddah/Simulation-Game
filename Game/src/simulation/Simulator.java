@@ -393,4 +393,8 @@ public class Simulator implements WorldListener {
 		return citizens;
 	}
 
+	public Address[][] getWorld() {
+		return world;
+	}
+
 }
