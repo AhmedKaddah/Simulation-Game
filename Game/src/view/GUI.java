@@ -64,10 +64,16 @@ public class GUI extends JFrame{
 		
 		RespondingUnits = new JPanel(new FlowLayout());
 		RespondingUnits.setPreferredSize(new Dimension(250, 240));
+		RespondingUnits.setBorder(BorderFactory.createLineBorder(Color.black));
+		RespondingUnits.setBackground(new Color(95, 188, 73));
 		TreatingUnits = new JPanel(new FlowLayout());
 		TreatingUnits.setPreferredSize(new Dimension(250, 240));
+		TreatingUnits.setBorder(BorderFactory.createLineBorder(Color.black));
+		TreatingUnits.setBackground(new Color(95, 188, 73));
 		AvailbleUnits = new JPanel(new FlowLayout());
 		AvailbleUnits.setPreferredSize(new Dimension(250, 240));
+		AvailbleUnits.setBorder(BorderFactory.createLineBorder(Color.black));
+		AvailbleUnits.setBackground(new Color(95, 188, 73));
 		right.add(AvailbleUnits,BorderLayout.NORTH);
 		right.add(RespondingUnits,BorderLayout.CENTER);
 		right.add(TreatingUnits,BorderLayout.SOUTH);
@@ -88,10 +94,16 @@ public class GUI extends JFrame{
 
 		InfoPanel = new JTextArea();  
 		InfoPanel.setPreferredSize(new Dimension(350, 450));
+		InfoPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		InfoPanel.setBackground(new Color(95, 188, 73));
 		log = new JTextArea();
 		log.setPreferredSize(new Dimension(350, 242));
+		log.setBorder(BorderFactory.createLineBorder(Color.black));
+		log.setBackground(new Color(95, 188, 73));
 		display = new JTextArea();
 		display.setPreferredSize(new Dimension(392, 120));
+		display.setBorder(BorderFactory.createLineBorder(Color.black));
+		display.setBackground(new Color(95, 188, 73));
 		log.setEditable(false);
 		display.setEditable(false);
 		left.add(InfoPanel,BorderLayout.NORTH);

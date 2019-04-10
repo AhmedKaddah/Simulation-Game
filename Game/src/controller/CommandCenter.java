@@ -168,6 +168,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 	
 	public static void main(String[] args) throws Exception {
 		CommandCenter com = new CommandCenter();
+		com.g.setVisible(true);
 	}
 
 
