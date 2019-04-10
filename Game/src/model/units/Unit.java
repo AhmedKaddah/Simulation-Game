@@ -2,7 +2,10 @@ package model.units;
 
 import exceptions.CannotTreatException;
 import exceptions.IncompatibleTargetException;
+import model.disasters.Collapse;
 import model.disasters.Disaster;
+import model.disasters.Fire;
+import model.disasters.GasLeak;
 import model.events.SOSResponder;
 import model.events.WorldListener;
 import model.infrastructure.ResidentialBuilding;
@@ -81,7 +84,18 @@ public abstract class Unit implements Simulatable, SOSResponder {
 			if (this instanceof FireTruck || this instanceof Evacuator || this instanceof GasControlUnit) {
 				if (r instanceof Citizen) {
 					throw new IncompatibleTargetException(this, r, "This unit can only be sent to buildings!");
-				} else {
+				} 
+				else {
+					if(this instanceof FireTruck && !(r.getDisaster() instanceof Fire)) {
+						throw new CannotTreatException(this, r, "This unit can only be sent to bulidings with fire disasters.");
+					}
+					if(this instanceof Evacuator && !(r.getDisaster() instanceof Collapse)) {
+						throw new CannotTreatException(this, r, "This unit can only be sent to bulidings with collapse disasters.");
+					}
+					if(this instanceof GasControlUnit && !(r.getDisaster() instanceof GasLeak)) {
+						throw new CannotTreatException(this, r, "This unit can only be sent to bulidings with gas leak disasters.");
+					}
+					
 					if (target != null && state == UnitState.TREATING)
 						reactivateDisaster();
 					finishRespond(r);

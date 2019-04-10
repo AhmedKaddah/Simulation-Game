@@ -2,6 +2,7 @@ package model.units;
 
 import exceptions.CannotTreatException;
 import exceptions.IncompatibleTargetException;
+import model.disasters.Injury;
 import model.events.WorldListener;
 import model.infrastructure.ResidentialBuilding;
 import model.people.Citizen;
@@ -42,11 +43,17 @@ public class Ambulance extends MedicalUnit {
 		else {
 			if (r instanceof ResidentialBuilding) {
 				throw new IncompatibleTargetException(this, r, "This unit can only be sent to citizens!");
-			} else {
-				if (getTarget() != null && ((Citizen) getTarget()).getBloodLoss() > 0
-						&& getState() == UnitState.TREATING)
-					reactivateDisaster();
-				finishRespond(r);
+			} 
+			else {
+				if(r.getDisaster() instanceof Injury) {
+					if (getTarget() != null && ((Citizen) getTarget()).getBloodLoss() > 0
+							&& getState() == UnitState.TREATING)
+						reactivateDisaster();
+					finishRespond(r);
+				}
+				else {
+					throw new CannotTreatException(this, r, "This unit can only be sent to citizens with an injury!");
+				}
 			}
 		}
 	}
