@@ -97,7 +97,7 @@ public class GUI extends JFrame{
 		left.add(InfoPanel,BorderLayout.NORTH);
 		left.add(log,BorderLayout.SOUTH);
 		left.add(display,BorderLayout.CENTER);
-		InfoPanel.setText("                                                   Cell Info"+"\n");
+		InfoPanel.setText("                                                   Info"+"\n");
 		display.setText("                                                   DISPLAY");
 		log.setText("                                                    LOG");
 		log.setFont(new Font(Font.SERIF, Font.BOLD, 12));
@@ -164,7 +164,7 @@ public class GUI extends JFrame{
 					result+="\n"+"Citizens inside the building:"+"\n";
 					for(int j=0; j<b.getOccupants().size();j++) {
 						Citizen k= b.getOccupants().get(j);
-						result+= k+" at "+ x+", "+y+"\n"+"National ID: "+k.getNationalID()+"\n"+"HP: "+k.getHp()+"\n"+"Blood Loss: "+k.getBloodLoss()+"\n"+
+						result+= k+" at "+ x+", "+y+"\n"+"Age: "+k.getAge()+"\n"+"National ID: "+k.getNationalID()+"\n"+"HP: "+k.getHp()+"\n"+"Blood Loss: "+k.getBloodLoss()+"\n"+
 						"Toxicity: "+k.getToxicity()+"\n"+"State: "+k.getState()+"\n";
 						if(k.getDisaster()!=null &&k.getDisaster().isActive()) {
 							result+= "Affected by: "+ k.getDisaster()+" Disaster"+"\n";
@@ -182,7 +182,7 @@ public class GUI extends JFrame{
 			if(temp.equals(c.getVisibleCitizens().get(i).getLocation())) {
 					z1="Citizens at this cell: "+"\n";
 					Citizen k= c.getVisibleCitizens().get(i);
-					z2+= k+" at "+ x+", "+y+"\n"+"National ID: "+k.getNationalID()+"\n"+"HP: "+k.getHp()+"\n"+"Blood Loss: "+k.getBloodLoss()+"\n"+
+					z2+= k+" at "+ x+", "+y+"\n"+"Age: "+k.getAge()+"\n"+"National ID: "+k.getNationalID()+"\n"+"HP: "+k.getHp()+"\n"+"Blood Loss: "+k.getBloodLoss()+"\n"+
 					"Toxicity: "+k.getToxicity()+"\n"+"State: "+k.getState()+"\n";
 					if(k.getDisaster()!=null &&k.getDisaster().isActive()) {
 						z2+= "Affected by: "+ k.getDisaster()+" Disaster"+"\n";
