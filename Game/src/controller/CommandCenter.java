@@ -117,9 +117,9 @@ public class CommandCenter implements SOSListener,ActionListener {
 			
 		}
 		if(mapButtons.contains(b)) {
-			j= mapButtons.indexOf(b) / 10;
-			k= mapButtons.indexOf(b) % 10;
-			g.updateInfo(engine, this, j, k);
+//			j= mapButtons.indexOf(b) / 10;
+//			k= mapButtons.indexOf(b) % 10;
+//			g.updateInfo(engine, this, j, k);
 		}
 	}
 //	public void updateInfo(int x, int y) {
