@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.tools.DocumentationTool.Location;
 
+import controller.CommandCenter;
+import model.infrastructure.ResidentialBuilding;
+import model.people.Citizen;
 import model.people.CitizenState;
 import simulation.Address;
 import simulation.Simulator;
@@ -26,7 +29,7 @@ public class GUI extends JFrame{
 	private JPanel TreatingUnits;
 	private JPanel  AvailbleUnits;
 	private JPanel map;
-	private JPanel InfoPanel;
+	private JTextArea InfoPanel;
 	private JTextArea log;
 	private JTextArea display;
 	private JPanel next;
@@ -36,7 +39,7 @@ public class GUI extends JFrame{
 		this.validate();
 		this.setTitle("Command-Center");
 		this.setLayout(new BorderLayout());
-		this.setSize(1200, 600);
+		this.setSize(1200, 800);
 		this.setLocation(100,100);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
@@ -45,12 +48,12 @@ public class GUI extends JFrame{
 		left = new JPanel(new BorderLayout());
 		right = new JPanel(new BorderLayout());
 		middle = new JPanel(new BorderLayout());
-		main.setPreferredSize(new Dimension(1200, 600));
-		left.setPreferredSize(new Dimension(350, 600));
+		main.setPreferredSize(new Dimension(1200, 800));
+		left.setPreferredSize(new Dimension(350, 800));
 		left.setBackground(Color.blue);
-		right.setPreferredSize(new Dimension(250, 600));
+		right.setPreferredSize(new Dimension(250, 800));
 		right.setBackground(Color.CYAN);
-		middle.setPreferredSize(new Dimension(600,600));
+		middle.setPreferredSize(new Dimension(600,800));
 		middle.setBackground(Color.red);
 		main.add(middle,BorderLayout.CENTER);
 		main.add(left,BorderLayout.WEST);
@@ -60,11 +63,11 @@ public class GUI extends JFrame{
 		
 		
 		RespondingUnits = new JPanel(new FlowLayout());
-		RespondingUnits.setPreferredSize(new Dimension(250, 200));
+		RespondingUnits.setPreferredSize(new Dimension(250, 266));
 		TreatingUnits = new JPanel(new FlowLayout());
-		TreatingUnits.setPreferredSize(new Dimension(250, 200));
+		TreatingUnits.setPreferredSize(new Dimension(250, 266));
 		AvailbleUnits = new JPanel(new FlowLayout());
-		AvailbleUnits.setPreferredSize(new Dimension(250, 200));
+		AvailbleUnits.setPreferredSize(new Dimension(250, 267));
 		right.add(AvailbleUnits,BorderLayout.NORTH);
 		right.add(RespondingUnits,BorderLayout.CENTER);
 		right.add(TreatingUnits,BorderLayout.SOUTH);
@@ -75,16 +78,16 @@ public class GUI extends JFrame{
 		
 		
 		map = new JPanel(new GridLayout(10,10));
-		map.setPreferredSize(new Dimension(600, 500));
+		map.setPreferredSize(new Dimension(600, 600));
 		next = new JPanel(new FlowLayout());
-		next.setPreferredSize(new Dimension(600, 100));
+		next.setPreferredSize(new Dimension(600, 200));
 		middle.add(map,BorderLayout.NORTH);
 		middle.add(next,BorderLayout.CENTER);
 		
 		
 
-		InfoPanel = new JPanel(new FlowLayout());  
-		InfoPanel.setPreferredSize(new Dimension(350, 300));
+		InfoPanel = new JTextArea();  
+		InfoPanel.setPreferredSize(new Dimension(350, 500));
 		log = new JTextArea();
 		log.setPreferredSize(new Dimension(350, 170));
 		display = new JTextArea();
@@ -94,13 +97,11 @@ public class GUI extends JFrame{
 		left.add(InfoPanel,BorderLayout.NORTH);
 		left.add(log,BorderLayout.SOUTH);
 		left.add(display,BorderLayout.CENTER);
-		JLabel r= new JLabel("Cell Info");
-		InfoPanel.setBackground(Color.white);
-		r.setFont(new Font(Font.SERIF, Font.BOLD, 12));
-		InfoPanel.add(r);
+		InfoPanel.setText("                                                   Cell "+0+", "+0+" Info"+"\n");
 		display.setText("                                                   DISPLAY");
 		log.setText("                                                    LOG");
 		log.setFont(new Font(Font.SERIF, Font.BOLD, 12));
+		InfoPanel.setFont(new Font(Font.SERIF, Font.BOLD, 12));
 		display.setFont(new Font(Font.SERIF, Font.BOLD, 12));
 		
 		
@@ -139,6 +140,51 @@ public class GUI extends JFrame{
 		}
 		log.setText(result);
 	}
+	public void updateInfo(Simulator s,CommandCenter c, int x,int y) {
+		String result="                                                   Cell "+x+", "+y+" Info"+"\n";
+		Address temp = s.getWorld()[x][y];
+		for (int i=0;i<c.getVisibleBuildings().size();i++) {
+			if(temp.equals(c.getVisibleBuildings().get(i).getLocation())) {
+				ResidentialBuilding b= c.getVisibleBuildings().get(i);
+				result+= b.toString()+"\n"+"Structural Integrity: "+b.getStructuralIntegrity()+"\n"+"Fire Damage: "+b.getFireDamage()+"\n"+
+				"Gas Level: "+ b.getGasLevel()+"\n"+"Foundation Damage: "+ b.getFoundationDamage()+"\n"+"Number Of Occupants: "+ b.getOccupants().size()+"\n";
+				if(b.getDisaster()!=null &&b.getDisaster().isActive()) {
+				result+= "Affected by: "+ b.getDisaster()+" Disaster"+"\n";
+				}
+				if (b.getOccupants().size()>0) {
+					result+="\n"+"Citizens inside the building:"+"\n";
+					for(int j=0; j<b.getOccupants().size();j++) {
+						Citizen k= b.getOccupants().get(j);
+						result+= k+" at "+ x+", "+y+"\n"+"National ID: "+k.getNationalID()+"\n"+"HP: "+k.getHp()+"\n"+"Blood Loss: "+k.getBloodLoss()+"\n"+
+						"Toxicity: "+k.getToxicity()+"\n"+"State: "+k.getState()+"\n";
+						if(k.getDisaster()!=null &&k.getDisaster().isActive()) {
+							result+= "Affected by: "+ k.getDisaster()+" Disaster"+"\n";
+							}
+						result+="\n";
+					}
+				}
+				InfoPanel.setText(result);
+				return;
+			}
+		}
+		String z1="";
+		String z2="";
+		for(int i=0;i<c.getVisibleCitizens().size();i++) {
+			if(temp.equals(c.getVisibleCitizens().get(i).getLocation())) {
+					z1="Citizens at this cell: "+"\n";
+					Citizen k= c.getVisibleCitizens().get(i);
+					z2+= k+" at "+ x+", "+y+"\n"+"National ID: "+k.getNationalID()+"\n"+"HP: "+k.getHp()+"\n"+"Blood Loss: "+k.getBloodLoss()+"\n"+
+					"Toxicity: "+k.getToxicity()+"\n"+"State: "+k.getState()+"\n";
+					if(k.getDisaster()!=null &&k.getDisaster().isActive()) {
+						z2+= "Affected by: "+ k.getDisaster()+" Disaster"+"\n";
+						}
+					z2+="\n";
+
+			}
+		}
+		InfoPanel.setText(result+z1+z2);
+		
+	}
 	
 	
 
@@ -146,8 +192,6 @@ public class GUI extends JFrame{
 		return map;
 	}
 
-	public JPanel getInfoPanel() {
-		return InfoPanel;
-	}
+
 	
 }

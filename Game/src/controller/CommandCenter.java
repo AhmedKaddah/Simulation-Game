@@ -29,7 +29,8 @@ public class CommandCenter implements SOSListener,ActionListener {
 	private GUI g;
 	private JButton nextCycle = new JButton("Next Cycle");
 	private ArrayList<JButton> mapButtons;
-
+	private int j;
+	private int k;
 
 	@SuppressWarnings("unused")
 	private ArrayList<Unit> emergencyUnits;
@@ -79,6 +80,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 			engine.nextCycle();
 			g.updateCasulaties(engine);
 			g.updateLog(engine);
+			g.updateInfo(engine, this, j, k);
 			if(engine.checkGameOver()) {
 				g.dispose();
 				JFrame x = new JFrame("Game Over");
@@ -97,8 +99,9 @@ public class CommandCenter implements SOSListener,ActionListener {
 			
 		}
 		if(mapButtons.contains(b)) {
-			int g= mapButtons.indexOf(b) / 10;
-			int h= mapButtons.indexOf(b) % 10;
+			j= mapButtons.indexOf(b) / 10;
+			k= mapButtons.indexOf(b) % 10;
+			g.updateInfo(engine, this, j, k);
 		}
 	}
 //	public void updateInfo(int x, int y) {
@@ -123,6 +126,14 @@ public class CommandCenter implements SOSListener,ActionListener {
 	
 	public static void main(String[] args) throws Exception {
 		CommandCenter com = new CommandCenter();
+	}
+
+	public ArrayList<ResidentialBuilding> getVisibleBuildings() {
+		return visibleBuildings;
+	}
+
+	public ArrayList<Citizen> getVisibleCitizens() {
+		return visibleCitizens;
 	}
 
 	
