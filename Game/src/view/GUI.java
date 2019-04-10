@@ -97,7 +97,7 @@ public class GUI extends JFrame{
 		left.add(InfoPanel,BorderLayout.NORTH);
 		left.add(log,BorderLayout.SOUTH);
 		left.add(display,BorderLayout.CENTER);
-		InfoPanel.setText("                                                   Cell "+0+", "+0+" Info"+"\n");
+		InfoPanel.setText("                                                   Cell Info"+"\n");
 		display.setText("                                                   DISPLAY");
 		log.setText("                                                    LOG");
 		log.setFont(new Font(Font.SERIF, Font.BOLD, 12));
@@ -196,6 +196,10 @@ public class GUI extends JFrame{
 
 	public JPanel getMap() {
 		return map;
+	}
+
+	public JTextArea getInfoPanel() {
+		return InfoPanel;
 	}
 
 

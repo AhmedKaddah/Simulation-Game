@@ -61,6 +61,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 				    }
 				    public void mouseExited(java.awt.event.MouseEvent evt) {
 				        temp.setBackground(UIManager.getColor("control"));
+				        command.g.getInfoPanel().setText("                                                   Cell Info"+"\n");
 				    }
 				});
 			}
