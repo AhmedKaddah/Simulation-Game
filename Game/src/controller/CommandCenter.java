@@ -130,10 +130,14 @@ public class CommandCenter implements SOSListener,ActionListener {
 			if(engine.checkGameOver()) {
 				g.dispose();
 				JFrame x = new JFrame("Game Over");
-				JLabel s = new JLabel("      Game Over!!");
-				s.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 50));
+				JLabel s = new JLabel("    Game Over!!");
+				JLabel c = new JLabel("         Number of casualties: "+engine.calculateCasualties());
+				s.setFont(new Font(Font.SANS_SERIF, Font.BOLD,60 ));
 				s.setForeground(Color.RED);
-				x.add(s,BorderLayout.CENTER);
+				c.setFont(new Font(Font.SANS_SERIF, Font.BOLD,30 ));
+				c.setForeground(Color.BLACK);
+				x.add(s,BorderLayout.NORTH);
+				x.add(c, BorderLayout.CENTER);
 				x.setVisible(true);
 				x.setSize(500, 300);
 				x.setLocation(300,100);
