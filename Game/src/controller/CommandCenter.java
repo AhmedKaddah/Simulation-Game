@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.UIManager;
 
 import model.events.SOSListener;
 import model.infrastructure.ResidentialBuilding;
@@ -49,6 +50,14 @@ public class CommandCenter implements SOSListener,ActionListener {
 				JButton temp = new JButton(i+", "+j);
 				temp.addActionListener(this);
 				mapButtons.add(temp);
+				temp.addMouseListener(new java.awt.event.MouseAdapter() {
+				    public void mouseEntered(java.awt.event.MouseEvent evt) {
+				        temp.setBackground(Color.GREEN);
+				    }
+				    public void mouseExited(java.awt.event.MouseEvent evt) {
+				        temp.setBackground(UIManager.getColor("control"));
+				    }
+				});
 			}
 		}
 		g.addMapButtons(mapButtons);
