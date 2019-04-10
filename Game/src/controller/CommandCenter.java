@@ -28,6 +28,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 	private ArrayList<ResidentialBuilding> visibleBuildings;
 	private ArrayList<Citizen> visibleCitizens;
 	private GUI g;
+	private JButton startGame = new JButton("Start Game");
 	private JButton nextCycle = new JButton("Next Cycle");
 	private ArrayList<JButton> mapButtons;
 	private int j;
@@ -42,8 +43,9 @@ public class CommandCenter implements SOSListener,ActionListener {
 		visibleCitizens = new ArrayList<Citizen>();
 		emergencyUnits = engine.getEmergencyUnits();
 		g = new GUI();
-		g.addNextCycleButton(nextCycle);
+		g.addStartGameButton(startGame);
 		nextCycle.addActionListener(this);
+		startGame.addActionListener(this);
 		mapButtons = new ArrayList<JButton>();
 		for(int i=0;i<10;i++) {
 			for(int j=0;j<10;j++) {
@@ -86,6 +88,10 @@ public class CommandCenter implements SOSListener,ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		JButton b= (JButton) e.getSource();
+		if(b.equals(startGame)) {
+			startGame.setVisible(false);
+			g.addNextCycleButton(nextCycle);
+		}
 		if(b.equals(nextCycle)) {
 			engine.nextCycle();
 			g.updateCasulaties(engine);

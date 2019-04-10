@@ -40,7 +40,7 @@ public class GUI extends JFrame{
 		this.setTitle("Command-Center");
 		this.setLayout(new BorderLayout());
 		this.setSize(1200, 800);
-		this.setLocation(100,100);
+		this.setLocation(100,0);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 	
@@ -110,8 +110,14 @@ public class GUI extends JFrame{
 
 	}
 	
+	public void addStartGameButton(JButton b) {
+		b.setPreferredSize(new Dimension(550, 125));
+		next.add(b);
+	}
+	
 	public void addNextCycleButton(JButton b) {
 		next.add(b);
+		b.setPreferredSize(new Dimension(400, 125));
 	}
 	
 	public void addMapButtons(ArrayList<JButton> arr) {
