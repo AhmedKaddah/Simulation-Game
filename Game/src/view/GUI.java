@@ -91,7 +91,7 @@ public class GUI extends JFrame{
 		log = new JTextArea();
 		log.setPreferredSize(new Dimension(350, 242));
 		display = new JTextArea();
-		display.setPreferredSize(new Dimension(395, 120));
+		display.setPreferredSize(new Dimension(392, 120));
 		log.setEditable(false);
 		display.setEditable(false);
 		left.add(InfoPanel,BorderLayout.NORTH);
