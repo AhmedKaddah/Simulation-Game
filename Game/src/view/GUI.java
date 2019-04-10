@@ -145,6 +145,14 @@ public class GUI extends JFrame{
 				s.getCitizens().get(i).setJustDied(false);
 			}
 		}
+		
+		result+="\n"+"Buildings that got destroyed this cycle: "+"\n";
+		for(int i=0;i<s.getBuildings().size();i++) {
+			if(s.getBuildings().get(i).getStructuralIntegrity() ==0 && s.getBuildings().get(i).isJustDied()) {
+				result+=s.getBuildings().get(i) +"\n";
+				s.getBuildings().get(i).setJustDied(false);
+			}
+		}
 		log.setText(result);
 	}
 	public void updateInfo(Simulator s,CommandCenter c, int x,int y) {

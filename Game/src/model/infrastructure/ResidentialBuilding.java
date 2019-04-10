@@ -20,6 +20,7 @@ public class ResidentialBuilding implements Rescuable, Simulatable
 	private ArrayList<Citizen> occupants;
 	private Disaster disaster;
 	private SOSListener emergencyService;
+	private boolean justDied = true;
 	public ResidentialBuilding(Address location) {
 		this.location = location;
 		this.structuralIntegrity=100;
@@ -115,5 +116,11 @@ public class ResidentialBuilding implements Rescuable, Simulatable
 	}
 	public String toString() {
 		return"Residential Building at: "+location.getX()+", "+location.getY();
+	}
+	public boolean isJustDied() {
+		return justDied;
+	}
+	public void setJustDied(boolean justDied) {
+		this.justDied = justDied;
 	}
 }

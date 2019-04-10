@@ -397,4 +397,8 @@ public class Simulator implements WorldListener {
 		return world;
 	}
 
+	public ArrayList<ResidentialBuilding> getBuildings() {
+		return buildings;
+	}
+
 }
