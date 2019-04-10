@@ -148,6 +148,9 @@ public class GUI extends JFrame{
 	}
 	public void updateInfo(Simulator s,CommandCenter c, int x,int y) {
 		String result="                                                   Cell "+x+", "+y+" Info"+"\n";
+		if(x==0&& y==0) {
+			result="                                                   Base Info"+"\n";
+		}
 		Address temp = s.getWorld()[x][y];
 		for (int i=0;i<c.getVisibleBuildings().size();i++) {
 			if(temp.equals(c.getVisibleBuildings().get(i).getLocation())) {
