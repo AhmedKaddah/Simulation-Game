@@ -98,7 +98,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 			engine.nextCycle();
 			g.updateCasulaties(engine);
 			g.updateLog(engine);
-			g.updateInfo(engine, this, j, k);
+//			g.updateInfo(engine, this, j, k);
 			if(engine.checkGameOver()) {
 				g.dispose();
 				JFrame x = new JFrame("Game Over");
