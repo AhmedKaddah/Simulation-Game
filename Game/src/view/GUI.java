@@ -38,7 +38,7 @@ public class GUI extends JFrame{
 		this.setVisible(true);
 		this.setTitle("Command-Center");
 		this.setLayout(new BorderLayout());
-		this.setSize(1200, 750);
+		this.setSize(1200, 720);
 		this.setLocation(100,0);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
@@ -48,12 +48,12 @@ public class GUI extends JFrame{
 		left = new JPanel(new BorderLayout());
 		right = new JPanel(new BorderLayout());
 		middle = new JPanel(new BorderLayout());
-		main.setPreferredSize(new Dimension(1200, 800));
-		left.setPreferredSize(new Dimension(350, 800));
+		main.setPreferredSize(new Dimension(1200, 720));
+		left.setPreferredSize(new Dimension(350, 720));
 		left.setBackground(Color.blue);
-		right.setPreferredSize(new Dimension(250, 800));
+		right.setPreferredSize(new Dimension(250, 720));
 		right.setBackground(Color.CYAN);
-		middle.setPreferredSize(new Dimension(600,800));
+		middle.setPreferredSize(new Dimension(600,720));
 		middle.setBackground(Color.red);
 		main.add(middle,BorderLayout.CENTER);
 		main.add(left,BorderLayout.WEST);
@@ -63,11 +63,11 @@ public class GUI extends JFrame{
 		
 		
 		RespondingUnits = new JPanel(new FlowLayout());
-		RespondingUnits.setPreferredSize(new Dimension(250, 266));
+		RespondingUnits.setPreferredSize(new Dimension(250, 240));
 		TreatingUnits = new JPanel(new FlowLayout());
-		TreatingUnits.setPreferredSize(new Dimension(250, 266));
+		TreatingUnits.setPreferredSize(new Dimension(250, 240));
 		AvailbleUnits = new JPanel(new FlowLayout());
-		AvailbleUnits.setPreferredSize(new Dimension(250, 267));
+		AvailbleUnits.setPreferredSize(new Dimension(250, 240));
 		right.add(AvailbleUnits,BorderLayout.NORTH);
 		right.add(RespondingUnits,BorderLayout.CENTER);
 		right.add(TreatingUnits,BorderLayout.SOUTH);
@@ -79,24 +79,24 @@ public class GUI extends JFrame{
 		
 		map = new JPanel(new GridLayout(10,10));
 		map.setPreferredSize(new Dimension(600, 600));
-		next = new JPanel(new FlowLayout());
-		next.setPreferredSize(new Dimension(600, 200));
+		next = new JPanel(new BorderLayout());
+		next.setPreferredSize(new Dimension(600, 120));
 		middle.add(map,BorderLayout.NORTH);
 		middle.add(next,BorderLayout.CENTER);
 		
 		
 
 		InfoPanel = new JTextArea();  
-		InfoPanel.setPreferredSize(new Dimension(350, 500));
+		InfoPanel.setPreferredSize(new Dimension(350, 450));
 		log = new JTextArea();
-		log.setPreferredSize(new Dimension(350, 170));
+		log.setPreferredSize(new Dimension(350, 242));
 		display = new JTextArea();
-		display.setPreferredSize(new Dimension(350, 130));
+		display.setPreferredSize(new Dimension(395, 120));
 		log.setEditable(false);
 		display.setEditable(false);
 		left.add(InfoPanel,BorderLayout.NORTH);
 		left.add(log,BorderLayout.SOUTH);
-		left.add(display,BorderLayout.CENTER);
+//		left.add(display,BorderLayout.CENTER);
 		InfoPanel.setText("                                                   Info"+"\n");
 		display.setText("                                                   DISPLAY");
 		log.setText("                                                    LOG");
@@ -111,13 +111,14 @@ public class GUI extends JFrame{
 	}
 	
 	public void addStartGameButton(JButton b) {
-		b.setPreferredSize(new Dimension(550, 125));
+		b.setPreferredSize(new Dimension(600, 120));
 		next.add(b);
 	}
 	
 	public void addNextCycleButton(JButton b) {
-		next.add(b);
-		b.setPreferredSize(new Dimension(400, 125));
+		next.add(display, BorderLayout.WEST);
+		next.add(b,BorderLayout.EAST);
+		b.setPreferredSize(new Dimension(200, 120));
 	}
 	
 	public void addMapButtons(ArrayList<JButton> arr) {
@@ -131,7 +132,7 @@ public class GUI extends JFrame{
 	}
 	
 	public void updateLog(Simulator s) {
-		String result ="                                                    LOG"+"\n" + "Current cycle: "+s.getCurrentCycle()+"\n"+"\n"+"Executed Disaters: "+"\n";
+		String result ="                                                    LOG"+"\n"+"\n"+"Executed Disaters: "+"\n";
 		for(int i=0;i<s.getExecutedDisasters().size();i++) {
 			if(s.getExecutedDisasters().get(i).getStartCycle() == s.getCurrentCycle()) {
 				result+="A "+s.getExecutedDisasters().get(i)+" disaster has struck "+s.getExecutedDisasters().get(i).getTarget()+"."+"\n";
