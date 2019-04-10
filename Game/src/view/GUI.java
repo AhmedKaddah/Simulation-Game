@@ -36,13 +36,13 @@ public class GUI extends JFrame{
 	
 	public GUI() {
 		this.setVisible(true);
-		this.validate();
 		this.setTitle("Command-Center");
 		this.setLayout(new BorderLayout());
 		this.setSize(1200, 800);
 		this.setLocation(100,0);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
+		this.validate();
 	
 		main = new JPanel(new BorderLayout());
 		left = new JPanel(new BorderLayout());

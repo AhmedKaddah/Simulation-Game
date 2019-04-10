@@ -50,6 +50,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 		for(int i=0;i<10;i++) {
 			for(int j=0;j<10;j++) {
 				JButton temp = new JButton(i+", "+j);
+				temp.setFont(new Font(Font.SERIF, Font.BOLD, 10));
 				temp.addActionListener(this);
 				mapButtons.add(temp);
 				temp.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -68,7 +69,32 @@ public class CommandCenter implements SOSListener,ActionListener {
 		}
 		g.addMapButtons(mapButtons);
 	}
-
+	public void updateMap() {
+		for(int i=0;i<mapButtons.size();i++) {
+			int mapx= i/ 10;
+			int mapy= i % 10;
+			Address temp = engine.getWorld()[mapx][mapy];
+			String r="";
+			for(int j=0;j<visibleBuildings.size();j++) {
+				if(temp.equals(visibleBuildings.get(j).getLocation())) {
+					r+="B";
+					for(int cc=0;cc<visibleBuildings.get(j).getOccupants().size();cc++) {
+						r+="C";
+					}
+					mapButtons.get(i).setText(r);
+					break;
+				}
+			}
+			for(int j=0;j<visibleCitizens.size();j++) {
+				if(temp.equals(visibleCitizens.get(j).getLocation())) {
+					r+="C";
+				}
+			}
+			mapButtons.get(i).setText(r);
+			
+			
+		}
+	}
 	@Override
 	public void receiveSOSCall(Rescuable r) {
 		
@@ -99,6 +125,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 			engine.nextCycle();
 			g.updateCasulaties(engine);
 			g.updateLog(engine);
+			updateMap();
 //			g.updateInfo(engine, this, j, k);
 			if(engine.checkGameOver()) {
 				g.dispose();
@@ -123,30 +150,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 //			g.updateInfo(engine, this, j, k);
 		}
 	}
-//	public void updateInfo(int x, int y) {
-//		String result= "                                                   Cell Info"+ "\n" +"\n"+ "Building:" +"\n";
-//		Address temp = engine.getWorld()[x][y];
-//		for(int i=0;i<visibleBuildings.size();i++) {
-//			if(visibleBuildings.get(i).getLocation());
-//		}}
-//	public void updateButtons(int a, int b) {
-//		for(int i=0;i<visibleBuildings.size();i++)
-//			if(visibleBuildings.get(i).getLocation().getX()==a && visibleBuildings.get(i).getLocation().getX()==b)
-//				g.getInfoPanel().add(new JButton(visibleBuildings.toString()));
-//		
-//		for(int i=0;i<visibleCitizens.size();i++)
-//			if(visibleCitizens.get(i).getLocation().getX()==a && visibleCitizens.get(i).getLocation().getX()==b)
-//				g.getInfoPanel().add(new JButton(visibleCitizens.toString()));
-//	
-//	}
-		
-				
 	
-	
-	public static void main(String[] args) throws Exception {
-		CommandCenter com = new CommandCenter();
-	}
-
 	public ArrayList<ResidentialBuilding> getVisibleBuildings() {
 		return visibleBuildings;
 	}
@@ -154,6 +158,14 @@ public class CommandCenter implements SOSListener,ActionListener {
 	public ArrayList<Citizen> getVisibleCitizens() {
 		return visibleCitizens;
 	}
+	
+				
+	
+	
+	public static void main(String[] args) throws Exception {
+		CommandCenter com = new CommandCenter();
+	}
+
 
 	
 

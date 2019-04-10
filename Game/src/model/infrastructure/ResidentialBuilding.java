@@ -70,7 +70,7 @@ public class ResidentialBuilding implements Rescuable, Simulatable
 		this.foundationDamage = foundationDamage;
 		if(this.foundationDamage>=100)
 		{
-			
+			this.foundationDamage=100;
 			setStructuralIntegrity(0);
 		}
 			
