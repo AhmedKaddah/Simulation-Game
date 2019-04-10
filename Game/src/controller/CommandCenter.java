@@ -33,7 +33,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 	private ArrayList<JButton> mapButtons;
 	private int j;
 	private int k;
-
+	private CommandCenter command=this;
 	@SuppressWarnings("unused")
 	private ArrayList<Unit> emergencyUnits;
 
@@ -55,7 +55,9 @@ public class CommandCenter implements SOSListener,ActionListener {
 				temp.addMouseListener(new java.awt.event.MouseAdapter() {
 				    public void mouseEntered(java.awt.event.MouseEvent evt) {
 				        temp.setBackground(Color.GREEN);
-				        
+				        command.j= mapButtons.indexOf(temp) / 10;
+						command.k= mapButtons.indexOf(temp) % 10;
+						command.g.updateInfo(engine, command, command.j, command.k);
 				    }
 				    public void mouseExited(java.awt.event.MouseEvent evt) {
 				        temp.setBackground(UIManager.getColor("control"));
