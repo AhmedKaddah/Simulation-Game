@@ -53,6 +53,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 				temp.addMouseListener(new java.awt.event.MouseAdapter() {
 				    public void mouseEntered(java.awt.event.MouseEvent evt) {
 				        temp.setBackground(Color.GREEN);
+				        
 				    }
 				    public void mouseExited(java.awt.event.MouseEvent evt) {
 				        temp.setBackground(UIManager.getColor("control"));
