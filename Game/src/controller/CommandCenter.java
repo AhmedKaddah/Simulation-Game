@@ -1,8 +1,7 @@
 package controller;
-//hg
+
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +22,6 @@ import simulation.Simulator;
 import view.GUI;
 
 public class CommandCenter implements SOSListener,ActionListener {
-
 	private Simulator engine;
 	private ArrayList<ResidentialBuilding> visibleBuildings;
 	private ArrayList<Citizen> visibleCitizens;
@@ -56,13 +54,13 @@ public class CommandCenter implements SOSListener,ActionListener {
 				temp.addMouseListener(new java.awt.event.MouseAdapter() {
 				    public void mouseEntered(java.awt.event.MouseEvent evt) {
 				        temp.setBackground(Color.GREEN);
-				        command.j= mapButtons.indexOf(temp) / 10;
-						command.k= mapButtons.indexOf(temp) % 10;
-						command.g.updateInfo(engine, command, command.j, command.k);
+//				        command.j= mapButtons.indexOf(temp) / 10;
+//						command.k= mapButtons.indexOf(temp) % 10;
+//						command.g.updateInfo(engine, command, command.j, command.k);
 				    }
 				    public void mouseExited(java.awt.event.MouseEvent evt) {
 				        temp.setBackground(UIManager.getColor("control"));
-				        command.g.getInfoPanel().setText("                                                   Info"+"\n");
+//				        command.g.getInfoPanel().setText("                                                   Info"+"\n");
 				    }
 				});
 			}
@@ -126,7 +124,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 			g.updateCasulaties(engine);
 			g.updateLog(engine);
 			updateMap();
-//			g.updateInfo(engine, this, j, k);
+			g.updateInfo(engine, this, j, k);
 			if(engine.checkGameOver()) {
 				g.dispose();
 				JFrame x = new JFrame("Game Over");
@@ -145,13 +143,13 @@ public class CommandCenter implements SOSListener,ActionListener {
 				x.setResizable(false);
 			}
 			
-			
+			g.updateDisasters(this);
 			
 		}
 		if(mapButtons.contains(b)) {
-//			j= mapButtons.indexOf(b) / 10;
-//			k= mapButtons.indexOf(b) % 10;
-//			g.updateInfo(engine, this, j, k);
+			j= mapButtons.indexOf(b) / 10;
+			k= mapButtons.indexOf(b) % 10;
+			g.updateInfo(engine, this, j, k);
 		}
 	}
 	
