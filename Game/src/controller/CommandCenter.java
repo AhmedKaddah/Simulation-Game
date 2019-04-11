@@ -15,7 +15,13 @@ import javax.swing.UIManager;
 import model.events.SOSListener;
 import model.infrastructure.ResidentialBuilding;
 import model.people.Citizen;
+import model.units.Ambulance;
+import model.units.DiseaseControlUnit;
+import model.units.Evacuator;
+import model.units.FireTruck;
+import model.units.GasControlUnit;
 import model.units.Unit;
+import model.units.UnitState;
 import simulation.Address;
 import simulation.Rescuable;
 import simulation.Simulator;
@@ -29,12 +35,21 @@ public class CommandCenter implements SOSListener,ActionListener {
 	private JButton startGame = new JButton("Start Game");
 	private JButton nextCycle = new JButton("Next Cycle");
 	private ArrayList<JButton> mapButtons;
+	private ArrayList<JButton> unitButtons;
 	private int j;
 	private int k;
 	private CommandCenter command=this;
 	@SuppressWarnings("unused")
 	private ArrayList<Unit> emergencyUnits;
-
+	private JButton amb;
+	private JButton dcu;
+	private JButton evc;
+	private JButton ftk;
+	private JButton gcu;
+	
+	
+	
+	
 	public CommandCenter() throws Exception {
 		engine = new Simulator(this);
 		visibleBuildings = new ArrayList<ResidentialBuilding>();
@@ -45,6 +60,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 		nextCycle.addActionListener(this);
 		startGame.addActionListener(this);
 		mapButtons = new ArrayList<JButton>();
+		unitButtons = new ArrayList<JButton>();
 		for(int i=0;i<10;i++) {
 			for(int j=0;j<10;j++) {
 				JButton temp = new JButton(i+", "+j);
@@ -65,7 +81,23 @@ public class CommandCenter implements SOSListener,ActionListener {
 				});
 			}
 		}
+	
 		g.addMapButtons(mapButtons);
+
+		JButton amb = new JButton("AMB");
+		JButton dcu = new JButton("DCU");
+		JButton evc = new JButton("EVC");
+		JButton ftk = new JButton("FTK");
+		JButton gcu = new JButton("GCU");
+		amb.addActionListener(this);
+		dcu.addActionListener(this);
+		evc.addActionListener(this);
+		ftk.addActionListener(this);
+		gcu.addActionListener(this);
+		g.updateUnits(this);
+
+
+		
 	}
 	public void updateMap() {
 		for(int i=0;i<mapButtons.size();i++) {
@@ -125,6 +157,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 			g.updateLog(engine);
 			updateMap();
 			g.updateInfo(engine, this, j, k);
+			g.updateUnits(this);
 			if(engine.checkGameOver()) {
 				g.dispose();
 				JFrame x = new JFrame("Game Over");
@@ -168,6 +201,26 @@ public class CommandCenter implements SOSListener,ActionListener {
 		CommandCenter com = new CommandCenter();
 		com.g.setVisible(true);
 	}
+	public ArrayList<Unit> getEmergencyUnits() {
+		return emergencyUnits;
+	}
+	public JButton getAmb() {
+		return amb;
+	}
+	public JButton getDcu() {
+		return dcu;
+	}
+	public JButton getEvc() {
+		return evc;
+	}
+	public JButton getFtk() {
+		return ftk;
+	}
+	public JButton getGcu() {
+		return gcu;
+	}
+
+
 
 
 	

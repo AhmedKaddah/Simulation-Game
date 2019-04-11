@@ -12,6 +12,13 @@ import controller.CommandCenter;
 import model.infrastructure.ResidentialBuilding;
 import model.people.Citizen;
 import model.people.CitizenState;
+import model.units.Ambulance;
+import model.units.DiseaseControlUnit;
+import model.units.Evacuator;
+import model.units.FireTruck;
+import model.units.GasControlUnit;
+import model.units.Unit;
+import model.units.UnitState;
 import simulation.Address;
 import simulation.Simulator;
 
@@ -246,7 +253,70 @@ public class GUI extends JFrame{
 		}
 	}
 	
-	
+	public void updateUnits(CommandCenter c) {
+		for(int i=0; i<c.getEmergencyUnits().size();i++) {
+			Unit u= c.getEmergencyUnits().get(i);
+		if(u instanceof Ambulance) {
+			if(u.getState()== UnitState.IDLE) {
+				AvailbleUnits.add(c.getAmb());
+			}
+			if(u.getState()== UnitState.RESPONDING) {
+				RespondingUnits.add(c.getAmb());
+			}
+			if(u.getState()== UnitState.TREATING) {
+				TreatingUnits.add(c.getAmb());
+			}
+		}
+		if(u instanceof DiseaseControlUnit) {
+			if(u.getState()== UnitState.IDLE) {
+				AvailbleUnits.add(c.getDcu());
+			}
+			if(u.getState()== UnitState.RESPONDING) {
+				RespondingUnits.add(c.getDcu());
+			}
+			if(u.getState()== UnitState.TREATING) {
+				TreatingUnits.add(c.getDcu());
+			}
+		}
+		if(u instanceof Evacuator) {
+			if(u.getState()== UnitState.IDLE) {
+				AvailbleUnits.add(c.getEvc());
+			}
+			if(u.getState()== UnitState.RESPONDING) {
+				RespondingUnits.add(c.getEvc());
+			}
+			if(u.getState()== UnitState.TREATING) {
+				TreatingUnits.add(c.getEvc());
+			}
+		}
+		if(u instanceof FireTruck) {
+			if(u.getState()== UnitState.IDLE) {
+				AvailbleUnits.add(c.getFtk());
+			}
+			if(u.getState()== UnitState.RESPONDING) {
+				RespondingUnits.add(c.getFtk());
+			}
+			if(u.getState()== UnitState.TREATING) {
+				TreatingUnits.add(c.getFtk());
+			}
+		}
+		if(u instanceof GasControlUnit) {
+			if(u.getState()== UnitState.IDLE) {
+				AvailbleUnits.add(c.getGcu());
+			}
+			if(u.getState()== UnitState.RESPONDING) {
+				RespondingUnits.add(c.getGcu());
+			}
+			if(u.getState()== UnitState.TREATING) {
+				TreatingUnits.add(c.getGcu());
+			}
+		}
+			
+			
+		
+		
+		}
+	}
 
 	public JPanel getMap() {
 		return map;
