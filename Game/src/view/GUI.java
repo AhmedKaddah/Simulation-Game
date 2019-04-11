@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.border.Border;
+
 import controller.CommandCenter;
 import model.infrastructure.ResidentialBuilding;
 import model.people.Citizen;
@@ -76,12 +78,16 @@ public class GUI extends JFrame{
 		TreatingUnits.setPreferredSize(new Dimension(250, 240));
 		AvailbleUnits = new JPanel(new FlowLayout());
 		AvailbleUnits.setPreferredSize(new Dimension(250, 240));
+		
 		right.add(AvailbleUnits,BorderLayout.NORTH);
 		right.add(RespondingUnits,BorderLayout.CENTER);
 		right.add(TreatingUnits,BorderLayout.SOUTH);
-		RespondingUnits.add(new JLabel("Availble Units."));
-		TreatingUnits.add(new JLabel("Treating Units."));
-		AvailbleUnits.add(new JLabel("Reponding Units."));
+		Border BA = BorderFactory.createTitledBorder("                           Available Units");
+		Border TU = BorderFactory.createTitledBorder("                           Treating Units");
+		Border RU = BorderFactory.createTitledBorder("                           Responding Units");
+		AvailbleUnits.setBorder(BA);
+		TreatingUnits.setBorder(TU);
+		RespondingUnits.setBorder(RU);
 		
 		disasters = new DefaultListModel<>(); 
 		JList<String> c = new JList<>(disasters);
@@ -251,64 +257,94 @@ public class GUI extends JFrame{
 					InfoPanel.addElement("---------------------");
 			}
 		}
+		for(int i=0; i<c.getEmergencyUnits().size();i++) {
+			if(c.getEmergencyUnits().get(i).getLocation().getX()== x &&c.getEmergencyUnits().get(i).getLocation().getY()== y) {
+				InfoPanel.addElement("                                Units at this location:");
+				break;
+			}
+		}
+		for(int i=0; i<c.getEmergencyUnits().size();i++) {
+			if(c.getEmergencyUnits().get(i).getLocation().getX()== x &&c.getEmergencyUnits().get(i).getLocation().getY()== y) {
+				InfoPanel.addElement(c.getEmergencyUnits().get(i).toString());
+			if(c.getEmergencyUnits().get(i) instanceof Evacuator) {
+				if(((Evacuator) c.getEmergencyUnits().get(i)).getPassengers().size()>0)
+				InfoPanel.addElement("                             Citizens inside the Evacuator: ");
+				for(int j=0;j<((Evacuator) c.getEmergencyUnits().get(i)).getPassengers().size();j++) {
+				Citizen k= ((Evacuator) c.getEmergencyUnits().get(i)).getPassengers().get(j);
+				InfoPanel.addElement( k+" at "+ x+", "+y);
+				InfoPanel.addElement(("Age: "+k.getAge()));
+				InfoPanel.addElement("National ID: "+k.getNationalID());
+				InfoPanel.addElement("HP: "+k.getHp());
+				InfoPanel.addElement("Blood Loss: "+k.getBloodLoss());
+				InfoPanel.addElement("Toxicity: "+k.getToxicity());
+				InfoPanel.addElement("State: "+k.getState());
+				InfoPanel.addElement("---------------------");
+				}}
+			}
+		}
 	}
 	
 	public void updateUnits(CommandCenter c) {
+		for(int i=0;i<c.getUnitButtons().size();i++) {
+			AvailbleUnits.remove(c.getUnitButtons().get(i));
+			TreatingUnits.remove(c.getUnitButtons().get(i));
+			RespondingUnits.remove(c.getUnitButtons().get(i));
+		}
+		
 		for(int i=0; i<c.getEmergencyUnits().size();i++) {
-			Unit u= c.getEmergencyUnits().get(i);
-		if(u instanceof Ambulance) {
-			if(u.getState()== UnitState.IDLE) {
-				AvailbleUnits.add(c.getAmb());
+		if(c.getEmergencyUnits().get(i) instanceof Ambulance) {
+			if(c.getEmergencyUnits().get(i).getState()== UnitState.IDLE) {
+				AvailbleUnits.add(c.getUnitButtons().get(i));
 			}
-			if(u.getState()== UnitState.RESPONDING) {
-				RespondingUnits.add(c.getAmb());
+			if(c.getEmergencyUnits().get(i).getState()== UnitState.RESPONDING) {
+				RespondingUnits.add(c.getUnitButtons().get(i));
 			}
-			if(u.getState()== UnitState.TREATING) {
-				TreatingUnits.add(c.getAmb());
-			}
-		}
-		if(u instanceof DiseaseControlUnit) {
-			if(u.getState()== UnitState.IDLE) {
-				AvailbleUnits.add(c.getDcu());
-			}
-			if(u.getState()== UnitState.RESPONDING) {
-				RespondingUnits.add(c.getDcu());
-			}
-			if(u.getState()== UnitState.TREATING) {
-				TreatingUnits.add(c.getDcu());
+			if(c.getEmergencyUnits().get(i).getState()== UnitState.TREATING) {
+				TreatingUnits.add(c.getUnitButtons().get(i));
 			}
 		}
-		if(u instanceof Evacuator) {
-			if(u.getState()== UnitState.IDLE) {
-				AvailbleUnits.add(c.getEvc());
+		if(c.getEmergencyUnits().get(i) instanceof DiseaseControlUnit) {
+			if(c.getEmergencyUnits().get(i).getState()== UnitState.IDLE) {
+				AvailbleUnits.add(c.getUnitButtons().get(i));
 			}
-			if(u.getState()== UnitState.RESPONDING) {
-				RespondingUnits.add(c.getEvc());
+			if(c.getEmergencyUnits().get(i).getState()== UnitState.RESPONDING) {
+				RespondingUnits.add(c.getUnitButtons().get(i));
 			}
-			if(u.getState()== UnitState.TREATING) {
-				TreatingUnits.add(c.getEvc());
-			}
-		}
-		if(u instanceof FireTruck) {
-			if(u.getState()== UnitState.IDLE) {
-				AvailbleUnits.add(c.getFtk());
-			}
-			if(u.getState()== UnitState.RESPONDING) {
-				RespondingUnits.add(c.getFtk());
-			}
-			if(u.getState()== UnitState.TREATING) {
-				TreatingUnits.add(c.getFtk());
+			if(c.getEmergencyUnits().get(i).getState()== UnitState.TREATING) {
+				TreatingUnits.add(c.getUnitButtons().get(i));
 			}
 		}
-		if(u instanceof GasControlUnit) {
-			if(u.getState()== UnitState.IDLE) {
-				AvailbleUnits.add(c.getGcu());
+		if(c.getEmergencyUnits().get(i) instanceof Evacuator) {
+			if(c.getEmergencyUnits().get(i).getState()== UnitState.IDLE) {
+				AvailbleUnits.add(c.getUnitButtons().get(i));
 			}
-			if(u.getState()== UnitState.RESPONDING) {
-				RespondingUnits.add(c.getGcu());
+			if(c.getEmergencyUnits().get(i).getState()== UnitState.RESPONDING) {
+				RespondingUnits.add(c.getUnitButtons().get(i));
 			}
-			if(u.getState()== UnitState.TREATING) {
-				TreatingUnits.add(c.getGcu());
+			if(c.getEmergencyUnits().get(i).getState()== UnitState.TREATING) {
+				TreatingUnits.add(c.getUnitButtons().get(i));
+			}
+		}
+		if(c.getEmergencyUnits().get(i) instanceof FireTruck) {
+			if(c.getEmergencyUnits().get(i).getState()== UnitState.IDLE) {
+				AvailbleUnits.add(c.getUnitButtons().get(i));
+			}
+			if(c.getEmergencyUnits().get(i).getState()== UnitState.RESPONDING) {
+				RespondingUnits.add(c.getUnitButtons().get(i));
+			}
+			if(c.getEmergencyUnits().get(i).getState()== UnitState.TREATING) {
+				TreatingUnits.add(c.getUnitButtons().get(i));
+			}
+		}
+		if(c.getEmergencyUnits().get(i) instanceof GasControlUnit) {
+			if(c.getEmergencyUnits().get(i).getState()== UnitState.IDLE) {
+				AvailbleUnits.add(c.getUnitButtons().get(i));
+			}
+			if(c.getEmergencyUnits().get(i).getState()== UnitState.RESPONDING) {
+				RespondingUnits.add(c.getUnitButtons().get(i));
+			}
+			if(c.getEmergencyUnits().get(i).getState()== UnitState.TREATING) {
+				TreatingUnits.add(c.getUnitButtons().get(i));
 			}
 		}
 			
@@ -320,6 +356,22 @@ public class GUI extends JFrame{
 
 	public JPanel getMap() {
 		return map;
+	}
+
+	public JPanel getRespondingUnits() {
+		return RespondingUnits;
+	}
+
+	public JPanel getTreatingUnits() {
+		return TreatingUnits;
+	}
+
+	public JPanel getAvailbleUnits() {
+		return AvailbleUnits;
+	}
+
+	public JPanel getRight() {
+		return right;
 	}
 
 

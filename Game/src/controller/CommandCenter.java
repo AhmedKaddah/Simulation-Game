@@ -84,18 +84,29 @@ public class CommandCenter implements SOSListener,ActionListener {
 	
 		g.addMapButtons(mapButtons);
 
-		JButton amb = new JButton("AMB");
-		JButton dcu = new JButton("DCU");
-		JButton evc = new JButton("EVC");
-		JButton ftk = new JButton("FTK");
-		JButton gcu = new JButton("GCU");
-		amb.addActionListener(this);
-		dcu.addActionListener(this);
-		evc.addActionListener(this);
-		ftk.addActionListener(this);
-		gcu.addActionListener(this);
+		
+		
+		for(int i=0; i<emergencyUnits.size();i++)
+		{
+			if(emergencyUnits.get(i) instanceof Ambulance) {
+				unitButtons.add(new JButton("AMB"));
+			}
+			if(emergencyUnits.get(i) instanceof DiseaseControlUnit) {
+				unitButtons.add(new JButton("DCU"));
+			}
+			if(emergencyUnits.get(i) instanceof Evacuator) {
+				unitButtons.add(new JButton("EVC"));
+			}
+			if(emergencyUnits.get(i) instanceof FireTruck) {
+				unitButtons.add(new JButton("FTK"));
+			}
+			if(emergencyUnits.get(i) instanceof GasControlUnit) {
+				unitButtons.add(new JButton("GCU"));
+			}
+			unitButtons.get(i).addActionListener(this);
+		}
+		
 		g.updateUnits(this);
-
 
 		
 	}
@@ -177,7 +188,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 			}
 			
 			g.updateDisasters(this);
-			
+
 		}
 		if(mapButtons.contains(b)) {
 			j= mapButtons.indexOf(b) / 10;
@@ -194,31 +205,20 @@ public class CommandCenter implements SOSListener,ActionListener {
 		return visibleCitizens;
 	}
 	
-				
+	public ArrayList<Unit> getEmergencyUnits() {
+		return emergencyUnits;
+	}		
 	
 	
 	public static void main(String[] args) throws Exception {
 		CommandCenter com = new CommandCenter();
 		com.g.setVisible(true);
 	}
-	public ArrayList<Unit> getEmergencyUnits() {
-		return emergencyUnits;
+	public ArrayList<JButton> getUnitButtons() {
+		return unitButtons;
 	}
-	public JButton getAmb() {
-		return amb;
-	}
-	public JButton getDcu() {
-		return dcu;
-	}
-	public JButton getEvc() {
-		return evc;
-	}
-	public JButton getFtk() {
-		return ftk;
-	}
-	public JButton getGcu() {
-		return gcu;
-	}
+	
+
 
 
 

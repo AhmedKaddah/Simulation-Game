@@ -28,5 +28,12 @@ public class FireTruck extends FireUnit {
 			jobsDone();
 
 	}
+	public String toString() {
+		String r= "Fire Truck, " +"ID: "+ this.getUnitID()+" Steps per cycle: "+this.getStepsPerCycle()+" Unit State: "+this.getState();
+		if(this.getTarget()!=null)
+			r+= " Target: Building at "+this.getLocation().getX()+", "+this.getLocation().getY();
+		return r;
+		
+	}
 
 }

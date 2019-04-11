@@ -54,5 +54,12 @@ public class DiseaseControlUnit extends MedicalUnit {
 			}
 		}
 	}
+	public String toString() {
+		String r= "Disease Control Unit, " +"ID: "+ this.getUnitID()+" Steps per cycle: "+this.getStepsPerCycle()+" Unit State: "+this.getState();
+		if(this.getTarget()!=null)
+			r+= " Target: Citizen at "+this.getLocation().getX()+", "+this.getLocation().getY();
+		return r;
+		
+	}
 
 }

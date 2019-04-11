@@ -31,5 +31,13 @@ public class Evacuator extends PoliceUnit {
 				+ target.getLocation().getY());
 
 	}
+	public String toString() {
+		String r= "Evacuator, " +"ID: "+ this.getUnitID()+" Steps per cycle: "+this.getStepsPerCycle()+" Unit State: "+this.getState();
+		if(this.getTarget()!=null)
+			r+= " Target: Building at "+this.getLocation().getX()+", "+this.getLocation().getY();
+		r+= " Number of passangers: "+this.getPassengers().size();
+		return r;
+		
+	}
 
 }
