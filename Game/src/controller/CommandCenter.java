@@ -164,6 +164,8 @@ public class CommandCenter implements SOSListener,ActionListener {
 		if(b.equals(nextCycle)) {
 			g.revalidate();
 			engine.nextCycle();
+			if(currentunit!=null)
+				g.updateUnitInfo(currentunit);
 			g.updateCasulaties(engine);
 			g.updateLog(engine);
 			updateMap();
@@ -195,6 +197,8 @@ public class CommandCenter implements SOSListener,ActionListener {
 			choosetarget=true;
 			int n= unitButtons.indexOf(b);
 			currentunit = emergencyUnits.get(n);
+			g.updateUnitInfo(currentunit);
+			
 		}
 		if(mapButtons.contains(b)) {
 			j= mapButtons.indexOf(b) / 10;
@@ -237,7 +241,9 @@ public class CommandCenter implements SOSListener,ActionListener {
 			if(visibleBuildings.get(i).getLocation().equals(engine.getWorld()[j][k])) {
 				if(r==n) {
 					try {
-						currentunit.respond(visibleBuildings.get(i));}
+						currentunit.respond(visibleBuildings.get(i));
+						g.updateUnits(this);
+						g.updateUnitInfo(currentunit);}
 						catch(CannotTreatException e1) {
 							JOptionPane.showMessageDialog( null, e1.getMessage() );
 						}
@@ -252,7 +258,9 @@ public class CommandCenter implements SOSListener,ActionListener {
 			if(visibleCitizens.get(i).getLocation().equals(engine.getWorld()[j][k])) {
 				if(r==n) {
 					try {
-					currentunit.respond(visibleCitizens.get(i));}
+					currentunit.respond(visibleCitizens.get(i));
+					g.updateUnits(this);
+					g.updateUnitInfo(currentunit);}
 					catch(CannotTreatException e1) {
 						JOptionPane.showMessageDialog( null, e1.getMessage() );
 					}

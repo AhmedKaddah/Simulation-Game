@@ -28,6 +28,7 @@ public class GUI extends JFrame{
 	private JPanel main;
 	private JPanel left;
 	private JPanel right;
+	private JPanel rightup;
 	private JPanel middle;
 	private JPanel RespondingUnits;
 	private JPanel TreatingUnits;
@@ -37,6 +38,7 @@ public class GUI extends JFrame{
 	private DefaultListModel<String> log;
 	private DefaultListModel<String> disasters;
 	
+	private DefaultListModel<String> unitInfo;
 	private JTextArea display;
 	private JPanel next;
 	private JScrollPane sc;
@@ -57,11 +59,13 @@ public class GUI extends JFrame{
 		main = new JPanel(new BorderLayout());
 		left = new JPanel(new BorderLayout());
 		right = new JPanel(new BorderLayout());
+		rightup = new JPanel(new BorderLayout());
 		middle = new JPanel(new BorderLayout());
 		main.setPreferredSize(new Dimension(1250, 720));
 		left.setPreferredSize(new Dimension(400, 720));
 		left.setBackground(Color.blue);
 		right.setPreferredSize(new Dimension(250, 720));
+		rightup.setPreferredSize(new Dimension(250, 480));
 		right.setBackground(Color.CYAN);
 		middle.setPreferredSize(new Dimension(600,720));
 		middle.setBackground(Color.red);
@@ -70,18 +74,27 @@ public class GUI extends JFrame{
 		main.add(right,BorderLayout.EAST);
 		
 		
+		unitInfo = new DefaultListModel<>(); 
+		JList<String> d = new JList<>(unitInfo);
+		JScrollPane sc4 = new JScrollPane(d,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		sc4.setPreferredSize(new Dimension(250, 240));
+		JLabel r4 = new JLabel("              Unit Info");
+		r4.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
+		sc4.setColumnHeaderView(r4);
 		
-		
+
 		RespondingUnits = new JPanel(new FlowLayout());
-		RespondingUnits.setPreferredSize(new Dimension(250, 240));
+		RespondingUnits.setPreferredSize(new Dimension(250, 160));
 		TreatingUnits = new JPanel(new FlowLayout());
-		TreatingUnits.setPreferredSize(new Dimension(250, 240));
+		TreatingUnits.setPreferredSize(new Dimension(250, 160));
 		AvailbleUnits = new JPanel(new FlowLayout());
-		AvailbleUnits.setPreferredSize(new Dimension(250, 240));
+		AvailbleUnits.setPreferredSize(new Dimension(250, 160));
 		
-		right.add(AvailbleUnits,BorderLayout.NORTH);
-		right.add(RespondingUnits,BorderLayout.CENTER);
-		right.add(TreatingUnits,BorderLayout.SOUTH);
+		rightup.add(AvailbleUnits,BorderLayout.NORTH);
+		rightup.add(RespondingUnits,BorderLayout.CENTER);
+		rightup.add(TreatingUnits,BorderLayout.SOUTH);
+		right.add(rightup,BorderLayout.NORTH);
+		right.add(sc4,BorderLayout.CENTER);
 		Border BA = BorderFactory.createTitledBorder("                           Available Units");
 		Border TU = BorderFactory.createTitledBorder("                           Treating Units");
 		Border RU = BorderFactory.createTitledBorder("                           Responding Units");
@@ -151,6 +164,49 @@ public class GUI extends JFrame{
 		}
 		
 	}
+	
+	public void updateUnitInfo(Unit u) {
+		unitInfo.removeAllElements();
+		if(u instanceof FireTruck)
+			unitInfo.addElement("Type: Fire Truck");
+		if(u instanceof Evacuator)
+			unitInfo.addElement("Type: Evacuator");
+		if(u instanceof DiseaseControlUnit)
+			unitInfo.addElement("Type: Disease Control Unit");
+		if(u instanceof Ambulance)
+			unitInfo.addElement("Type: Ambulance");
+		if(u instanceof GasControlUnit)
+			unitInfo.addElement("Type: Gas Control Unit");
+		unitInfo.addElement("ID: "+u.getUnitID());
+		unitInfo.addElement("Location: "+u.getLocation().getX()+","+u.getLocation().getY());
+		unitInfo.addElement("Steps per cyle: "+u.getStepsPerCycle());
+		unitInfo.addElement("State: "+u.getState());
+		if(u.getTarget() instanceof Citizen)
+			unitInfo.addElement("Target: Citizen at location "+u.getTarget().getLocation().getX()+","+u.getTarget().getLocation().getY());
+		if(u.getTarget() instanceof ResidentialBuilding)
+			unitInfo.addElement("Target: Building at location "+u.getTarget().getLocation().getX()+","+u.getTarget().getLocation().getY());
+		if(u instanceof Evacuator) {
+			unitInfo.addElement("Number of passengers: "+((Evacuator)u).getPassengers().size());
+			if (((Evacuator) u).getPassengers().size()>0) {
+				unitInfo.addElement("");
+				unitInfo.addElement("");
+				unitInfo.addElement("Citizens inside the Evacuator:");
+				unitInfo.addElement("");
+				unitInfo.addElement("");
+				for(int i=0; i<((Evacuator) u).getPassengers().size();i++) {
+					Citizen k= ((Evacuator) u).getPassengers().get(i);
+					unitInfo.addElement( k+" at "+ u.getLocation().getX()+", "+u.getLocation().getY());
+					unitInfo.addElement(("Age: "+k.getAge()));
+					unitInfo.addElement("National ID: "+k.getNationalID());
+					unitInfo.addElement("HP: "+k.getHp());
+					unitInfo.addElement("Blood Loss: "+k.getBloodLoss());
+					unitInfo.addElement("Toxicity: "+k.getToxicity());
+					unitInfo.addElement("State: "+k.getState());
+					unitInfo.addElement("---------------");
+				}
+			}
+		}
+	}
 	public void addStartGameButton(JButton b) {
 		b.setPreferredSize(new Dimension(600, 120));
 		next.add(b);
@@ -207,8 +263,10 @@ public class GUI extends JFrame{
 		InfoPanel.addElement("");
 		InfoPanel.addElement("");
 		Address temp = s.getWorld()[x][y];
+		boolean flag = false;
 		for (int i=0;i<c.getVisibleBuildings().size();i++) {
 			if(temp.equals(c.getVisibleBuildings().get(i).getLocation())) {
+				flag=true;
 				ResidentialBuilding b= c.getVisibleBuildings().get(i);
 				InfoPanel.addElement( b.toString());
 				InfoPanel.addElement("Structural Integrity: "+b.getStructuralIntegrity());
@@ -237,9 +295,10 @@ public class GUI extends JFrame{
 						InfoPanel.addElement("---------------------");
 					}
 				}
-				return;
+				
 			}
 		}
+		if(flag==false) {
 		for(int i=0;i<c.getVisibleCitizens().size();i++) {
 			if(temp.equals(c.getVisibleCitizens().get(i).getLocation())) {
 				InfoPanel.addElement("                                Citizens at this cell: ");
@@ -256,7 +315,7 @@ public class GUI extends JFrame{
 						}
 					InfoPanel.addElement("---------------------");
 			}
-		}
+		}}
 		for(int i=0; i<c.getEmergencyUnits().size();i++) {
 			if(c.getEmergencyUnits().get(i).getLocation().getX()== x && c.getEmergencyUnits().get(i).getLocation().getY()== y) {
 				InfoPanel.addElement("                                Units at this location:");
@@ -264,8 +323,7 @@ public class GUI extends JFrame{
 			}
 		}
 		for(int i=0; i<c.getEmergencyUnits().size();i++) {
-			if(c.getEmergencyUnits().get(i).getLocation().getX()== x &&c.getEmergencyUnits().get(i).getLocation().getY()== y) {
-				System.out.println("test");
+			if(c.getEmergencyUnits().get(i).getLocation().equals(temp)) {
 				InfoPanel.addElement(c.getEmergencyUnits().get(i).toString());
 				
 			if(c.getEmergencyUnits().get(i) instanceof Evacuator) {
@@ -358,7 +416,9 @@ public class GUI extends JFrame{
 		c.getUnitButtons().get(i).setVisible(true);
 		
 		}
-		
+		AvailbleUnits.repaint();
+		TreatingUnits.repaint();
+		RespondingUnits.repaint();
 	}
 
 	public JPanel getMap() {
