@@ -10,8 +10,12 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import exceptions.CannotTreatException;
+import exceptions.IncompatibleTargetException;
 import model.events.SOSListener;
 import model.infrastructure.ResidentialBuilding;
 import model.people.Citizen;
@@ -41,12 +45,9 @@ public class CommandCenter implements SOSListener,ActionListener {
 	private CommandCenter command=this;
 	@SuppressWarnings("unused")
 	private ArrayList<Unit> emergencyUnits;
-	private JButton amb;
-	private JButton dcu;
-	private JButton evc;
-	private JButton ftk;
-	private JButton gcu;
-	
+	JOptionPane selecttarget = new JOptionPane();
+	private Unit currentunit;
+	private boolean choosetarget = false;
 	
 	
 	
@@ -119,9 +120,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 			for(int j=0;j<visibleBuildings.size();j++) {
 				if(temp.equals(visibleBuildings.get(j).getLocation())) {
 					r+="B";
-					for(int cc=0;cc<visibleBuildings.get(j).getOccupants().size();cc++) {
-						r+="C";
-					}
+					
 					mapButtons.get(i).setText(r);
 					break;
 				}
@@ -163,12 +162,14 @@ public class CommandCenter implements SOSListener,ActionListener {
 			g.addNextCycleButton(nextCycle);
 		}
 		if(b.equals(nextCycle)) {
+			g.revalidate();
 			engine.nextCycle();
 			g.updateCasulaties(engine);
 			g.updateLog(engine);
 			updateMap();
 			g.updateInfo(engine, this, j, k);
 			g.updateUnits(this);
+			g.revalidate();
 			if(engine.checkGameOver()) {
 				g.dispose();
 				JFrame x = new JFrame("Game Over");
@@ -190,11 +191,81 @@ public class CommandCenter implements SOSListener,ActionListener {
 			g.updateDisasters(this);
 
 		}
+		if(unitButtons.contains(b)) {
+			choosetarget=true;
+			int n= unitButtons.indexOf(b);
+			currentunit = emergencyUnits.get(n);
+		}
 		if(mapButtons.contains(b)) {
 			j= mapButtons.indexOf(b) / 10;
 			k= mapButtons.indexOf(b) % 10;
 			g.updateInfo(engine, this, j, k);
+			
+			
+			
+			if(choosetarget) {
+			int count =0;
+			for(int i=0; i<visibleBuildings.size();i++) {
+				if(visibleBuildings.get(i).getLocation().equals(engine.getWorld()[j][k])) {
+					count++;
+				}
+			}
+			for(int i=0; i<visibleCitizens.size();i++) {
+				if(visibleCitizens.get(i).getLocation().equals(engine.getWorld()[j][k])) {
+					count++;
+				}
+			}
+			Object[] o= new Object[count];
+			count=0;
+			for(int i=0; i<visibleBuildings.size();i++) {
+				if(visibleBuildings.get(i).getLocation().equals(engine.getWorld()[j][k])) {
+					o[count++]= visibleBuildings.get(i).toString();
+				}
+			}
+			for(int i=0; i<visibleCitizens.size();i++) {
+				if(visibleCitizens.get(i).getLocation().equals(engine.getWorld()[j][k])) {
+					o[count++]= visibleCitizens.get(i).toString();
+				}
+			}
+		int n = JOptionPane.showOptionDialog(selecttarget,"Please choose a target","Choose target",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null, o, null);
+		if(n==-1) {
+			choosetarget=false;
+		}	
+		else {
+		int r=0;
+		for(int i=0; i<visibleBuildings.size();i++) {
+			if(visibleBuildings.get(i).getLocation().equals(engine.getWorld()[j][k])) {
+				if(r==n) {
+					try {
+						currentunit.respond(visibleBuildings.get(i));}
+						catch(CannotTreatException e1) {
+							JOptionPane.showMessageDialog( null, e1.getMessage() );
+						}
+						catch(IncompatibleTargetException e2) {
+							JOptionPane.showMessageDialog( null, e2.getMessage() );				
+						}
+				}
+				r++;
+			}
 		}
+		for(int i=0; i<visibleCitizens.size();i++) {
+			if(visibleCitizens.get(i).getLocation().equals(engine.getWorld()[j][k])) {
+				if(r==n) {
+					try {
+					currentunit.respond(visibleCitizens.get(i));}
+					catch(CannotTreatException e1) {
+						JOptionPane.showMessageDialog( null, e1.getMessage() );
+					}
+					catch(IncompatibleTargetException e2) {
+						JOptionPane.showMessageDialog( null, e2.getMessage() );					
+					}
+					
+				}
+				r++;
+			}
+		}
+			choosetarget=false;
+			}}}
 	}
 	
 	public ArrayList<ResidentialBuilding> getVisibleBuildings() {

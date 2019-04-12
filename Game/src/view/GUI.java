@@ -258,13 +258,13 @@ public class GUI extends JFrame{
 			}
 		}
 		for(int i=0; i<c.getEmergencyUnits().size();i++) {
-			if(c.getEmergencyUnits().get(i).getLocation().getX()== x &&c.getEmergencyUnits().get(i).getLocation().getY()== y) {
+			if(c.getEmergencyUnits().get(i).getLocation().getX()== x && c.getEmergencyUnits().get(i).getLocation().getY()== y) {
 				InfoPanel.addElement("                                Units at this location:");
-				break;
 			}
 		}
 		for(int i=0; i<c.getEmergencyUnits().size();i++) {
 			if(c.getEmergencyUnits().get(i).getLocation().getX()== x &&c.getEmergencyUnits().get(i).getLocation().getY()== y) {
+				System.out.println("test");
 				InfoPanel.addElement(c.getEmergencyUnits().get(i).toString());
 			if(c.getEmergencyUnits().get(i) instanceof Evacuator) {
 				if(((Evacuator) c.getEmergencyUnits().get(i)).getPassengers().size()>0)
@@ -287,8 +287,11 @@ public class GUI extends JFrame{
 	public void updateUnits(CommandCenter c) {
 		for(int i=0;i<c.getUnitButtons().size();i++) {
 			AvailbleUnits.remove(c.getUnitButtons().get(i));
+			AvailbleUnits.revalidate();
 			TreatingUnits.remove(c.getUnitButtons().get(i));
+			TreatingUnits.revalidate();
 			RespondingUnits.remove(c.getUnitButtons().get(i));
+			RespondingUnits.revalidate();
 		}
 		
 		for(int i=0; i<c.getEmergencyUnits().size();i++) {
@@ -352,6 +355,7 @@ public class GUI extends JFrame{
 		
 		
 		}
+
 	}
 
 	public JPanel getMap() {

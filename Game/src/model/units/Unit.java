@@ -78,8 +78,12 @@ public abstract class Unit implements Simulatable, SOSResponder {
 
 	@Override
 	public void respond(Rescuable r) throws IncompatibleTargetException, CannotTreatException {
-		if (canTreat(r) == false)
-			throw new CannotTreatException(this, r, "This target is already safe!");
+		if(r instanceof ResidentialBuilding && ((ResidentialBuilding)r).getStructuralIntegrity()==0)
+			throw new CannotTreatException(this, r, "This Building is already destroyed!");
+		if (canTreat(r) == false) {
+			throw new CannotTreatException(this, r, "This Building has no disasters!");
+			
+		}
 		else {
 			if (this instanceof FireTruck || this instanceof Evacuator || this instanceof GasControlUnit) {
 				if (r instanceof Citizen) {
@@ -143,13 +147,13 @@ public abstract class Unit implements Simulatable, SOSResponder {
 
 	public boolean canTreat(Rescuable r) {
 		if(r instanceof Citizen) {
-			if(((Citizen) r).getBloodLoss()==0 && ((Citizen) r).getToxicity()==0) {
+			if((((Citizen) r).getBloodLoss()==0 && ((Citizen) r).getToxicity()==0)) {
 				return false;
 			}
 			return true;
 		}
 		else {
-			if(((ResidentialBuilding) r).getFireDamage()==0 && ((ResidentialBuilding) r).getFoundationDamage()==0 && ((ResidentialBuilding) r).getGasLevel()==0) {
+			if((((ResidentialBuilding) r).getFireDamage()==0 && ((ResidentialBuilding) r).getFoundationDamage()==0 && ((ResidentialBuilding) r).getGasLevel()==0)) {
 				return false;
 			}
 			return true;

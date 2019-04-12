@@ -36,6 +36,8 @@ public class DiseaseControlUnit extends MedicalUnit {
 	}
 
 	public void respond(Rescuable r) throws IncompatibleTargetException, CannotTreatException {
+		if(r instanceof Citizen && ((Citizen)r).getHp()==0)
+			throw new CannotTreatException(this, r, "This Citizen is already dead!");
 		if (canTreat(r) == false)
 			throw new CannotTreatException(this, r, "This target is already safe!");
 		else {
