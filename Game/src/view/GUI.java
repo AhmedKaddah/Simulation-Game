@@ -260,12 +260,14 @@ public class GUI extends JFrame{
 		for(int i=0; i<c.getEmergencyUnits().size();i++) {
 			if(c.getEmergencyUnits().get(i).getLocation().getX()== x && c.getEmergencyUnits().get(i).getLocation().getY()== y) {
 				InfoPanel.addElement("                                Units at this location:");
+				break;
 			}
 		}
 		for(int i=0; i<c.getEmergencyUnits().size();i++) {
 			if(c.getEmergencyUnits().get(i).getLocation().getX()== x &&c.getEmergencyUnits().get(i).getLocation().getY()== y) {
 				System.out.println("test");
 				InfoPanel.addElement(c.getEmergencyUnits().get(i).toString());
+				
 			if(c.getEmergencyUnits().get(i) instanceof Evacuator) {
 				if(((Evacuator) c.getEmergencyUnits().get(i)).getPassengers().size()>0)
 				InfoPanel.addElement("                             Citizens inside the Evacuator: ");
@@ -352,10 +354,11 @@ public class GUI extends JFrame{
 		}
 			
 			
-		
+		c.getUnitButtons().get(i).setVisible(false);
+		c.getUnitButtons().get(i).setVisible(true);
 		
 		}
-
+		
 	}
 
 	public JPanel getMap() {
