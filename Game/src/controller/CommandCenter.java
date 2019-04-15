@@ -2,11 +2,15 @@ package controller;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -38,6 +42,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 	private GUI g;
 	private JButton startGame = new JButton("Start Game");
 	private JButton nextCycle = new JButton("Next Cycle");
+	private JButton demo = new JButton("Demo");
 	private ArrayList<JButton> mapButtons;
 	private ArrayList<JButton> unitButtons;
 	private int j;
@@ -48,25 +53,62 @@ public class CommandCenter implements SOSListener,ActionListener {
 	JOptionPane selecttarget = new JOptionPane();
 	private Unit currentunit;
 	private boolean choosetarget = false;
+	private JFrame start;
+	private JPanel startP;
+	private JPanel startT;
 	
-	
+	ImageIcon hq = new ImageIcon("hq.png");
+	ImageIcon building = new ImageIcon("building.png");
+	ImageIcon bandc= new ImageIcon("bandc.png");
+	ImageIcon amb = new ImageIcon("amb.png");
+	ImageIcon ftk = new ImageIcon("ftk.png");
+	ImageIcon evc = new ImageIcon("evc.png");
+	ImageIcon dcu = new ImageIcon("dcu.png");
+	ImageIcon gcu = new ImageIcon("gcu.png");
+	ImageIcon citizen = new ImageIcon("person.png");
+	ImageIcon citizens = new ImageIcon("persons.png");
+	ImageIcon terr = new ImageIcon("terrain.png");
+	ImageIcon welcome = new ImageIcon("WELCOME.png");
 	
 	public CommandCenter() throws Exception {
 		engine = new Simulator(this);
 		visibleBuildings = new ArrayList<ResidentialBuilding>();
 		visibleCitizens = new ArrayList<Citizen>();
 		emergencyUnits = engine.getEmergencyUnits();
+		
+		start = new JFrame();
+		start.setVisible(true);
+		start.setTitle("Rescue Simulation Game");
+		start.setLayout(new BorderLayout());
+		start.setSize(new Dimension(450, 200));
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		start.setLocation(dim.width/2-start.getSize().width/2, dim.height/2-start.getSize().height/2);
+		start.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		start.setResizable(false);
+		
+		startP = new JPanel(new BorderLayout());
+		startT = new JPanel();
+		startP.setSize(new Dimension(400, 50));
+		startT.setSize(new Dimension(400, 150));
+		startT.add(new JLabel(welcome));
+		start.add(startP,BorderLayout.SOUTH);
+		start.add(startT,BorderLayout.NORTH);
+
+		startGame.setPreferredSize(new Dimension(200, 50));
+		demo.setPreferredSize(new Dimension(200, 50));
+		startP.add(startGame,BorderLayout.WEST);
+		startP.add(demo,BorderLayout.EAST);
+		
 		g = new GUI();
-		g.addStartGameButton(startGame);
 		nextCycle.addActionListener(this);
 		startGame.addActionListener(this);
 		mapButtons = new ArrayList<JButton>();
 		unitButtons = new ArrayList<JButton>();
 		for(int i=0;i<10;i++) {
 			for(int j=0;j<10;j++) {
-				JButton temp = new JButton(i+", "+j);
-				temp.setFont(new Font(Font.SERIF, Font.BOLD, 10));
+				JButton temp = new JButton();
 				temp.addActionListener(this);
+				temp.setIcon(terr);
 				mapButtons.add(temp);
 				temp.addMouseListener(new java.awt.event.MouseAdapter() {
 				    public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -82,27 +124,34 @@ public class CommandCenter implements SOSListener,ActionListener {
 				});
 			}
 		}
+		mapButtons.get(0).setIcon(hq);
 	
 		g.addMapButtons(mapButtons);
 
 		
 		
 		for(int i=0; i<emergencyUnits.size();i++)
-		{
+		{	JButton temp = new JButton();
+			temp.setPreferredSize(new Dimension(70, 60));
 			if(emergencyUnits.get(i) instanceof Ambulance) {
-				unitButtons.add(new JButton("AMB"));
+				temp.setIcon(amb);
+				unitButtons.add(temp);
 			}
 			if(emergencyUnits.get(i) instanceof DiseaseControlUnit) {
-				unitButtons.add(new JButton("DCU"));
+				temp.setIcon(dcu);
+				unitButtons.add(temp);
 			}
 			if(emergencyUnits.get(i) instanceof Evacuator) {
-				unitButtons.add(new JButton("EVC"));
+				temp.setIcon(evc);
+				unitButtons.add(temp);
 			}
 			if(emergencyUnits.get(i) instanceof FireTruck) {
-				unitButtons.add(new JButton("FTK"));
+				temp.setIcon(ftk);
+				unitButtons.add(temp);
 			}
 			if(emergencyUnits.get(i) instanceof GasControlUnit) {
-				unitButtons.add(new JButton("GCU"));
+				temp.setIcon(gcu);
+				unitButtons.add(temp);
 			}
 			unitButtons.get(i).addActionListener(this);
 		}
@@ -111,29 +160,39 @@ public class CommandCenter implements SOSListener,ActionListener {
 
 		
 	}
+
 	public void updateMap() {
-		for(int i=0;i<mapButtons.size();i++) {
-			int mapx= i/ 10;
-			int mapy= i % 10;
+		for (int i = 0; i < mapButtons.size(); i++) {
+			int mapx = i / 10;
+			int mapy = i % 10;
 			Address temp = engine.getWorld()[mapx][mapy];
-			String r="";
-			for(int j=0;j<visibleBuildings.size();j++) {
-				if(temp.equals(visibleBuildings.get(j).getLocation())) {
-					r+="B";
-					
-					mapButtons.get(i).setText(r);
+			int Bcount = 0;
+			int Ccount = 0;
+			for (int j = 0; j < visibleBuildings.size(); j++) {
+				if (temp.equals(visibleBuildings.get(j).getLocation())) {
+					Bcount++;
 					break;
 				}
 			}
-			for(int j=0;j<visibleCitizens.size();j++) {
-				if(temp.equals(visibleCitizens.get(j).getLocation())) {
-					r+="C";
+			for (int j = 0; j < visibleCitizens.size(); j++) {
+				if (temp.equals(visibleCitizens.get(j).getLocation())) {
+					Ccount++;
 				}
 			}
-			mapButtons.get(i).setText(r);
-			
-			
+			if (Bcount > 0) {
+				mapButtons.get(i).setIcon(building);
+				if (Ccount > 0) {
+					mapButtons.get(i).setIcon(bandc);
+				}
+			} else {
+				if (Ccount > 0) {
+					mapButtons.get(i).setIcon(citizen);
+					if (Ccount > 1)
+						mapButtons.get(i).setIcon(citizens);
+				}
+			}
 		}
+
 	}
 	@Override
 	public void receiveSOSCall(Rescuable r) {
@@ -158,7 +217,8 @@ public class CommandCenter implements SOSListener,ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JButton b= (JButton) e.getSource();
 		if(b.equals(startGame)) {
-			startGame.setVisible(false);
+			start.dispose();
+			g.setVisible(true);
 			g.addNextCycleButton(nextCycle);
 		}
 		if(b.equals(nextCycle)) {
@@ -191,6 +251,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 			}
 			
 			g.updateDisasters(this);
+			g.sb.setValue( g.sb.getMaximum() );
 
 		}
 		if(unitButtons.contains(b)) {
@@ -291,7 +352,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 	
 	public static void main(String[] args) throws Exception {
 		CommandCenter com = new CommandCenter();
-		com.g.setVisible(true);
+//		com.g.setVisible(true);
 	}
 	public ArrayList<JButton> getUnitButtons() {
 		return unitButtons;

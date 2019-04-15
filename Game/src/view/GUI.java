@@ -6,7 +6,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 
@@ -45,13 +50,16 @@ public class GUI extends JFrame{
 	private JScrollPane sc2;
 	public JScrollPane sc3;
 	
+	public JScrollBar sb;
+
+	
 	
 	public GUI() {
-		this.setVisible(true);
 		this.setTitle("Command-Center");
 		this.setLayout(new BorderLayout());
 		this.setSize(1250, 720);
-		this.setLocation(80,0);
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		this.validate();
@@ -125,16 +133,19 @@ public class GUI extends JFrame{
 		display = new JTextArea();
 		display.setPreferredSize(new Dimension(200, 120));
 		display.setEditable(false);
+		display.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
 		left.add(sc2,BorderLayout.NORTH);
 		JList<String> a = new JList<>(log);
 		JScrollPane sc = new JScrollPane(a,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
 		sc.setPreferredSize(new Dimension(400, 242));
 		sc2.setPreferredSize(new Dimension(400, 450));
 		JLabel r2 = new JLabel("                            INFO");
 		r2.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
 		JLabel r = new JLabel("                            LOG");
 		r.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
-		
+		sb = sc.getVerticalScrollBar();
+	
 		
 		sc.setColumnHeaderView(r);
 		sc2.setColumnHeaderView(r2);
@@ -207,10 +218,7 @@ public class GUI extends JFrame{
 			}
 		}
 	}
-	public void addStartGameButton(JButton b) {
-		b.setPreferredSize(new Dimension(600, 120));
-		next.add(b);
-	}
+
 	
 	public void addNextCycleButton(JButton b) {
 		next.add(display, BorderLayout.WEST);
@@ -224,7 +232,7 @@ public class GUI extends JFrame{
 	}
 	public void updateCasulaties(Simulator s) {
 		int c = s.calculateCasualties();
-		display.setText("                         DISPLAY"+"\n"+"Casulaties: "+c+"\n"+"\n"+"Current Cycle: "+s.getCurrentCycle());
+		display.setText("                   DISPLAY"+"\n"+"Casulaties: "+c+"\n"+"\n"+"Current Cycle: "+s.getCurrentCycle());
 		
 	}
 	
@@ -252,6 +260,7 @@ public class GUI extends JFrame{
 				s.getBuildings().get(i).setJustDied(false);
 			}
 		}
+
 	}
 	public void updateInfo(Simulator s,CommandCenter c, int x,int y) {
 		InfoPanel.removeAllElements();
