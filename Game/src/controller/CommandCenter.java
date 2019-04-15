@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 
 import exceptions.CannotTreatException;
 import exceptions.IncompatibleTargetException;
@@ -40,9 +42,9 @@ public class CommandCenter implements SOSListener,ActionListener {
 	private ArrayList<ResidentialBuilding> visibleBuildings;
 	private ArrayList<Citizen> visibleCitizens;
 	private GUI g;
-	private JButton startGame = new JButton("Start Game");
+	private JButton startGame = new JButton();
 	private JButton nextCycle = new JButton("Next Cycle");
-	private JButton demo = new JButton("Demo");
+	private JButton demo = new JButton();
 	private ArrayList<JButton> mapButtons;
 	private ArrayList<JButton> unitButtons;
 	private int j;
@@ -69,6 +71,8 @@ public class CommandCenter implements SOSListener,ActionListener {
 	ImageIcon citizens = new ImageIcon("persons.png");
 	ImageIcon terr = new ImageIcon("terrain.png");
 	ImageIcon welcome = new ImageIcon("WELCOME.png");
+	ImageIcon sgame = new ImageIcon("sg.png");
+	ImageIcon d = new ImageIcon("d.png");
 	
 	public CommandCenter() throws Exception {
 		engine = new Simulator(this);
@@ -88,14 +92,20 @@ public class CommandCenter implements SOSListener,ActionListener {
 		
 		startP = new JPanel(new BorderLayout());
 		startT = new JPanel();
-		startP.setSize(new Dimension(400, 50));
-		startT.setSize(new Dimension(400, 150));
+		startP.setSize(new Dimension(450, 50));
+		startT.setSize(new Dimension(450, 150));
 		startT.add(new JLabel(welcome));
 		start.add(startP,BorderLayout.SOUTH);
 		start.add(startT,BorderLayout.NORTH);
+		
+		Border emptyBorder = BorderFactory.createEmptyBorder();
+		startGame.setBorder(emptyBorder);
+		demo.setBorder(emptyBorder);
 
-		startGame.setPreferredSize(new Dimension(200, 50));
+		startGame.setPreferredSize(new Dimension(250, 50));
+		startGame.setIcon(sgame);
 		demo.setPreferredSize(new Dimension(200, 50));
+		demo.setIcon(d);
 		startP.add(startGame,BorderLayout.WEST);
 		startP.add(demo,BorderLayout.EAST);
 		
