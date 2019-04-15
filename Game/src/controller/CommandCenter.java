@@ -58,6 +58,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 	private JFrame start;
 	private JPanel startP;
 	private JPanel startT;
+	private JFrame demowindow;
 	
 	ImageIcon hq = new ImageIcon("hq.png");
 	ImageIcon building = new ImageIcon("building.png");
@@ -89,6 +90,15 @@ public class CommandCenter implements SOSListener,ActionListener {
 		start.setLocation(dim.width/2-start.getSize().width/2, dim.height/2-start.getSize().height/2);
 		start.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		start.setResizable(false);
+		
+		demowindow = new JFrame();
+		demowindow.setVisible(false);
+		demowindow.setTitle("Demo!");
+		demowindow.setLayout(new BorderLayout());
+		demowindow.setSize(new Dimension(450, 200));
+		demowindow.setLocation(dim.width/2-start.getSize().width/2, dim.height/2-start.getSize().height/2);
+		demowindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		demowindow.setResizable(false);
 		
 		startP = new JPanel(new BorderLayout());
 		startT = new JPanel();
@@ -226,11 +236,16 @@ public class CommandCenter implements SOSListener,ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		JButton b= (JButton) e.getSource();
+		if(b.equals(demo)) {
+			System.out.println("test");
+//			demowindow.setVisible(true);
+		}
 		if(b.equals(startGame)) {
 			start.dispose();
 			g.setVisible(true);
 			g.addNextCycleButton(nextCycle);
 		}
+		
 		if(b.equals(nextCycle)) {
 			g.revalidate();
 			engine.nextCycle();
