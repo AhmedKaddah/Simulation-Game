@@ -260,6 +260,8 @@ public class CommandCenter implements SOSListener,ActionListener {
 				x.setLocation(300,100);
 				x.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				x.setResizable(false);
+				Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+				x.setLocation(dim.width/2-x.getSize().width/2, dim.height/2-x.getSize().height/2);
 			}
 			
 			g.updateDisasters(this);
