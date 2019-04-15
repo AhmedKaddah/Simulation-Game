@@ -97,7 +97,6 @@ public class CommandCenter implements SOSListener,ActionListener {
 		demowindow.setLayout(new BorderLayout());
 		demowindow.setSize(new Dimension(450, 200));
 		demowindow.setLocation(dim.width/2-start.getSize().width/2, dim.height/2-start.getSize().height/2);
-		demowindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		demowindow.setResizable(false);
 		
 		startP = new JPanel(new BorderLayout());
@@ -122,6 +121,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 		g = new GUI();
 		nextCycle.addActionListener(this);
 		startGame.addActionListener(this);
+		demo.addActionListener(this);
 		mapButtons = new ArrayList<JButton>();
 		unitButtons = new ArrayList<JButton>();
 		for(int i=0;i<10;i++) {
@@ -130,18 +130,6 @@ public class CommandCenter implements SOSListener,ActionListener {
 				temp.addActionListener(this);
 				temp.setIcon(terr);
 				mapButtons.add(temp);
-				temp.addMouseListener(new java.awt.event.MouseAdapter() {
-				    public void mouseEntered(java.awt.event.MouseEvent evt) {
-				        temp.setBackground(Color.GREEN);
-//				        command.j= mapButtons.indexOf(temp) / 10;
-//						command.k= mapButtons.indexOf(temp) % 10;
-//						command.g.updateInfo(engine, command, command.j, command.k);
-				    }
-				    public void mouseExited(java.awt.event.MouseEvent evt) {
-				        temp.setBackground(UIManager.getColor("control"));
-//				        command.g.getInfoPanel().setText("                                                   Info"+"\n");
-				    }
-				});
 			}
 		}
 		mapButtons.get(0).setIcon(hq);
@@ -237,8 +225,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		JButton b= (JButton) e.getSource();
 		if(b.equals(demo)) {
-			System.out.println("test");
-//			demowindow.setVisible(true);
+		demowindow.setVisible(true);
 		}
 		if(b.equals(startGame)) {
 			start.dispose();
@@ -377,7 +364,6 @@ public class CommandCenter implements SOSListener,ActionListener {
 	
 	public static void main(String[] args) throws Exception {
 		CommandCenter com = new CommandCenter();
-//		com.g.setVisible(true);
 	}
 	public ArrayList<JButton> getUnitButtons() {
 		return unitButtons;
