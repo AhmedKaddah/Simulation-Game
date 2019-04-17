@@ -140,7 +140,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 		
 		for(int i=0; i<emergencyUnits.size();i++)
 		{	JButton temp = new JButton();
-			temp.setPreferredSize(new Dimension(70, 60));
+			temp.setPreferredSize(new Dimension(60, 50));
 			if(emergencyUnits.get(i) instanceof Ambulance) {
 				temp.setIcon(amb);
 				unitButtons.add(temp);

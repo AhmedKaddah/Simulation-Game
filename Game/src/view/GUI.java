@@ -35,9 +35,9 @@ public class GUI extends JFrame{
 	private JPanel right;
 	private JPanel rightup;
 	private JPanel middle;
-	private JPanel RespondingUnits;
-	private JPanel TreatingUnits;
-	private JPanel  AvailbleUnits;
+	private JScrollPane RespondingUnits;
+	private JScrollPane TreatingUnits;
+	private JScrollPane  AvailbleUnits;
 	private JPanel map;
 	private DefaultListModel<String> InfoPanel;
 	private DefaultListModel<String> log;
@@ -49,12 +49,22 @@ public class GUI extends JFrame{
 	private JScrollPane sc;
 	private JScrollPane sc2;
 	public JScrollPane sc3;
-	
 	public JScrollBar sb;
-
+	private JPanel u1;
+	private JPanel container1;
+	private JPanel u2;
+	private JPanel container2;
+	private JPanel u3;
+	private JPanel container3;
 	
 	
 	public GUI() {
+		u1 = new JPanel(new GridLayout(0, 3,10,10));
+		container1 = new JPanel();
+		u2 = new JPanel(new GridLayout(0, 3,10,10));
+		container2 = new JPanel();
+		u3 = new JPanel(new GridLayout(0, 3,10,10));
+		container3 = new JPanel();
 		this.setTitle("Command-Center");
 		this.setLayout(new BorderLayout());
 		this.setSize(1250, 720);
@@ -91,12 +101,18 @@ public class GUI extends JFrame{
 		sc4.setColumnHeaderView(r4);
 		
 
-		RespondingUnits = new JPanel(new FlowLayout());
+		RespondingUnits = new JScrollPane(container2);
 		RespondingUnits.setPreferredSize(new Dimension(250, 160));
-		TreatingUnits = new JPanel(new FlowLayout());
+		RespondingUnits.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		RespondingUnits.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		TreatingUnits = new JScrollPane(container3);
 		TreatingUnits.setPreferredSize(new Dimension(250, 160));
-		AvailbleUnits = new JPanel(new FlowLayout());
+		TreatingUnits.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		TreatingUnits.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		AvailbleUnits = new JScrollPane(container1);
 		AvailbleUnits.setPreferredSize(new Dimension(250, 160));
+		AvailbleUnits.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		AvailbleUnits.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
 		rightup.add(AvailbleUnits,BorderLayout.NORTH);
 		rightup.add(RespondingUnits,BorderLayout.CENTER);
@@ -366,57 +382,58 @@ public class GUI extends JFrame{
 		for(int i=0; i<c.getEmergencyUnits().size();i++) {
 		if(c.getEmergencyUnits().get(i) instanceof Ambulance) {
 			if(c.getEmergencyUnits().get(i).getState()== UnitState.IDLE) {
-				AvailbleUnits.add(c.getUnitButtons().get(i));
+				u1.add(c.getUnitButtons().get(i));
+				
 			}
 			if(c.getEmergencyUnits().get(i).getState()== UnitState.RESPONDING) {
-				RespondingUnits.add(c.getUnitButtons().get(i));
+				u2.add(c.getUnitButtons().get(i));
 			}
 			if(c.getEmergencyUnits().get(i).getState()== UnitState.TREATING) {
-				TreatingUnits.add(c.getUnitButtons().get(i));
+				u3.add(c.getUnitButtons().get(i));
 			}
 		}
 		if(c.getEmergencyUnits().get(i) instanceof DiseaseControlUnit) {
 			if(c.getEmergencyUnits().get(i).getState()== UnitState.IDLE) {
-				AvailbleUnits.add(c.getUnitButtons().get(i));
+				u1.add(c.getUnitButtons().get(i));
 			}
 			if(c.getEmergencyUnits().get(i).getState()== UnitState.RESPONDING) {
-				RespondingUnits.add(c.getUnitButtons().get(i));
+				u2.add(c.getUnitButtons().get(i));
 			}
 			if(c.getEmergencyUnits().get(i).getState()== UnitState.TREATING) {
-				TreatingUnits.add(c.getUnitButtons().get(i));
+				u3.add(c.getUnitButtons().get(i));
 			}
 		}
 		if(c.getEmergencyUnits().get(i) instanceof Evacuator) {
 			if(c.getEmergencyUnits().get(i).getState()== UnitState.IDLE) {
-				AvailbleUnits.add(c.getUnitButtons().get(i));
+				u1.add(c.getUnitButtons().get(i));
 			}
 			if(c.getEmergencyUnits().get(i).getState()== UnitState.RESPONDING) {
-				RespondingUnits.add(c.getUnitButtons().get(i));
+				u2.add(c.getUnitButtons().get(i));
 			}
 			if(c.getEmergencyUnits().get(i).getState()== UnitState.TREATING) {
-				TreatingUnits.add(c.getUnitButtons().get(i));
+				u3.add(c.getUnitButtons().get(i));
 			}
 		}
 		if(c.getEmergencyUnits().get(i) instanceof FireTruck) {
 			if(c.getEmergencyUnits().get(i).getState()== UnitState.IDLE) {
-				AvailbleUnits.add(c.getUnitButtons().get(i));
+				u1.add(c.getUnitButtons().get(i));
 			}
 			if(c.getEmergencyUnits().get(i).getState()== UnitState.RESPONDING) {
-				RespondingUnits.add(c.getUnitButtons().get(i));
+				u2.add(c.getUnitButtons().get(i));
 			}
 			if(c.getEmergencyUnits().get(i).getState()== UnitState.TREATING) {
-				TreatingUnits.add(c.getUnitButtons().get(i));
+				u3.add(c.getUnitButtons().get(i));
 			}
 		}
 		if(c.getEmergencyUnits().get(i) instanceof GasControlUnit) {
 			if(c.getEmergencyUnits().get(i).getState()== UnitState.IDLE) {
-				AvailbleUnits.add(c.getUnitButtons().get(i));
+				u1.add(c.getUnitButtons().get(i));
 			}
 			if(c.getEmergencyUnits().get(i).getState()== UnitState.RESPONDING) {
-				RespondingUnits.add(c.getUnitButtons().get(i));
+				u2.add(c.getUnitButtons().get(i));
 			}
 			if(c.getEmergencyUnits().get(i).getState()== UnitState.TREATING) {
-				TreatingUnits.add(c.getUnitButtons().get(i));
+				u3.add(c.getUnitButtons().get(i));
 			}
 		}
 			
@@ -425,6 +442,10 @@ public class GUI extends JFrame{
 		c.getUnitButtons().get(i).setVisible(true);
 		
 		}
+		
+		container1.add(u1);
+		container2.add(u2);
+		container3.add(u3);
 		AvailbleUnits.repaint();
 		TreatingUnits.repaint();
 		RespondingUnits.repaint();
@@ -434,17 +455,6 @@ public class GUI extends JFrame{
 		return map;
 	}
 
-	public JPanel getRespondingUnits() {
-		return RespondingUnits;
-	}
-
-	public JPanel getTreatingUnits() {
-		return TreatingUnits;
-	}
-
-	public JPanel getAvailbleUnits() {
-		return AvailbleUnits;
-	}
 
 	public JPanel getRight() {
 		return right;
