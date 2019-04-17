@@ -192,7 +192,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 					mapButtons.get(0).setIcon(hq);
 				}
 			}
-
+			else {
 			int Bcount = 0;
 			int Ccount = 0;
 			int Ucount = 0;
@@ -238,7 +238,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 							mapButtons.get(i).setIcon(csandu);
 				}
 			}
-		}
+		}}
 	}
 	
 	@Override
