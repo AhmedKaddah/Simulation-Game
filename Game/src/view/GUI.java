@@ -302,7 +302,7 @@ public class GUI extends JFrame{
 				if(b.getDisaster()!=null &&b.getDisaster().isActive()) {
 					InfoPanel.addElement( "Affected by: "+ b.getDisaster()+" Disaster");
 				}
-				InfoPanel.addElement("---------------------");
+				InfoPanel.addElement("------------------------------------------");
 				if (b.getOccupants().size()>0) {
 					InfoPanel.addElement("                                Citizens inside the building:");
 					for(int j=0; j<b.getOccupants().size();j++) {
@@ -317,7 +317,7 @@ public class GUI extends JFrame{
 						if(k.getDisaster()!=null &&k.getDisaster().isActive()) {
 							InfoPanel.addElement( "Affected by: "+ k.getDisaster()+" Disaster");
 							}
-						InfoPanel.addElement("---------------------");
+						InfoPanel.addElement("------------------------------------------");
 					}
 				}
 				
@@ -338,7 +338,7 @@ public class GUI extends JFrame{
 					if(k.getDisaster()!=null &&k.getDisaster().isActive()) {
 						InfoPanel.addElement( "Affected by: "+ k.getDisaster()+" Disaster");
 						}
-					InfoPanel.addElement("---------------------");
+					InfoPanel.addElement("------------------------------------------");
 			}
 		}}
 		for(int i=0; i<c.getEmergencyUnits().size();i++) {
@@ -349,7 +349,19 @@ public class GUI extends JFrame{
 		}
 		for(int i=0; i<c.getEmergencyUnits().size();i++) {
 			if(c.getEmergencyUnits().get(i).getLocation().equals(temp)) {
-				InfoPanel.addElement(c.getEmergencyUnits().get(i).toString());
+				InfoPanel.addElement(c.getEmergencyUnits().get(i).toString()+":");
+				InfoPanel.addElement("ID: "+c.getEmergencyUnits().get(i).getUnitID());
+				InfoPanel.addElement("Steps per cyle: "+c.getEmergencyUnits().get(i).getStepsPerCycle());
+				InfoPanel.addElement("Unit State: "+c.getEmergencyUnits().get(i).getState());
+				if(c.getEmergencyUnits().get(i).getTarget()!=null)
+				{
+					if(c.getEmergencyUnits().get(i).getTarget() instanceof Citizen) {
+						InfoPanel.addElement("Target: Citizen at "+c.getEmergencyUnits().get(i).getTarget().getLocation().getX()+", "+c.getEmergencyUnits().get(i).getTarget().getLocation().getY());
+					}
+					else {
+						InfoPanel.addElement("Target: Building at "+c.getEmergencyUnits().get(i).getTarget().getLocation().getX()+", "+c.getEmergencyUnits().get(i).getTarget().getLocation().getY());
+					}
+				}
 				
 			if(c.getEmergencyUnits().get(i) instanceof Evacuator) {
 				if(((Evacuator) c.getEmergencyUnits().get(i)).getPassengers().size()>0)
@@ -364,7 +376,14 @@ public class GUI extends JFrame{
 				InfoPanel.addElement("Toxicity: "+k.getToxicity());
 				InfoPanel.addElement("State: "+k.getState());
 				InfoPanel.addElement("---------------------");
+				}
+				if(((Evacuator) c.getEmergencyUnits().get(i)).getPassengers().size()==0) {
+					InfoPanel.addElement("------------------------------------------");
 				}}
+			else {
+				InfoPanel.addElement("------------------------------------------");
+			}
+				
 			}
 		}
 	}

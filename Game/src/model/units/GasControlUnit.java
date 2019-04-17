@@ -26,9 +26,7 @@ public class GasControlUnit extends FireUnit {
 
 	}
 	public String toString() {
-		String r= "Gas Control Unit, " +"ID: "+ this.getUnitID()+" Steps per cycle: "+this.getStepsPerCycle()+" Unit State: "+this.getState();
-		if(this.getTarget()!=null)
-			r+= " Target: Building at "+this.getLocation().getX()+", "+this.getLocation().getY();
+		String r= "Gas Control Unit";
 		return r;
 		
 	}

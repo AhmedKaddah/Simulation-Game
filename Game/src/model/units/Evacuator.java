@@ -32,10 +32,7 @@ public class Evacuator extends PoliceUnit {
 
 	}
 	public String toString() {
-		String r= "Evacuator, " +"ID: "+ this.getUnitID()+" Steps per cycle: "+this.getStepsPerCycle()+" Unit State: "+this.getState();
-		if(this.getTarget()!=null)
-			r+= " Target: Building at "+this.getLocation().getX()+", "+this.getLocation().getY();
-		r+= " Number of passangers: "+this.getPassengers().size();
+		String r= "Evacuator";
 		return r;
 		
 	}

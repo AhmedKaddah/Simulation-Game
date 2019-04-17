@@ -60,9 +60,7 @@ public class Ambulance extends MedicalUnit {
 		}
 	}
 	public String toString() {
-		String r= "Ambulance, " +"ID: "+ this.getUnitID()+" Steps per cycle: "+this.getStepsPerCycle()+" Unit State: "+this.getState();
-		if(this.getTarget()!=null)
-			r+= " Target: Citizen at "+this.getLocation().getX()+", "+this.getLocation().getY();
+		String r= "Ambulance";
 		return r;
 		
 	}
