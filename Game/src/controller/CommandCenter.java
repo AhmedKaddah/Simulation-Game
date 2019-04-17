@@ -63,6 +63,11 @@ public class CommandCenter implements SOSListener,ActionListener {
 	ImageIcon hq = new ImageIcon("hq.png");
 	ImageIcon building = new ImageIcon("building.png");
 	ImageIcon bandc= new ImageIcon("bandc.png");
+	ImageIcon bandu= new ImageIcon("bandu.png");
+	ImageIcon bandcandu= new ImageIcon("bandcandu.png");
+	ImageIcon hqandu= new ImageIcon("hqandu.png");
+	ImageIcon candu= new ImageIcon("candu.png");
+	ImageIcon csandu= new ImageIcon("csandu.png");
 	ImageIcon amb = new ImageIcon("amb.png");
 	ImageIcon ftk = new ImageIcon("ftk.png");
 	ImageIcon evc = new ImageIcon("evc.png");
@@ -132,7 +137,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 				mapButtons.add(temp);
 			}
 		}
-		mapButtons.get(0).setIcon(hq);
+		mapButtons.get(0).setIcon(hqandu);
 	
 		g.addMapButtons(mapButtons);
 
@@ -174,8 +179,30 @@ public class CommandCenter implements SOSListener,ActionListener {
 			int mapx = i / 10;
 			int mapy = i % 10;
 			Address temp = engine.getWorld()[mapx][mapy];
+			if (mapx == 0 && mapy == 0) {
+				int tempcount = 0;
+				for (int k = 0; k < emergencyUnits.size(); k++) {
+					if (temp.equals(emergencyUnits.get(k).getLocation())) {
+						tempcount++;
+					}
+				}
+				if (tempcount > 0) {
+					mapButtons.get(0).setIcon(hqandu);
+				} else {
+					mapButtons.get(0).setIcon(hq);
+				}
+			}
+
 			int Bcount = 0;
 			int Ccount = 0;
+			int Ucount = 0;
+
+			for (int k = 0; k < emergencyUnits.size(); k++) {
+				if (temp.equals(emergencyUnits.get(k).getLocation())) {
+					Ucount++;
+				}
+			}
+
 			for (int j = 0; j < visibleBuildings.size(); j++) {
 				if (temp.equals(visibleBuildings.get(j).getLocation())) {
 					Bcount++;
@@ -191,17 +218,29 @@ public class CommandCenter implements SOSListener,ActionListener {
 				mapButtons.get(i).setIcon(building);
 				if (Ccount > 0) {
 					mapButtons.get(i).setIcon(bandc);
+					if (Ucount > 0)
+						mapButtons.get(i).setIcon(bandcandu);
+				} 
+				else {
+					if (Ucount > 0)
+						mapButtons.get(i).setIcon(bandu);
 				}
-			} else {
+			} 
+			else {
 				if (Ccount > 0) {
 					mapButtons.get(i).setIcon(citizen);
-					if (Ccount > 1)
+					if(Ucount>0)
+						mapButtons.get(i).setIcon(candu);
+				}
+					if (Ccount > 1) {
 						mapButtons.get(i).setIcon(citizens);
+						if(Ucount>0)
+							mapButtons.get(i).setIcon(csandu);
 				}
 			}
 		}
-
 	}
+	
 	@Override
 	public void receiveSOSCall(Rescuable r) {
 		
