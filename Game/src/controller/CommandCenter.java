@@ -2,13 +2,17 @@ package controller;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -17,8 +21,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+import javax.swing.border.MatteBorder;
 
 import exceptions.CannotTreatException;
 import exceptions.IncompatibleTargetException;
@@ -59,6 +65,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 	private JPanel startP;
 	private JPanel startT;
 	private JFrame demowindow;
+	private Timer timer;
 	
 	ImageIcon hq = new ImageIcon("hq.png");
 	ImageIcon building = new ImageIcon("building.png");
@@ -79,6 +86,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 	ImageIcon welcome = new ImageIcon("WELCOME.png");
 	ImageIcon sgame = new ImageIcon("sg.png");
 	ImageIcon d = new ImageIcon("d.png");
+	ImageIcon x = new ImageIcon("x.png");
 	
 	public CommandCenter() throws Exception {
 		engine = new Simulator(this);
@@ -134,6 +142,15 @@ public class CommandCenter implements SOSListener,ActionListener {
 				JButton temp = new JButton();
 				temp.addActionListener(this);
 				temp.setIcon(terr);
+				temp.addMouseListener(new java.awt.event.MouseAdapter() {
+				    public void mouseEntered(java.awt.event.MouseEvent evt) {
+				        temp.setBorder(new MatteBorder(2, 2, 2, 2, Color.RED));
+				    }
+				    public void mouseExited(java.awt.event.MouseEvent evt) {
+				    	temp.setBorder(null);
+				    }
+				});
+				temp.setBorder(null);
 				mapButtons.add(temp);
 			}
 		}
@@ -179,6 +196,23 @@ public class CommandCenter implements SOSListener,ActionListener {
 			int mapx = i / 10;
 			int mapy = i % 10;
 			Address temp = engine.getWorld()[mapx][mapy];
+			boolean flagx = false;
+			for (int j = 0; j < visibleCitizens.size(); j++) {
+				if (visibleCitizens.get(j).getLocation().equals(temp) && visibleCitizens.get(j).isJustDied()
+						&& visibleCitizens.get(j).getHp() == 0 && flagx == false) {
+					flagx = true;
+					break;
+				}
+			}
+
+			for (int j = 0; j < visibleBuildings.size(); j++) {
+				if (visibleBuildings.get(j).getLocation().equals(temp) && visibleBuildings.get(j).isJustDied()
+						&& visibleBuildings.get(j).getStructuralIntegrity() == 0 && flagx == false) {
+					flagx = true;
+					break;
+				}
+			}
+
 			if (mapx == 0 && mapy == 0) {
 				int tempcount = 0;
 				for (int k = 0; k < emergencyUnits.size(); k++) {
@@ -191,54 +225,126 @@ public class CommandCenter implements SOSListener,ActionListener {
 				} else {
 					mapButtons.get(0).setIcon(hq);
 				}
-			}
-			else {
-			int Bcount = 0;
-			int Ccount = 0;
-			int Ucount = 0;
+			} else {
+				int Bcount = 0;
+				int Ccount = 0;
+				int Ucount = 0;
 
-			for (int k = 0; k < emergencyUnits.size(); k++) {
-				if (temp.equals(emergencyUnits.get(k).getLocation())) {
-					Ucount++;
+				for (int k = 0; k < emergencyUnits.size(); k++) {
+					if (temp.equals(emergencyUnits.get(k).getLocation())) {
+						Ucount++;
+					}
 				}
-			}
 
-			for (int j = 0; j < visibleBuildings.size(); j++) {
-				if (temp.equals(visibleBuildings.get(j).getLocation())) {
-					Bcount++;
-					break;
+				for (int j = 0; j < visibleBuildings.size(); j++) {
+					if (temp.equals(visibleBuildings.get(j).getLocation())) {
+						Bcount++;
+						break;
+					}
 				}
-			}
-			for (int j = 0; j < visibleCitizens.size(); j++) {
-				if (temp.equals(visibleCitizens.get(j).getLocation())) {
-					Ccount++;
+				for (int j = 0; j < visibleCitizens.size(); j++) {
+					if (temp.equals(visibleCitizens.get(j).getLocation())) {
+						Ccount++;
+					}
 				}
-			}
-			if (Bcount > 0) {
-				mapButtons.get(i).setIcon(building);
-				if (Ccount > 0) {
-					mapButtons.get(i).setIcon(bandc);
-					if (Ucount > 0)
-						mapButtons.get(i).setIcon(bandcandu);
-				} 
-				else {
-					if (Ucount > 0)
-						mapButtons.get(i).setIcon(bandu);
-				}
-			} 
-			else {
-				if (Ccount > 0) {
-					mapButtons.get(i).setIcon(citizen);
-					if(Ucount>0)
-						mapButtons.get(i).setIcon(candu);
-				}
+				int counter = i;
+				int c = Ccount;
+				int b = Bcount;
+				int u = Ucount;
+				timer = new Timer(2000, new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (b > 0) {
+							mapButtons.get(counter).setIcon(building);
+							if (c > 0) {
+								mapButtons.get(counter).setIcon(bandc);
+								if (u > 0)
+									mapButtons.get(counter).setIcon(bandcandu);
+							} else {
+								if (u > 0)
+									mapButtons.get(counter).setIcon(bandu);
+							}
+						} else {
+							if (c > 0) {
+
+								mapButtons.get(counter).setIcon(citizen);
+
+								if (u > 0)
+									mapButtons.get(counter).setIcon(candu);
+							}
+							if (c > 1) {
+								mapButtons.get(counter).setIcon(citizens);
+								if (u > 0)
+									mapButtons.get(counter).setIcon(csandu);
+							}
+						}
+					}
+				});
+
+				if (Bcount > 0) {
+					if (flagx == true) {
+						mapButtons.get(i).setIcon(x);
+						timer.start();
+					} else {
+						mapButtons.get(i).setIcon(building);
+					}
+					if (Ccount > 0) {
+						if (flagx == true) {
+							mapButtons.get(i).setIcon(x);
+							timer.start();
+						} else {
+							mapButtons.get(i).setIcon(bandc);
+						}
+						if (Ucount > 0)
+							if (flagx == true) {
+								mapButtons.get(i).setIcon(x);
+								timer.start();
+							} else {
+								mapButtons.get(i).setIcon(bandcandu);
+							}
+					} else {
+						if (Ucount > 0)
+							if (flagx == true) {
+								mapButtons.get(i).setIcon(x);
+								timer.start();
+							} else {
+								mapButtons.get(i).setIcon(bandu);
+							}
+					}
+				} else {
+					if (Ccount > 0) {
+						if (flagx == true) {
+							mapButtons.get(i).setIcon(x);
+							timer.start();
+						} else {
+							mapButtons.get(counter).setIcon(citizen);
+						}
+						if (Ucount > 0)
+							if (flagx == true) {
+								mapButtons.get(i).setIcon(x);
+								timer.start();
+							} else {
+								mapButtons.get(i).setIcon(candu);
+							}
+					}
 					if (Ccount > 1) {
-						mapButtons.get(i).setIcon(citizens);
-						if(Ucount>0)
-							mapButtons.get(i).setIcon(csandu);
+						if (flagx == true) {
+							mapButtons.get(i).setIcon(x);
+							timer.start();
+						} else {
+							mapButtons.get(i).setIcon(citizens);
+						}
+						if (Ucount > 0) {
+							if (flagx == true) {
+								mapButtons.get(i).setIcon(x);
+								timer.start();
+							} else {
+								mapButtons.get(i).setIcon(csandu);
+							}
+						}
+					}
 				}
 			}
-		}}
+		}
 	}
 	
 	@Override
@@ -278,8 +384,8 @@ public class CommandCenter implements SOSListener,ActionListener {
 			if(currentunit!=null)
 				g.updateUnitInfo(currentunit);
 			g.updateCasulaties(engine);
-			g.updateLog(engine);
 			updateMap();
+			g.updateLog(engine);
 			g.updateInfo(engine, this, j, k);
 			g.updateUnits(this);
 			g.revalidate();
