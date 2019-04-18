@@ -2,11 +2,14 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.MatteBorder;
 
 import controller.CommandCenter;
 import model.infrastructure.ResidentialBuilding;
@@ -69,10 +73,13 @@ public class GUI extends JFrame{
 	
 	public GUI() {
 		u1 = new JPanel(new GridLayout(0, 3,10,10));
+		u1.setBackground(Color.black);
 		container1 = new JPanel();
 		u2 = new JPanel(new GridLayout(0, 3,10,10));
+		u2.setBackground(Color.black);
 		container2 = new JPanel();
 		u3 = new JPanel(new GridLayout(0, 3,10,10));
+		u3.setBackground(Color.black);
 		container3 = new JPanel();
 		this.setTitle("Command-Center");
 		this.setLayout(new BorderLayout());
@@ -225,9 +232,34 @@ public class GUI extends JFrame{
 		AvailbleUnits.setBackground(Color.BLACK);
 		
 		
+		a.setBackground(Color.BLACK);
+		b.setBackground(Color.BLACK);
+		c.setBackground(Color.BLACK);
+		d.setBackground(Color.BLACK);
+		f.setBackground(Color.BLACK);
+		container1.setBackground(Color.BLACK);
+		container2.setBackground(Color.BLACK);
+		container3.setBackground(Color.BLACK);
+		u1.setBackground(Color.BLACK);
+		u2.setBackground(Color.BLACK);
+		u3.setBackground(Color.BLACK);
+		
+		a.setForeground(Color.WHITE);
+		b.setForeground(Color.WHITE);
+		c.setForeground(Color.WHITE);
+		d.setForeground(Color.WHITE);
+		f.setForeground(Color.WHITE);
 		
 		this.add(main);
-
+		map.setBorder(new MatteBorder(5, 2, 5, 2, new Color(74, 163, 232)));
+		sc.setBorder(new MatteBorder(0, 2, 2, 0, new Color(74, 163, 232)));
+		sc2.setBorder(new MatteBorder(2, 2, 2, 0, new Color(74, 163, 232)));
+		sc3.setBorder(new MatteBorder(0, 2, 2, 2, new Color(74, 163, 232)));
+		displayPanel.setBorder(new MatteBorder(0, 2, 2, 2, new Color(74, 163, 232)));
+		RespondingUnits.setBorder(new MatteBorder(2, 0, 2, 2, new Color(74, 163, 232)));
+		TreatingUnits.setBorder(new MatteBorder(2, 0, 2, 2, new Color(74, 163, 232)));
+		AvailbleUnits.setBorder(new MatteBorder(2,0, 2, 2, new Color(74, 163, 232)));
+		sc4.setBorder(new MatteBorder(2, 0, 2, 2, new Color(74, 163, 232)));
 	}
 	
 	public void updateDisasters(CommandCenter c) {

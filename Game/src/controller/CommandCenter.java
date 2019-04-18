@@ -133,14 +133,14 @@ public class CommandCenter implements SOSListener,ActionListener {
 		
 		g = new GUI();
 		nextCycle.addActionListener(this);
-		nextCycle.setBorder(null);
+		nextCycle.setBorder(new MatteBorder(0, 0, 2, 0, new Color(74, 163, 232)));
 		nextCycle.setIcon(nextc);
 		nextCycle.addMouseListener(new java.awt.event.MouseAdapter() {
 		    public void mouseEntered(java.awt.event.MouseEvent evt) {
 		    	nextCycle.setBorder(new MatteBorder(2, 2, 2, 2, Color.BLUE));
 		    }
 		    public void mouseExited(java.awt.event.MouseEvent evt) {
-		    	nextCycle.setBorder(null);
+		    	nextCycle.setBorder(new MatteBorder(0, 0, 2, 0, new Color(74, 163, 232)));
 		    }
 		});
 		startGame.addActionListener(this);
@@ -172,6 +172,8 @@ public class CommandCenter implements SOSListener,ActionListener {
 		
 		for(int i=0; i<emergencyUnits.size();i++)
 		{	JButton temp = new JButton();
+		temp.setBorder(null);
+		temp.setBackground(Color.BLACK);
 		temp.addMouseListener(new java.awt.event.MouseAdapter() {
 		    public void mouseEntered(java.awt.event.MouseEvent evt) {
 		    	temp.setBorder(new MatteBorder(2, 2, 2, 2, Color.BLUE));
@@ -203,6 +205,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 			}
 			unitButtons.get(i).addActionListener(this);
 		}
+		
 		
 		g.updateUnits(this);
 
