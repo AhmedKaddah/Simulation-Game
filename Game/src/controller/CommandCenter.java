@@ -154,7 +154,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 				temp.setIcon(terr);
 				temp.addMouseListener(new java.awt.event.MouseAdapter() {
 				    public void mouseEntered(java.awt.event.MouseEvent evt) {
-				        temp.setBorder(new MatteBorder(2, 2, 2, 2, Color.RED));
+				        temp.setBorder(new MatteBorder(2, 2, 2, 2, Color.BLUE));
 				    }
 				    public void mouseExited(java.awt.event.MouseEvent evt) {
 				    	temp.setBorder(null);
@@ -172,6 +172,14 @@ public class CommandCenter implements SOSListener,ActionListener {
 		
 		for(int i=0; i<emergencyUnits.size();i++)
 		{	JButton temp = new JButton();
+		temp.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	temp.setBorder(new MatteBorder(2, 2, 2, 2, Color.BLUE));
+		    }
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	temp.setBorder(null);
+		    }
+		});
 			temp.setPreferredSize(new Dimension(60, 50));
 			if(emergencyUnits.get(i) instanceof Ambulance) {
 				temp.setIcon(amb);
