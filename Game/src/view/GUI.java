@@ -42,6 +42,7 @@ public class GUI extends JFrame{
 	private DefaultListModel<String> InfoPanel;
 	private DefaultListModel<String> log;
 	private DefaultListModel<String> disasters;
+	private DefaultListModel<String> displayy;
 	
 	private DefaultListModel<String> unitInfo;
 	private JTextArea display;
@@ -56,7 +57,15 @@ public class GUI extends JFrame{
 	private JPanel container2;
 	private JPanel u3;
 	private JPanel container3;
-	
+	private ImageIcon infopic;
+	private ImageIcon logpic;
+	private ImageIcon available;
+	private ImageIcon responding;
+	private ImageIcon treating;
+	private ImageIcon unitinfopic;
+	private ImageIcon dispic;
+	private ImageIcon displaypic;
+	private JScrollPane displayPanel;
 	
 	public GUI() {
 		u1 = new JPanel(new GridLayout(0, 3,10,10));
@@ -95,10 +104,12 @@ public class GUI extends JFrame{
 		unitInfo = new DefaultListModel<>(); 
 		JList<String> d = new JList<>(unitInfo);
 		JScrollPane sc4 = new JScrollPane(d,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		sc4.setPreferredSize(new Dimension(250, 240));
-		JLabel r4 = new JLabel("              Unit Info");
-		r4.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
-		sc4.setColumnHeaderView(r4);
+		JLabel uf = new JLabel();
+		unitinfopic = new ImageIcon("unitinfo.png");
+		uf.setIcon(unitinfopic);
+		uf.setHorizontalAlignment(JLabel.CENTER);
+		uf.setVerticalAlignment(JLabel.CENTER);
+		sc4.setColumnHeaderView(uf);
 		
 
 		RespondingUnits = new JScrollPane(container2);
@@ -119,19 +130,40 @@ public class GUI extends JFrame{
 		rightup.add(TreatingUnits,BorderLayout.SOUTH);
 		right.add(rightup,BorderLayout.NORTH);
 		right.add(sc4,BorderLayout.CENTER);
-		Border BA = BorderFactory.createTitledBorder("                           Available Units");
-		Border TU = BorderFactory.createTitledBorder("                           Treating Units");
-		Border RU = BorderFactory.createTitledBorder("                           Responding Units");
-		AvailbleUnits.setBorder(BA);
-		TreatingUnits.setBorder(TU);
-		RespondingUnits.setBorder(RU);
+		
+		JLabel u = new JLabel();
+		available = new ImageIcon("available.png");
+		u.setIcon(available);
+		u.setHorizontalAlignment(JLabel.CENTER);
+		u.setVerticalAlignment(JLabel.CENTER);
+		
+		JLabel u1 = new JLabel();
+		responding = new ImageIcon("responding.png");
+		u1.setIcon(responding);
+		u1.setHorizontalAlignment(JLabel.CENTER);
+		u1.setVerticalAlignment(JLabel.CENTER);
+		
+		JLabel u2 = new JLabel();
+		treating = new ImageIcon("treating.png");
+		u2.setIcon(treating);
+		u2.setHorizontalAlignment(JLabel.CENTER);
+		u2.setVerticalAlignment(JLabel.CENTER);
+		
+		AvailbleUnits.setColumnHeaderView(u);
+		RespondingUnits.setColumnHeaderView(u1);
+		TreatingUnits.setColumnHeaderView(u2);
 		
 		disasters = new DefaultListModel<>(); 
 		JList<String> c = new JList<>(disasters);
 		JScrollPane sc3 = new JScrollPane(c,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		sc3.setPreferredSize(new Dimension(300, 120));
-		JLabel r3 = new JLabel("         Current Disasters");
-		r3.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
+		JLabel dis = new JLabel();
+		dispic = new ImageIcon("disaster.png");
+		dis.setIcon(dispic);
+		dis.setHorizontalAlignment(JLabel.CENTER);
+		dis.setVerticalAlignment(JLabel.CENTER);
+		sc3.setColumnHeaderView(dis);
+		
 		map = new JPanel(new GridLayout(10,10));
 		map.setPreferredSize(new Dimension(600, 600));
 		next = new JPanel(new BorderLayout());
@@ -146,26 +178,41 @@ public class GUI extends JFrame{
 		JList<String> b = new JList<>(InfoPanel);
 		JScrollPane sc2 = new JScrollPane(b,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		log = new DefaultListModel<>();
-		display = new JTextArea();
-		display.setPreferredSize(new Dimension(200, 120));
-		display.setEditable(false);
-		display.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+		displayy = new DefaultListModel<>(); 
+		JList<String> f = new JList<>(displayy);
+		displayPanel = new JScrollPane(f,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		displayPanel.setPreferredSize(new Dimension(200, 120));
 		left.add(sc2,BorderLayout.NORTH);
 		JList<String> a = new JList<>(log);
 		JScrollPane sc = new JScrollPane(a,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		JLabel display = new JLabel();
+		displaypic = new ImageIcon("display.png");
+		display.setIcon(displaypic);
+		display.setHorizontalAlignment(JLabel.CENTER);
+		display.setVerticalAlignment(JLabel.CENTER);
+		displayPanel.setColumnHeaderView(display);
 		
 		sc.setPreferredSize(new Dimension(400, 242));
 		sc2.setPreferredSize(new Dimension(400, 450));
-		JLabel r2 = new JLabel("                            INFO");
-		r2.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
-		JLabel r = new JLabel("                            LOG");
-		r.setFont(new Font(Font.SANS_SERIF, Font.ITALIC, 20));
+		JLabel r2 = new JLabel();
+		infopic = new ImageIcon("Info.png");
+		r2.setIcon(infopic);
+		r2.setHorizontalAlignment(JLabel.CENTER);
+		r2.setVerticalAlignment(JLabel.CENTER);
+		
+		infopic = new ImageIcon("Info.png");
+		r2.setIcon(infopic);
+		
+		JLabel r = new JLabel();
+		logpic = new ImageIcon("log.png");
+		r.setIcon(logpic);
+		r.setHorizontalAlignment(JLabel.CENTER);
+		r.setVerticalAlignment(JLabel.CENTER);
 		sb = sc.getVerticalScrollBar();
-	
 		
 		sc.setColumnHeaderView(r);
 		sc2.setColumnHeaderView(r2);
-		sc3.setColumnHeaderView(r3);
+		sc3.setColumnHeaderView(dis);
 		left.add(sc,BorderLayout.SOUTH);
 		left.add(sc2,BorderLayout.NORTH);
 		
@@ -237,7 +284,7 @@ public class GUI extends JFrame{
 
 	
 	public void addNextCycleButton(JButton b) {
-		next.add(display, BorderLayout.WEST);
+		next.add(displayPanel, BorderLayout.WEST);
 		next.add(b,BorderLayout.CENTER);
 		b.setPreferredSize(new Dimension(5, 120));
 	}
@@ -247,8 +294,10 @@ public class GUI extends JFrame{
 			map.add(arr.get(i));
 	}
 	public void updateCasulaties(Simulator s) {
+		displayy.removeAllElements();
 		int c = s.calculateCasualties();
-		display.setText("                   DISPLAY"+"\n"+"Casulaties: "+c+"\n"+"\n"+"Current Cycle: "+s.getCurrentCycle());
+		displayy.addElement("Casulaties: "+c);
+		displayy.addElement("Current Cycle: "+s.getCurrentCycle());
 		
 	}
 	
