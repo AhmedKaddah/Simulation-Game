@@ -216,7 +216,13 @@ public class GUI extends JFrame{
 		left.add(sc,BorderLayout.SOUTH);
 		left.add(sc2,BorderLayout.NORTH);
 		
-
+		sc.setBackground(Color.BLACK);
+		sc2.setBackground(Color.BLACK);
+		sc3.setBackground(Color.BLACK);
+		displayPanel.setBackground(Color.BLACK);
+		RespondingUnits.setBackground(Color.BLACK);
+		TreatingUnits.setBackground(Color.BLACK);
+		AvailbleUnits.setBackground(Color.BLACK);
 		
 		
 		

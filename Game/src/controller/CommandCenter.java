@@ -48,7 +48,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 	private ArrayList<Citizen> visibleCitizens;
 	private GUI g;
 	private JButton startGame = new JButton();
-	private JButton nextCycle = new JButton("Next Cycle");
+	private JButton nextCycle = new JButton();
 	private JButton demo = new JButton();
 	private ArrayList<JButton> mapButtons;
 	private ArrayList<JButton> unitButtons;
@@ -86,6 +86,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 	ImageIcon sgame = new ImageIcon("sg.png");
 	ImageIcon d = new ImageIcon("d.png");
 	ImageIcon x = new ImageIcon("x.png");
+	ImageIcon nextc = new ImageIcon("nextcycle.gif");
 	
 	public CommandCenter() throws Exception {
 		engine = new Simulator(this);
@@ -132,6 +133,16 @@ public class CommandCenter implements SOSListener,ActionListener {
 		
 		g = new GUI();
 		nextCycle.addActionListener(this);
+		nextCycle.setBorder(null);
+		nextCycle.setIcon(nextc);
+		nextCycle.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	nextCycle.setBorder(new MatteBorder(2, 2, 2, 2, Color.BLUE));
+		    }
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	nextCycle.setBorder(null);
+		    }
+		});
 		startGame.addActionListener(this);
 		demo.addActionListener(this);
 		mapButtons = new ArrayList<JButton>();
