@@ -394,9 +394,11 @@ public class GUI extends JFrame{
 	public void updateInfo(Simulator s,CommandCenter c, int x,int y) {
 		InfoPanel.removeAllElements();
 		InfoPanel.addElement("                                                      Cell "+x+", "+y+" Info"+"\n");
+		InfoPanel.addElement(" ");
 		if(x==0&& y==0) {
 			InfoPanel.removeAllElements();
 			InfoPanel.addElement("                                                       Base Info"+"\n");
+			InfoPanel.addElement(" ");
 		}
 		InfoPanel.addElement("");
 		InfoPanel.addElement("");
@@ -417,7 +419,8 @@ public class GUI extends JFrame{
 				}
 				InfoPanel.addElement("------------------------------------------");
 				if (b.getOccupants().size()>0) {
-					InfoPanel.addElement("                                Citizens inside the building:");
+					InfoPanel.addElement("                                    Citizens inside this building:");
+					InfoPanel.addElement(" ");
 					for(int j=0; j<b.getOccupants().size();j++) {
 						Citizen k= b.getOccupants().get(j);
 						InfoPanel.addElement( k+" at "+ x+", "+y);
@@ -430,6 +433,7 @@ public class GUI extends JFrame{
 						if(k.getDisaster()!=null &&k.getDisaster().isActive()) {
 							InfoPanel.addElement( "Affected by: "+ k.getDisaster()+" Disaster");
 							}
+						if(j+1 != b.getOccupants().size())
 						InfoPanel.addElement("------------------------------------------");
 					}
 				}
@@ -439,7 +443,8 @@ public class GUI extends JFrame{
 		if(flag==false) {
 		for(int i=0;i<c.getVisibleCitizens().size();i++) {
 			if(temp.equals(c.getVisibleCitizens().get(i).getLocation())) {
-				InfoPanel.addElement("                                Citizens at this cell: ");
+				InfoPanel.addElement("                                             Citizens at this cell: ");
+				InfoPanel.addElement(" ");
 					Citizen k= c.getVisibleCitizens().get(i);
 					InfoPanel.addElement( k+" at "+ x+", "+y);
 					InfoPanel.addElement(("Age: "+k.getAge()));
@@ -451,12 +456,14 @@ public class GUI extends JFrame{
 					if(k.getDisaster()!=null &&k.getDisaster().isActive()) {
 						InfoPanel.addElement( "Affected by: "+ k.getDisaster()+" Disaster");
 						}
+					if(i+1 != c.getVisibleCitizens().size())
 					InfoPanel.addElement("------------------------------------------");
 			}
 		}}
 		for(int i=0; i<c.getEmergencyUnits().size();i++) {
 			if(c.getEmergencyUnits().get(i).getLocation().getX()== x && c.getEmergencyUnits().get(i).getLocation().getY()== y) {
-				InfoPanel.addElement("                                Units at this location:");
+				InfoPanel.addElement("                                          Units at this location:");
+				InfoPanel.addElement(" ");
 				break;
 			}
 		}
@@ -478,7 +485,7 @@ public class GUI extends JFrame{
 				
 			if(c.getEmergencyUnits().get(i) instanceof Evacuator) {
 				if(((Evacuator) c.getEmergencyUnits().get(i)).getPassengers().size()>0)
-				InfoPanel.addElement("                             Citizens inside the Evacuator: ");
+				InfoPanel.addElement("                                    Citizens inside the Evacuator: ");
 				for(int j=0;j<((Evacuator) c.getEmergencyUnits().get(i)).getPassengers().size();j++) {
 				Citizen k= ((Evacuator) c.getEmergencyUnits().get(i)).getPassengers().get(j);
 				InfoPanel.addElement( k+" at "+ x+", "+y);
@@ -494,6 +501,7 @@ public class GUI extends JFrame{
 					InfoPanel.addElement("------------------------------------------");
 				}}
 			else {
+				if (c.getEmergencyUnits().size()!=i+1)
 				InfoPanel.addElement("------------------------------------------");
 			}
 				
