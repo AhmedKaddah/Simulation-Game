@@ -121,13 +121,31 @@ public class CommandCenter implements SOSListener,ActionListener {
 		start.add(startT,BorderLayout.NORTH);
 		
 		Border emptyBorder = BorderFactory.createEmptyBorder();
-		startGame.setBorder(emptyBorder);
-		demo.setBorder(emptyBorder);
+		startGame.setBorder(new MatteBorder(4, 4, 4, 0, Color.black));
+		demo.setBorder(new MatteBorder(4, 4, 4, 4, Color.black));
 
-		startGame.setPreferredSize(new Dimension(250, 50));
+		startGame.setPreferredSize(new Dimension(244, 50));
 		startGame.setIcon(sgame);
+		startGame.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	startGame.setBorder(new MatteBorder(6, 6, 6, 6, Color.BLUE));
+		    }
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	startGame.setBorder(new MatteBorder(4, 4, 4, 0, Color.black));
+		    }
+		});
+
 		demo.setPreferredSize(new Dimension(200, 50));
 		demo.setIcon(d);
+		demo.addMouseListener(new java.awt.event.MouseAdapter() {
+		    public void mouseEntered(java.awt.event.MouseEvent evt) {
+		    	demo.setBorder(new MatteBorder(6, 6, 6, 6, Color.BLUE));
+		    }
+		    public void mouseExited(java.awt.event.MouseEvent evt) {
+		    	demo.setBorder(new MatteBorder(4, 4, 4, 4, Color.black));
+		    }
+		});
+		
 		startP.add(startGame,BorderLayout.WEST);
 		startP.add(demo,BorderLayout.EAST);
 		
