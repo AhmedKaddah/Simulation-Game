@@ -21,14 +21,12 @@ class MyScrollbarUI extends BasicScrollBarUI {
     	thumbLightShadowColor = new Color(74, 163, 232);
     	thumbHighlightColor = new Color(74, 163, 232);
 
-        try {
-            upArrow = new ImageIcon(new java.net.URL("http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/16/Actions-arrow-up-icon.png"));
-            downArrow = new ImageIcon(new java.net.URL("http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/16/Actions-arrow-down-icon.png"));
-            rightArrow = new ImageIcon(new java.net.URL("http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/16/Actions-arrow-right-icon.png"));
-            leftArrow = new ImageIcon(new java.net.URL("http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/16/Actions-arrow-left-icon.png"));
-        } catch (java.net.MalformedURLException ex) {
-            ex.printStackTrace();
-        }        
+     
+            upArrow = new ImageIcon("up.png");
+            downArrow = new ImageIcon("down.png");
+            rightArrow = new ImageIcon("right.png");
+            leftArrow = new ImageIcon("left.png");
+                
     }
 
     @Override
