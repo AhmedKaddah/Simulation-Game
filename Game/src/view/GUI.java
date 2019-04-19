@@ -2,23 +2,14 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Insets;
+
 import java.awt.Toolkit;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
-import javax.swing.plaf.ColorUIResource;
 
 import controller.CommandCenter;
 import model.infrastructure.ResidentialBuilding;
@@ -50,10 +41,7 @@ public class GUI extends JFrame{
 	private DefaultListModel<String> displayy;
 	
 	private DefaultListModel<String> unitInfo;
-	private JTextArea display;
 	private JPanel next;
-	private JScrollPane sc;
-	private JScrollPane sc2;
 	public JScrollPane sc3;
 	public JScrollBar sb;
 	private JPanel u1;
@@ -239,14 +227,6 @@ public class GUI extends JFrame{
 		RespondingUnits.getVerticalScrollBar().setUI(new MyScrollbarUI());
 		TreatingUnits.getVerticalScrollBar().setUI(new MyScrollbarUI());
 		AvailbleUnits.getVerticalScrollBar().setUI(new MyScrollbarUI());
-
-//		sc.getVerticalScrollBar().setBackground(Color.BLACK);
-//		sc2.getVerticalScrollBar().setBackground(Color.BLACK);
-//		sc3.getVerticalScrollBar().setBackground(Color.BLACK);
-//		displayPanel.getVerticalScrollBar().setBackground(Color.BLACK);
-//		RespondingUnits.getVerticalScrollBar().setBackground(Color.BLACK);
-//		TreatingUnits.getVerticalScrollBar().setBackground(Color.BLACK);
-//		AvailbleUnits.getVerticalScrollBar().setBackground(Color.BLACK);
 		
 		a.setBackground(Color.BLACK);
 		b.setBackground(Color.BLACK);

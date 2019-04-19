@@ -5,10 +5,7 @@ import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
-import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 class MyScrollbarUI extends BasicScrollBarUI {
@@ -17,7 +14,6 @@ class MyScrollbarUI extends BasicScrollBarUI {
 
     public MyScrollbarUI(){
     	thumbColor = Color.BLACK;
-//    	thumbDarkShadowColor = new Color(74, 163, 232);
     	thumbLightShadowColor = new Color(74, 163, 232);
     	thumbHighlightColor = new Color(74, 163, 232);
 

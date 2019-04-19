@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 
 import exceptions.CannotTreatException;
@@ -36,7 +34,7 @@ import simulation.Address;
 import simulation.Rescuable;
 import simulation.Simulator;
 import view.GUI;
-//sfs
+
 public class CommandCenter implements SOSListener,ActionListener {
 	private Simulator engine;
 	private ArrayList<ResidentialBuilding> visibleBuildings;
@@ -49,7 +47,6 @@ public class CommandCenter implements SOSListener,ActionListener {
 	private ArrayList<JButton> unitButtons;
 	private int j;
 	private int k;
-	private CommandCenter command=this;
 	@SuppressWarnings("unused")
 	private ArrayList<Unit> emergencyUnits;
 	JOptionPane selecttarget = new JOptionPane();
@@ -116,7 +113,6 @@ public class CommandCenter implements SOSListener,ActionListener {
 		start.add(startP,BorderLayout.SOUTH);
 		start.add(startT,BorderLayout.NORTH);
 		
-		Border emptyBorder = BorderFactory.createEmptyBorder();
 		startGame.setBorder(new MatteBorder(4, 4, 4, 0, Color.black));
 		demo.setBorder(new MatteBorder(4, 4, 4, 4, Color.black));
 
