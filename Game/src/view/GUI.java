@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
+import javax.swing.plaf.ColorUIResource;
 
 import controller.CommandCenter;
 import model.infrastructure.ResidentialBuilding;
@@ -238,7 +239,7 @@ public class GUI extends JFrame{
 		RespondingUnits.getVerticalScrollBar().setUI(new MyScrollbarUI());
 		TreatingUnits.getVerticalScrollBar().setUI(new MyScrollbarUI());
 		AvailbleUnits.getVerticalScrollBar().setUI(new MyScrollbarUI());
-		
+
 //		sc.getVerticalScrollBar().setBackground(Color.BLACK);
 //		sc2.getVerticalScrollBar().setBackground(Color.BLACK);
 //		sc3.getVerticalScrollBar().setBackground(Color.BLACK);

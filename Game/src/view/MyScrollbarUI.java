@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.border.MatteBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 class MyScrollbarUI extends BasicScrollBarUI {
@@ -15,6 +16,10 @@ class MyScrollbarUI extends BasicScrollBarUI {
     private ImageIcon downArrow, upArrow, leftArrow, rightArrow;
 
     public MyScrollbarUI(){
+    	thumbColor = Color.BLACK;
+//    	thumbDarkShadowColor = new Color(74, 163, 232);
+    	thumbLightShadowColor = new Color(74, 163, 232);
+    	thumbHighlightColor = new Color(74, 163, 232);
 
         try {
             upArrow = new ImageIcon(new java.net.URL("http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/16/Actions-arrow-up-icon.png"));
@@ -34,13 +39,14 @@ class MyScrollbarUI extends BasicScrollBarUI {
                 return new Dimension(22, 22);
             }
         };
+        decreaseButton.setBackground(Color.BLACK);
+        decreaseButton.setBorder(null);
         return decreaseButton;
     }
-//    protected void configureScrollBarColors()  {
-//    	scrollbar.setBackground(Color.black);
-//    	scrollbar.set
-//    	
-//    }
+    protected void configureScrollBarColors()  {
+    	
+    	scrollbar.setBackground(Color.BLACK);
+    }
 
 
     @Override
@@ -51,6 +57,8 @@ class MyScrollbarUI extends BasicScrollBarUI {
                 return new Dimension(22, 22);
             }
         };
+        increaseButton.setBackground(Color.BLACK);
+        increaseButton.setBorder(null);
         return increaseButton;
     }
 
