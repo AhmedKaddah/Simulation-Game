@@ -231,6 +231,21 @@ public class GUI extends JFrame{
 		TreatingUnits.setBackground(Color.BLACK);
 		AvailbleUnits.setBackground(Color.BLACK);
 		
+		sc.getVerticalScrollBar().setUI(new MyScrollbarUI());
+		sc2.getVerticalScrollBar().setUI(new MyScrollbarUI());
+		sc3.getVerticalScrollBar().setUI(new MyScrollbarUI());
+		displayPanel.getVerticalScrollBar().setUI(new MyScrollbarUI());
+		RespondingUnits.getVerticalScrollBar().setUI(new MyScrollbarUI());
+		TreatingUnits.getVerticalScrollBar().setUI(new MyScrollbarUI());
+		AvailbleUnits.getVerticalScrollBar().setUI(new MyScrollbarUI());
+		
+//		sc.getVerticalScrollBar().setBackground(Color.BLACK);
+//		sc2.getVerticalScrollBar().setBackground(Color.BLACK);
+//		sc3.getVerticalScrollBar().setBackground(Color.BLACK);
+//		displayPanel.getVerticalScrollBar().setBackground(Color.BLACK);
+//		RespondingUnits.getVerticalScrollBar().setBackground(Color.BLACK);
+//		TreatingUnits.getVerticalScrollBar().setBackground(Color.BLACK);
+//		AvailbleUnits.getVerticalScrollBar().setBackground(Color.BLACK);
 		
 		a.setBackground(Color.BLACK);
 		b.setBackground(Color.BLACK);
