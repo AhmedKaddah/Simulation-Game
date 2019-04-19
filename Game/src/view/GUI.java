@@ -256,8 +256,8 @@ public class GUI extends JFrame{
 		sc2.setBorder(new MatteBorder(2, 2, 2, 0, new Color(74, 163, 232)));
 		sc3.setBorder(new MatteBorder(0, 2, 2, 2, new Color(74, 163, 232)));
 		displayPanel.setBorder(new MatteBorder(0, 2, 2, 2, new Color(74, 163, 232)));
-		RespondingUnits.setBorder(new MatteBorder(2, 0, 2, 2, new Color(74, 163, 232)));
-		TreatingUnits.setBorder(new MatteBorder(2, 0, 2, 2, new Color(74, 163, 232)));
+		RespondingUnits.setBorder(new MatteBorder(0, 0, 2, 2, new Color(74, 163, 232)));
+		TreatingUnits.setBorder(new MatteBorder(0, 0, 0, 2, new Color(74, 163, 232)));
 		AvailbleUnits.setBorder(new MatteBorder(2,0, 2, 2, new Color(74, 163, 232)));
 		sc4.setBorder(new MatteBorder(2, 0, 2, 2, new Color(74, 163, 232)));
 	}
