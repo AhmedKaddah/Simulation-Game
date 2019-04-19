@@ -347,7 +347,7 @@ public class GUI extends JFrame{
 	
 	public void updateLog(Simulator s) {
 		if(s.getCurrentCycle()>1) {
-			log.addElement("                                   ----------------------------------------------");
+			log.addElement("                                   _______________________");
 		}
 		log.addElement("");
 		log.addElement("                                                Cycle number "+s.getCurrentCycle());
