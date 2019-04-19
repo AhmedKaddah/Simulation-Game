@@ -490,7 +490,13 @@ public class CommandCenter implements SOSListener,ActionListener {
 					o[count++]= visibleCitizens.get(i).toString();
 				}
 			}
-		int n = JOptionPane.showOptionDialog(selecttarget,"Please choose a target","Choose target",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null, o, null);
+			int n;
+		if(o.length>0) {
+		n = JOptionPane.showOptionDialog(selecttarget,"Please choose a target","Choose target",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null, o, null);
+		}
+		else {
+		n = JOptionPane.showOptionDialog(selecttarget,"This cell has no valid targets","Choose target",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null, o, null);
+		}
 		if(n==-1) {
 			choosetarget=false;
 		}	
