@@ -346,8 +346,12 @@ public class GUI extends JFrame{
 	}
 	
 	public void updateLog(Simulator s) {
+		if(s.getCurrentCycle()>1) {
+			log.addElement("                                   ----------------------------------------------");
+		}
 		log.addElement("");
 		log.addElement("                                                Cycle number "+s.getCurrentCycle());
+		log.addElement(" ");
 		log.addElement("Executed Diasters: ");
 		for(int i=0;i<s.getExecutedDisasters().size();i++) {
 			if(s.getExecutedDisasters().get(i).getStartCycle() == s.getCurrentCycle()) {
