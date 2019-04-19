@@ -250,6 +250,12 @@ public class GUI extends JFrame{
 		d.setForeground(Color.WHITE);
 		f.setForeground(Color.WHITE);
 		
+		a.setSelectionModel(new DisabledItemSelectionModel());
+		b.setSelectionModel(new DisabledItemSelectionModel());
+		c.setSelectionModel(new DisabledItemSelectionModel());
+		d.setSelectionModel(new DisabledItemSelectionModel());
+		f.setSelectionModel(new DisabledItemSelectionModel());
+		
 		this.add(main);
 		map.setBorder(new MatteBorder(5, 2, 5, 2, new Color(74, 163, 232)));
 		sc.setBorder(new MatteBorder(0, 2, 2, 0, new Color(74, 163, 232)));
