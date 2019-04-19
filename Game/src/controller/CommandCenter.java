@@ -87,6 +87,7 @@ public class CommandCenter implements SOSListener,ActionListener {
 	ImageIcon d = new ImageIcon("d.png");
 	ImageIcon x = new ImageIcon("x.png");
 	ImageIcon nextc = new ImageIcon("nextcycle.gif");
+	ImageIcon gameOver = new ImageIcon("game_over.gif");
 	
 	public CommandCenter() throws Exception {
 		engine = new Simulator(this);
@@ -431,17 +432,21 @@ public class CommandCenter implements SOSListener,ActionListener {
 			if(engine.checkGameOver()) {
 				g.dispose();
 				JFrame x = new JFrame("Game Over");
-				JLabel s = new JLabel("    Game Over!!");
+				JPanel temp = new JPanel(new BorderLayout());
+				temp.setPreferredSize(new Dimension(478,450));
+				temp.setBackground(Color.DARK_GRAY);
+				temp.setBorder(new MatteBorder(6, 6, 6, 6, Color.BLUE));
+				JLabel s = new JLabel(gameOver);
 				JLabel c = new JLabel("         Number of casualties: "+engine.calculateCasualties());
-				s.setFont(new Font(Font.SANS_SERIF, Font.BOLD,60 ));
-				s.setForeground(Color.RED);
-				c.setFont(new Font(Font.SANS_SERIF, Font.BOLD,30 ));
-				c.setForeground(Color.BLACK);
-				x.add(s,BorderLayout.NORTH);
-				x.add(c, BorderLayout.CENTER);
+				c.setPreferredSize(new Dimension(478, 120));
+				c.setFont(new Font(Font.SERIF, Font.BOLD,30 ));
+				c.setForeground( new Color(74, 163, 232));
+				c.setBorder(new MatteBorder(6, 0, 6, 6, Color.BLUE));
+				temp.add(s,BorderLayout.NORTH);
+				temp.add(c, BorderLayout.CENTER);
+				x.add(temp);
 				x.setVisible(true);
-				x.setSize(500, 300);
-				x.setLocation(300,100);
+				x.setSize(478, 450);
 				x.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				x.setResizable(false);
 				Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
