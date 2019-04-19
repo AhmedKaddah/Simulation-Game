@@ -1,4 +1,5 @@
 package controller;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,7 +9,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -35,20 +35,22 @@ import simulation.Rescuable;
 import simulation.Simulator;
 import view.GUI;
 
-public class CommandCenter implements SOSListener,ActionListener {
+public class CommandCenter implements SOSListener, ActionListener {
 	private Simulator engine;
 	private ArrayList<ResidentialBuilding> visibleBuildings;
 	private ArrayList<Citizen> visibleCitizens;
+	private ArrayList<Unit> emergencyUnits;
 	private GUI g;
+
 	private JButton startGame = new JButton();
 	private JButton nextCycle = new JButton();
 	private JButton demo = new JButton();
 	private ArrayList<JButton> mapButtons;
 	private ArrayList<JButton> unitButtons;
+
 	private int j;
 	private int k;
-	@SuppressWarnings("unused")
-	private ArrayList<Unit> emergencyUnits;
+
 	JOptionPane selecttarget = new JOptionPane();
 	private Unit currentunit;
 	private boolean choosetarget = false;
@@ -57,15 +59,15 @@ public class CommandCenter implements SOSListener,ActionListener {
 	private JPanel startT;
 	private JFrame demowindow;
 	private Timer timer;
-	
+
 	ImageIcon hq = new ImageIcon("hq.png");
 	ImageIcon building = new ImageIcon("building.png");
-	ImageIcon bandc= new ImageIcon("bandc.png");
-	ImageIcon bandu= new ImageIcon("bandu.png");
-	ImageIcon bandcandu= new ImageIcon("bandcandu.png");
-	ImageIcon hqandu= new ImageIcon("hqandu.png");
-	ImageIcon candu= new ImageIcon("candu.png");
-	ImageIcon csandu= new ImageIcon("csandu.png");
+	ImageIcon bandc = new ImageIcon("bandc.png");
+	ImageIcon bandu = new ImageIcon("bandu.png");
+	ImageIcon bandcandu = new ImageIcon("bandcandu.png");
+	ImageIcon hqandu = new ImageIcon("hqandu.png");
+	ImageIcon candu = new ImageIcon("candu.png");
+	ImageIcon csandu = new ImageIcon("csandu.png");
 	ImageIcon amb = new ImageIcon("amb.png");
 	ImageIcon ftk = new ImageIcon("ftk.png");
 	ImageIcon evc = new ImageIcon("evc.png");
@@ -80,146 +82,140 @@ public class CommandCenter implements SOSListener,ActionListener {
 	ImageIcon x = new ImageIcon("x.png");
 	ImageIcon nextc = new ImageIcon("nextcycle.gif");
 	ImageIcon gameOver = new ImageIcon("game_over.gif");
-	
+
 	public CommandCenter() throws Exception {
 		engine = new Simulator(this);
 		visibleBuildings = new ArrayList<ResidentialBuilding>();
 		visibleCitizens = new ArrayList<Citizen>();
 		emergencyUnits = engine.getEmergencyUnits();
-		
+
 		start = new JFrame();
 		start.setVisible(true);
 		start.setTitle("Rescue Simulation Game");
 		start.setLayout(new BorderLayout());
 		start.setSize(new Dimension(450, 200));
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		start.setLocation(dim.width/2-start.getSize().width/2, dim.height/2-start.getSize().height/2);
+		start.setLocation(dim.width / 2 - start.getSize().width / 2, dim.height / 2 - start.getSize().height / 2);
 		start.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		start.setResizable(false);
-		
 		demowindow = new JFrame();
 		demowindow.setVisible(false);
 		demowindow.setTitle("Demo!");
 		demowindow.setLayout(new BorderLayout());
 		demowindow.setSize(new Dimension(450, 200));
-		demowindow.setLocation(dim.width/2-start.getSize().width/2, dim.height/2-start.getSize().height/2);
+		demowindow.setLocation(dim.width / 2 - start.getSize().width / 2, dim.height / 2 - start.getSize().height / 2);
 		demowindow.setResizable(false);
-		
 		startP = new JPanel(new BorderLayout());
 		startT = new JPanel();
 		startP.setSize(new Dimension(450, 50));
 		startT.setSize(new Dimension(450, 150));
 		startT.add(new JLabel(welcome));
-		start.add(startP,BorderLayout.SOUTH);
-		start.add(startT,BorderLayout.NORTH);
-		
+		start.add(startP, BorderLayout.SOUTH);
+		start.add(startT, BorderLayout.NORTH);
 		startGame.setBorder(new MatteBorder(4, 4, 4, 0, Color.black));
 		demo.setBorder(new MatteBorder(4, 4, 4, 4, Color.black));
-
 		startGame.setPreferredSize(new Dimension(244, 50));
 		startGame.setIcon(sgame);
 		startGame.addMouseListener(new java.awt.event.MouseAdapter() {
-		    public void mouseEntered(java.awt.event.MouseEvent evt) {
-		    	startGame.setBorder(new MatteBorder(6, 6, 6, 6, Color.BLUE));
-		    }
-		    public void mouseExited(java.awt.event.MouseEvent evt) {
-		    	startGame.setBorder(new MatteBorder(4, 4, 4, 0, Color.black));
-		    }
-		});
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				startGame.setBorder(new MatteBorder(6, 6, 6, 6, Color.BLUE));
+			}
 
+			public void mouseExited(java.awt.event.MouseEvent evt) {
+				startGame.setBorder(new MatteBorder(4, 4, 4, 0, Color.black));
+			}
+		});
+		startGame.addActionListener(this);
+		demo.addActionListener(this);
 		demo.setPreferredSize(new Dimension(200, 50));
 		demo.setIcon(d);
 		demo.addMouseListener(new java.awt.event.MouseAdapter() {
-		    public void mouseEntered(java.awt.event.MouseEvent evt) {
-		    	demo.setBorder(new MatteBorder(6, 6, 6, 6, Color.BLUE));
-		    }
-		    public void mouseExited(java.awt.event.MouseEvent evt) {
-		    	demo.setBorder(new MatteBorder(4, 4, 4, 4, Color.black));
-		    }
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				demo.setBorder(new MatteBorder(6, 6, 6, 6, Color.BLUE));
+			}
+
+			public void mouseExited(java.awt.event.MouseEvent evt) {
+				demo.setBorder(new MatteBorder(4, 4, 4, 4, Color.black));
+			}
 		});
-		
-		startP.add(startGame,BorderLayout.WEST);
-		startP.add(demo,BorderLayout.EAST);
-		
+		startP.add(startGame, BorderLayout.WEST);
+		startP.add(demo, BorderLayout.EAST);
+
 		g = new GUI();
+
 		nextCycle.addActionListener(this);
 		nextCycle.setBorder(new MatteBorder(0, 0, 2, 0, new Color(74, 163, 232)));
 		nextCycle.setIcon(nextc);
 		nextCycle.addMouseListener(new java.awt.event.MouseAdapter() {
-		    public void mouseEntered(java.awt.event.MouseEvent evt) {
-		    	nextCycle.setBorder(new MatteBorder(2, 2, 2, 2, Color.BLUE));
-		    }
-		    public void mouseExited(java.awt.event.MouseEvent evt) {
-		    	nextCycle.setBorder(new MatteBorder(0, 0, 2, 0, new Color(74, 163, 232)));
-		    }
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				nextCycle.setBorder(new MatteBorder(2, 2, 2, 2, Color.BLUE));
+			}
+
+			public void mouseExited(java.awt.event.MouseEvent evt) {
+				nextCycle.setBorder(new MatteBorder(0, 0, 2, 0, new Color(74, 163, 232)));
+			}
 		});
-		startGame.addActionListener(this);
-		demo.addActionListener(this);
+
 		mapButtons = new ArrayList<JButton>();
-		unitButtons = new ArrayList<JButton>();
-		for(int i=0;i<10;i++) {
-			for(int j=0;j<10;j++) {
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
 				JButton temp = new JButton();
 				temp.addActionListener(this);
 				temp.setIcon(terr);
 				temp.addMouseListener(new java.awt.event.MouseAdapter() {
-				    public void mouseEntered(java.awt.event.MouseEvent evt) {
-				        temp.setBorder(new MatteBorder(2, 2, 2, 2, Color.BLUE));
-				    }
-				    public void mouseExited(java.awt.event.MouseEvent evt) {
-				    	temp.setBorder(null);
-				    }
+					public void mouseEntered(java.awt.event.MouseEvent evt) {
+						temp.setBorder(new MatteBorder(2, 2, 2, 2, Color.BLUE));
+					}
+
+					public void mouseExited(java.awt.event.MouseEvent evt) {
+						temp.setBorder(null);
+					}
 				});
 				temp.setBorder(null);
 				mapButtons.add(temp);
 			}
 		}
 		mapButtons.get(0).setIcon(hqandu);
-	
 		g.addMapButtons(mapButtons);
 
-		
-		
-		for(int i=0; i<emergencyUnits.size();i++)
-		{	JButton temp = new JButton();
-		temp.setBorder(null);
-		temp.setBackground(Color.BLACK);
-		temp.addMouseListener(new java.awt.event.MouseAdapter() {
-		    public void mouseEntered(java.awt.event.MouseEvent evt) {
-		    	temp.setBorder(new MatteBorder(2, 2, 2, 2, Color.BLUE));
-		    }
-		    public void mouseExited(java.awt.event.MouseEvent evt) {
-		    	temp.setBorder(null);
-		    }
-		});
+		unitButtons = new ArrayList<JButton>();
+		for (int i = 0; i < emergencyUnits.size(); i++) {
+			JButton temp = new JButton();
+			temp.setBorder(null);
+			temp.setBackground(Color.BLACK);
+			temp.addMouseListener(new java.awt.event.MouseAdapter() {
+				public void mouseEntered(java.awt.event.MouseEvent evt) {
+					temp.setBorder(new MatteBorder(2, 2, 2, 2, Color.BLUE));
+				}
+
+				public void mouseExited(java.awt.event.MouseEvent evt) {
+					temp.setBorder(null);
+				}
+			});
 			temp.setPreferredSize(new Dimension(60, 50));
-			if(emergencyUnits.get(i) instanceof Ambulance) {
+			if (emergencyUnits.get(i) instanceof Ambulance) {
 				temp.setIcon(amb);
 				unitButtons.add(temp);
 			}
-			if(emergencyUnits.get(i) instanceof DiseaseControlUnit) {
+			if (emergencyUnits.get(i) instanceof DiseaseControlUnit) {
 				temp.setIcon(dcu);
 				unitButtons.add(temp);
 			}
-			if(emergencyUnits.get(i) instanceof Evacuator) {
+			if (emergencyUnits.get(i) instanceof Evacuator) {
 				temp.setIcon(evc);
 				unitButtons.add(temp);
 			}
-			if(emergencyUnits.get(i) instanceof FireTruck) {
+			if (emergencyUnits.get(i) instanceof FireTruck) {
 				temp.setIcon(ftk);
 				unitButtons.add(temp);
 			}
-			if(emergencyUnits.get(i) instanceof GasControlUnit) {
+			if (emergencyUnits.get(i) instanceof GasControlUnit) {
 				temp.setIcon(gcu);
 				unitButtons.add(temp);
 			}
 			unitButtons.get(i).addActionListener(this);
 		}
-		
-		
 		g.updateUnits(this);
-
-		
 	}
 
 	public void updateMap() {
@@ -377,17 +373,17 @@ public class CommandCenter implements SOSListener,ActionListener {
 			}
 		}
 	}
-	
+
 	@Override
 	public void receiveSOSCall(Rescuable r) {
-		
+
 		if (r instanceof ResidentialBuilding) {
-			
+
 			if (!visibleBuildings.contains(r))
 				visibleBuildings.add((ResidentialBuilding) r);
-			
+
 		} else {
-			
+
 			if (!visibleCitizens.contains(r))
 				visibleCitizens.add((Citizen) r);
 		}
@@ -397,22 +393,22 @@ public class CommandCenter implements SOSListener,ActionListener {
 	public Simulator getEngine() {
 		return engine;
 	}
-	
+
 	public void actionPerformed(ActionEvent e) {
-		JButton b= (JButton) e.getSource();
-		if(b.equals(demo)) {
-		demowindow.setVisible(true);
+		JButton b = (JButton) e.getSource();
+		if (b.equals(demo)) {
+			demowindow.setVisible(true);
 		}
-		if(b.equals(startGame)) {
+		if (b.equals(startGame)) {
 			start.dispose();
 			g.setVisible(true);
 			g.addNextCycleButton(nextCycle);
 		}
-		
-		if(b.equals(nextCycle)) {
+
+		if (b.equals(nextCycle)) {
 			g.revalidate();
 			engine.nextCycle();
-			if(currentunit!=null)
+			if (currentunit != null)
 				g.updateUnitInfo(currentunit);
 			g.updateCasulaties(engine);
 			updateMap();
@@ -420,20 +416,20 @@ public class CommandCenter implements SOSListener,ActionListener {
 			g.updateInfo(engine, this, j, k);
 			g.updateUnits(this);
 			g.revalidate();
-			if(engine.checkGameOver()) {
+			if (engine.checkGameOver()) {
 				g.dispose();
 				JFrame x = new JFrame("Game Over");
 				JPanel temp = new JPanel(new BorderLayout());
-				temp.setPreferredSize(new Dimension(478,450));
+				temp.setPreferredSize(new Dimension(478, 450));
 				temp.setBackground(Color.DARK_GRAY);
 				temp.setBorder(new MatteBorder(6, 6, 6, 6, Color.BLUE));
 				JLabel s = new JLabel(gameOver);
-				JLabel c = new JLabel("         Number of casualties: "+engine.calculateCasualties());
+				JLabel c = new JLabel("         Number of casualties: " + engine.calculateCasualties());
 				c.setPreferredSize(new Dimension(478, 120));
-				c.setFont(new Font(Font.SERIF, Font.BOLD,30 ));
-				c.setForeground( new Color(74, 163, 232));
+				c.setFont(new Font(Font.SERIF, Font.BOLD, 30));
+				c.setForeground(new Color(74, 163, 232));
 				c.setBorder(new MatteBorder(6, 0, 6, 6, Color.BLUE));
-				temp.add(s,BorderLayout.NORTH);
+				temp.add(s, BorderLayout.NORTH);
 				temp.add(c, BorderLayout.CENTER);
 				x.add(temp);
 				x.setVisible(true);
@@ -441,102 +437,100 @@ public class CommandCenter implements SOSListener,ActionListener {
 				x.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				x.setResizable(false);
 				Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-				x.setLocation(dim.width/2-x.getSize().width/2, dim.height/2-x.getSize().height/2);
+				x.setLocation(dim.width / 2 - x.getSize().width / 2, dim.height / 2 - x.getSize().height / 2);
 			}
-			
+
 			g.updateDisasters(this);
-			g.sb.setValue( g.sb.getMaximum() );
+			g.sb.setValue(g.sb.getMaximum());
 
 		}
-		if(unitButtons.contains(b)) {
-			choosetarget=true;
-			int n= unitButtons.indexOf(b);
+		if (unitButtons.contains(b)) {
+			choosetarget = true;
+			int n = unitButtons.indexOf(b);
 			currentunit = emergencyUnits.get(n);
 			g.updateUnitInfo(currentunit);
-			
+
 		}
-		if(mapButtons.contains(b)) {
-			j= mapButtons.indexOf(b) / 10;
-			k= mapButtons.indexOf(b) % 10;
+		if (mapButtons.contains(b)) {
+			j = mapButtons.indexOf(b) / 10;
+			k = mapButtons.indexOf(b) % 10;
 			g.updateInfo(engine, this, j, k);
-			
-			
-			
-			if(choosetarget) {
-			int count =0;
-			for(int i=0; i<visibleBuildings.size();i++) {
-				if(visibleBuildings.get(i).getLocation().equals(engine.getWorld()[j][k])) {
-					count++;
-				}
-			}
-			for(int i=0; i<visibleCitizens.size();i++) {
-				if(visibleCitizens.get(i).getLocation().equals(engine.getWorld()[j][k])) {
-					count++;
-				}
-			}
-			Object[] o= new Object[count];
-			count=0;
-			for(int i=0; i<visibleBuildings.size();i++) {
-				if(visibleBuildings.get(i).getLocation().equals(engine.getWorld()[j][k])) {
-					o[count++]= visibleBuildings.get(i).toString();
-				}
-			}
-			for(int i=0; i<visibleCitizens.size();i++) {
-				if(visibleCitizens.get(i).getLocation().equals(engine.getWorld()[j][k])) {
-					o[count++]= visibleCitizens.get(i).toString();
-				}
-			}
-			int n;
-		if(o.length>0) {
-		n = JOptionPane.showOptionDialog(selecttarget,"Please choose a target","Choose target",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null, o, null);
-		}
-		else {
-		n = JOptionPane.showOptionDialog(selecttarget,"This cell has no valid targets","Choose target",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null, o, null);
-		}
-		if(n==-1) {
-			choosetarget=false;
-		}	
-		else {
-		int r=0;
-		for(int i=0; i<visibleBuildings.size();i++) {
-			if(visibleBuildings.get(i).getLocation().equals(engine.getWorld()[j][k])) {
-				if(r==n) {
-					try {
-						currentunit.respond(visibleBuildings.get(i));
-						g.updateUnits(this);
-						g.updateUnitInfo(currentunit);}
-						catch(CannotTreatException e1) {
-							JOptionPane.showMessageDialog( null, e1.getMessage() );
-						}
-						catch(IncompatibleTargetException e2) {
-							JOptionPane.showMessageDialog( null, e2.getMessage() );				
-						}
-				}
-				r++;
-			}
-		}
-		for(int i=0; i<visibleCitizens.size();i++) {
-			if(visibleCitizens.get(i).getLocation().equals(engine.getWorld()[j][k])) {
-				if(r==n) {
-					try {
-					currentunit.respond(visibleCitizens.get(i));
-					g.updateUnits(this);
-					g.updateUnitInfo(currentunit);}
-					catch(CannotTreatException e1) {
-						JOptionPane.showMessageDialog( null, e1.getMessage() );
+
+			if (choosetarget) {
+				int count = 0;
+				for (int i = 0; i < visibleBuildings.size(); i++) {
+					if (visibleBuildings.get(i).getLocation().equals(engine.getWorld()[j][k])) {
+						count++;
 					}
-					catch(IncompatibleTargetException e2) {
-						JOptionPane.showMessageDialog( null, e2.getMessage() );					
-					}
-					
 				}
-				r++;
+				for (int i = 0; i < visibleCitizens.size(); i++) {
+					if (visibleCitizens.get(i).getLocation().equals(engine.getWorld()[j][k])) {
+						count++;
+					}
+				}
+				Object[] o = new Object[count];
+				count = 0;
+				for (int i = 0; i < visibleBuildings.size(); i++) {
+					if (visibleBuildings.get(i).getLocation().equals(engine.getWorld()[j][k])) {
+						o[count++] = visibleBuildings.get(i).toString();
+					}
+				}
+				for (int i = 0; i < visibleCitizens.size(); i++) {
+					if (visibleCitizens.get(i).getLocation().equals(engine.getWorld()[j][k])) {
+						o[count++] = visibleCitizens.get(i).toString();
+					}
+				}
+				int n;
+				if (o.length > 0) {
+					n = JOptionPane.showOptionDialog(selecttarget, "Please choose a target", "Choose target",
+							JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, o, null);
+				} else {
+					n = JOptionPane.showOptionDialog(selecttarget, "This cell has no valid targets", "Choose target",
+							JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, o, null);
+				}
+				if (n == -1) {
+					choosetarget = false;
+				} else {
+					int r = 0;
+					for (int i = 0; i < visibleBuildings.size(); i++) {
+						if (visibleBuildings.get(i).getLocation().equals(engine.getWorld()[j][k])) {
+							if (r == n) {
+								try {
+									currentunit.respond(visibleBuildings.get(i));
+									g.updateUnits(this);
+									g.updateUnitInfo(currentunit);
+								} catch (CannotTreatException e1) {
+									JOptionPane.showMessageDialog(null, e1.getMessage());
+								} catch (IncompatibleTargetException e2) {
+									JOptionPane.showMessageDialog(null, e2.getMessage());
+								}
+							}
+							r++;
+						}
+					}
+					for (int i = 0; i < visibleCitizens.size(); i++) {
+						if (visibleCitizens.get(i).getLocation().equals(engine.getWorld()[j][k])) {
+							if (r == n) {
+								try {
+									currentunit.respond(visibleCitizens.get(i));
+									g.updateUnits(this);
+									g.updateUnitInfo(currentunit);
+								} catch (CannotTreatException e1) {
+									JOptionPane.showMessageDialog(null, e1.getMessage());
+								} catch (IncompatibleTargetException e2) {
+									JOptionPane.showMessageDialog(null, e2.getMessage());
+								}
+
+							}
+							r++;
+						}
+					}
+					choosetarget = false;
+				}
 			}
 		}
-			choosetarget=false;
-			}}}
 	}
-	
+
 	public ArrayList<ResidentialBuilding> getVisibleBuildings() {
 		return visibleBuildings;
 	}
@@ -544,24 +538,17 @@ public class CommandCenter implements SOSListener,ActionListener {
 	public ArrayList<Citizen> getVisibleCitizens() {
 		return visibleCitizens;
 	}
-	
+
 	public ArrayList<Unit> getEmergencyUnits() {
 		return emergencyUnits;
-	}		
-	
-	
+	}
+
 	public static void main(String[] args) throws Exception {
 		CommandCenter com = new CommandCenter();
 	}
+
 	public ArrayList<JButton> getUnitButtons() {
 		return unitButtons;
 	}
-	
-
-
-
-
-
-	
 
 }

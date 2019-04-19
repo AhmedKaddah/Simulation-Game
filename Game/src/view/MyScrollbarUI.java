@@ -10,58 +10,61 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 
 class MyScrollbarUI extends BasicScrollBarUI {
 
-    private ImageIcon downArrow, upArrow, leftArrow, rightArrow;
+	private ImageIcon downArrow, upArrow, leftArrow, rightArrow;
 
-    public MyScrollbarUI(){
-    	thumbColor = Color.BLACK;
-    	thumbLightShadowColor = new Color(74, 163, 232);
-    	thumbHighlightColor = new Color(74, 163, 232);
+	public MyScrollbarUI() {
+		thumbColor = Color.BLACK;
+		thumbLightShadowColor = new Color(74, 163, 232);
+		thumbHighlightColor = new Color(74, 163, 232);
 
-     
-            upArrow = new ImageIcon("up.png");
-            downArrow = new ImageIcon("down.png");
-            rightArrow = new ImageIcon("right.png");
-            leftArrow = new ImageIcon("left.png");
-                
-    }
+		upArrow = new ImageIcon("up.png");
+		downArrow = new ImageIcon("down.png");
+		rightArrow = new ImageIcon("right.png");
+		leftArrow = new ImageIcon("left.png");
 
-    @Override
-    protected JButton createDecreaseButton(int orientation) {
-        JButton decreaseButton = new JButton(getAppropriateIcon(orientation)){
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension(22, 22);
-            }
-        };
-        decreaseButton.setBackground(Color.BLACK);
-        decreaseButton.setBorder(null);
-        return decreaseButton;
-    }
-    protected void configureScrollBarColors()  {
-    	
-    	scrollbar.setBackground(Color.BLACK);
-    }
+	}
 
+	@Override
+	protected JButton createDecreaseButton(int orientation) {
+		JButton decreaseButton = new JButton(getAppropriateIcon(orientation)) {
+			@Override
+			public Dimension getPreferredSize() {
+				return new Dimension(22, 22);
+			}
+		};
+		decreaseButton.setBackground(Color.BLACK);
+		decreaseButton.setBorder(null);
+		return decreaseButton;
+	}
 
-    @Override
-    protected JButton createIncreaseButton(int orientation) {
-        JButton increaseButton = new JButton(getAppropriateIcon(orientation)){
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension(22, 22);
-            }
-        };
-        increaseButton.setBackground(Color.BLACK);
-        increaseButton.setBorder(null);
-        return increaseButton;
-    }
+	protected void configureScrollBarColors() {
 
-    private ImageIcon getAppropriateIcon(int orientation){
-        switch(orientation){
-            case SwingConstants.SOUTH: return downArrow;
-            case SwingConstants.NORTH: return upArrow;
-            case SwingConstants.EAST: return rightArrow;
-                default: return leftArrow;
-        }
-    }
-}    
+		scrollbar.setBackground(Color.BLACK);
+	}
+
+	@Override
+	protected JButton createIncreaseButton(int orientation) {
+		JButton increaseButton = new JButton(getAppropriateIcon(orientation)) {
+			@Override
+			public Dimension getPreferredSize() {
+				return new Dimension(22, 22);
+			}
+		};
+		increaseButton.setBackground(Color.BLACK);
+		increaseButton.setBorder(null);
+		return increaseButton;
+	}
+
+	private ImageIcon getAppropriateIcon(int orientation) {
+		switch (orientation) {
+		case SwingConstants.SOUTH:
+			return downArrow;
+		case SwingConstants.NORTH:
+			return upArrow;
+		case SwingConstants.EAST:
+			return rightArrow;
+		default:
+			return leftArrow;
+		}
+	}
+}
