@@ -36,7 +36,7 @@ import simulation.Address;
 import simulation.Rescuable;
 import simulation.Simulator;
 import view.GUI;
-
+//sfs
 public class CommandCenter implements SOSListener,ActionListener {
 	private Simulator engine;
 	private ArrayList<ResidentialBuilding> visibleBuildings;
