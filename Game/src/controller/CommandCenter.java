@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -90,6 +90,9 @@ public class CommandCenter implements SOSListener, ActionListener {
 		emergencyUnits = engine.getEmergencyUnits();
 
 		start = new JFrame();
+		start.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
+				new ImageIcon("cursor.png").getImage(),
+				new Point(0,0),"custom cursor"));
 		start.setVisible(true);
 		start.setTitle("Rescue Simulation Game");
 		start.setLayout(new BorderLayout());

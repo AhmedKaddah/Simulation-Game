@@ -2,9 +2,11 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
@@ -263,6 +265,10 @@ public class GUI extends JFrame {
 		TreatingUnits.setBorder(new MatteBorder(0, 0, 0, 2, new Color(74, 163, 232)));
 		AvailbleUnits.setBorder(new MatteBorder(2, 0, 2, 2, new Color(74, 163, 232)));
 		sc4.setBorder(new MatteBorder(2, 0, 2, 2, new Color(74, 163, 232)));
+		
+		this.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
+				new ImageIcon("cursor.png").getImage(),
+				new Point(0,0),"custom cursor"));
 	}
 
 	public void updateDisasters(CommandCenter c) {
