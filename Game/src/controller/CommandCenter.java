@@ -44,7 +44,6 @@ public class CommandCenter implements SOSListener, ActionListener {
 
 	private JButton startGame = new JButton();
 	private JButton nextCycle = new JButton();
-	private JButton demo = new JButton();
 	private ArrayList<JButton> mapButtons;
 	private ArrayList<JButton> unitButtons;
 
@@ -57,7 +56,6 @@ public class CommandCenter implements SOSListener, ActionListener {
 	private JFrame start;
 	private JPanel startP;
 	private JPanel startT;
-	private JFrame demowindow;
 	private Timer timer;
 
 	ImageIcon hq = new ImageIcon("hq.png");
@@ -101,13 +99,6 @@ public class CommandCenter implements SOSListener, ActionListener {
 		start.setLocation(dim.width / 2 - start.getSize().width / 2, dim.height / 2 - start.getSize().height / 2);
 		start.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		start.setResizable(false);
-		demowindow = new JFrame();
-		demowindow.setVisible(false);
-		demowindow.setTitle("Demo!");
-		demowindow.setLayout(new BorderLayout());
-		demowindow.setSize(new Dimension(450, 200));
-		demowindow.setLocation(dim.width / 2 - start.getSize().width / 2, dim.height / 2 - start.getSize().height / 2);
-		demowindow.setResizable(false);
 		startP = new JPanel(new BorderLayout());
 		startT = new JPanel();
 		startP.setSize(new Dimension(450, 50));
@@ -115,9 +106,8 @@ public class CommandCenter implements SOSListener, ActionListener {
 		startT.add(new JLabel(welcome));
 		start.add(startP, BorderLayout.SOUTH);
 		start.add(startT, BorderLayout.NORTH);
-		startGame.setBorder(new MatteBorder(4, 4, 4, 0, Color.black));
-		demo.setBorder(new MatteBorder(4, 4, 4, 4, Color.black));
-		startGame.setPreferredSize(new Dimension(244, 50));
+		startGame.setBorder(new MatteBorder(4, 4, 4, 4, Color.black));
+		startGame.setPreferredSize(new Dimension(450, 50));
 		startGame.setIcon(sgame);
 		startGame.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -125,24 +115,11 @@ public class CommandCenter implements SOSListener, ActionListener {
 			}
 
 			public void mouseExited(java.awt.event.MouseEvent evt) {
-				startGame.setBorder(new MatteBorder(4, 4, 4, 0, Color.black));
+				startGame.setBorder(new MatteBorder(4, 4, 4, 4, Color.black));
 			}
 		});
 		startGame.addActionListener(this);
-		demo.addActionListener(this);
-		demo.setPreferredSize(new Dimension(200, 50));
-		demo.setIcon(d);
-		demo.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseEntered(java.awt.event.MouseEvent evt) {
-				demo.setBorder(new MatteBorder(6, 6, 6, 6, Color.BLUE));
-			}
-
-			public void mouseExited(java.awt.event.MouseEvent evt) {
-				demo.setBorder(new MatteBorder(4, 4, 4, 4, Color.black));
-			}
-		});
-		startP.add(startGame, BorderLayout.WEST);
-		startP.add(demo, BorderLayout.EAST);
+		startP.add(startGame, BorderLayout.CENTER);
 
 		g = new GUI();
 
@@ -399,9 +376,6 @@ public class CommandCenter implements SOSListener, ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		JButton b = (JButton) e.getSource();
-		if (b.equals(demo)) {
-			demowindow.setVisible(true);
-		}
 		if (b.equals(startGame)) {
 			start.dispose();
 			g.setVisible(true);
