@@ -17,7 +17,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
+import javax.swing.text.PlainDocument;
 
 import exceptions.CannotTreatException;
 import exceptions.IncompatibleTargetException;
@@ -54,6 +56,10 @@ public class CommandCenter implements SOSListener, ActionListener {
 	private Unit currentunit;
 	private boolean choosetarget = false;
 	private JFrame start;
+	private JFrame nstart;
+	private JPanel nstartpanel;
+	private JButton nstartButton;
+	private ImageIcon nplaynow = new ImageIcon("playnow.gif");
 	private JPanel startP;
 	private JPanel startT;
 	private Timer timer;
@@ -86,40 +92,43 @@ public class CommandCenter implements SOSListener, ActionListener {
 		visibleBuildings = new ArrayList<ResidentialBuilding>();
 		visibleCitizens = new ArrayList<Citizen>();
 		emergencyUnits = engine.getEmergencyUnits();
-
-		start = new JFrame();
-		start.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
+		
+		
+		
+		nstart = new JFrame();
+		nstart.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
 				new ImageIcon("cursor.png").getImage(),
 				new Point(0,0),"custom cursor"));
-		start.setVisible(true);
-		start.setTitle("Rescue Simulation Game");
-		start.setLayout(new BorderLayout());
-		start.setSize(new Dimension(450, 200));
+		nstart.setVisible(true);
+		nstart.setTitle("Rescue Simulation Game");
+		nstart.setSize(new Dimension(272, 394));
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		start.setLocation(dim.width / 2 - start.getSize().width / 2, dim.height / 2 - start.getSize().height / 2);
-		start.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		start.setResizable(false);
-		startP = new JPanel(new BorderLayout());
-		startT = new JPanel();
-		startP.setSize(new Dimension(450, 50));
-		startT.setSize(new Dimension(450, 150));
-		startT.add(new JLabel(welcome));
-		start.add(startP, BorderLayout.SOUTH);
-		start.add(startT, BorderLayout.NORTH);
-		startGame.setBorder(new MatteBorder(4, 4, 4, 4, Color.black));
-		startGame.setPreferredSize(new Dimension(450, 50));
-		startGame.setIcon(sgame);
-		startGame.addMouseListener(new java.awt.event.MouseAdapter() {
+		nstart.setLocation(dim.width / 2 - nstart.getSize().width / 2, dim.height / 2 - nstart.getSize().height / 2);
+		nstart.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		nstart.setResizable(false);
+		
+		nstartpanel = new JPanel();
+		nstartpanel.setSize(new Dimension(272, 394));
+		
+		nstartButton = new JButton(nplaynow);
+		nstartButton.addActionListener(this);
+		nstartButton.setBorder(new MatteBorder(6, 6, 6, 6, Color.black));
+		nstartButton.setBackground(Color.black);
+		nstartpanel.add(nstartButton);
+		nstart.add(nstartpanel);
+		
+		nstartButton.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
-				startGame.setBorder(new MatteBorder(6, 6, 6, 6, Color.BLUE));
+				nstartButton.setBorder(new MatteBorder(6, 6, 6, 6, Color.BLUE));
 			}
 
 			public void mouseExited(java.awt.event.MouseEvent evt) {
-				startGame.setBorder(new MatteBorder(4, 4, 4, 4, Color.black));
+				nstartButton.setBorder(new MatteBorder(6, 6, 6, 6, Color.black));
 			}
 		});
-		startGame.addActionListener(this);
-		startP.add(startGame, BorderLayout.CENTER);
+
+		
+		
 
 		g = new GUI();
 
@@ -376,8 +385,8 @@ public class CommandCenter implements SOSListener, ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		JButton b = (JButton) e.getSource();
-		if (b.equals(startGame)) {
-			start.dispose();
+		if (b.equals(nstartButton)) {
+			nstart.dispose();
 			g.setVisible(true);
 			g.addNextCycleButton(nextCycle);
 		}
