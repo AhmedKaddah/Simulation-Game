@@ -119,7 +119,7 @@ public class CommandCenter implements SOSListener, ActionListener {
 		
 		nstartButton.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
-				nstartButton.setBorder(new MatteBorder(6, 6, 6, 6, Color.BLUE));
+				nstartButton.setBorder(new MatteBorder(6, 6, 6, 6, new Color(255,215,0)));
 			}
 
 			public void mouseExited(java.awt.event.MouseEvent evt) {
