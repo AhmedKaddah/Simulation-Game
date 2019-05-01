@@ -101,29 +101,30 @@ public class CommandCenter implements SOSListener, ActionListener {
 				new Point(0,0),"custom cursor"));
 		nstart.setVisible(true);
 		nstart.setTitle("Rescue Simulation Game");
-		nstart.setSize(new Dimension(272, 394));
+		nstart.setSize(new Dimension(300, 394));
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		nstart.setLocation(dim.width / 2 - nstart.getSize().width / 2, dim.height / 2 - nstart.getSize().height / 2);
 		nstart.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		nstart.setResizable(false);
 		
 		nstartpanel = new JPanel();
-		nstartpanel.setSize(new Dimension(272, 394));
-		
+		nstartpanel.setSize(new Dimension(300, 394));
+		nstartpanel.setBackground(Color.BLACK);
 		nstartButton = new JButton(nplaynow);
+		nstartButton.setPreferredSize(new Dimension(280, 350));
 		nstartButton.addActionListener(this);
-		nstartButton.setBorder(new MatteBorder(6, 6, 6, 6, Color.black));
+		nstartButton.setBorder(new MatteBorder(6,6,6,6,Color.BLACK));
 		nstartButton.setBackground(Color.black);
 		nstartpanel.add(nstartButton);
 		nstart.add(nstartpanel);
 		
 		nstartButton.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseEntered(java.awt.event.MouseEvent evt) {
-				nstartButton.setBorder(new MatteBorder(6, 6, 6, 6, new Color(255,215,0)));
+				nstartpanel.setBorder(new MatteBorder(6, 6, 6, 6, new Color(255,215,0)));
 			}
 
 			public void mouseExited(java.awt.event.MouseEvent evt) {
-				nstartButton.setBorder(new MatteBorder(6, 6, 6, 6, Color.black));
+				nstartpanel.setBorder(new MatteBorder(6, 6, 6, 6, Color.black));
 			}
 		});
 
